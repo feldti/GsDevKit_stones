@@ -37,17 +37,19 @@ GsDevKit_stones/bin/install.sh
 
 export PATH=`pwd`/superDoit/bin:`pwd`/GsDevKit_stones/bin:$PATH
 versionReport.solo
+# the variable $XDG_DATA_HOME may also NOT be set under Ubuntu, so take care about its value
+# all data of the stones will be placed here ... perhaps you set it to your data disk ...
 export STONES_DATA_HOME=$XDG_DATA_HOME
 if [ "$STONES_DATA_HOME" = "" ] ; then
-	# on Mac ensure the directory you choose exists
-	export STONES_DATA_HOME=$HOME/.local/share
+	# ensure the directory you choose exists
+	export STONES_DATA_HOME=/datadisk/stones_data_home
 fi
 ```
 
 ## STONES_DATA_HOME
 GsDevKit_stones maintains a registry data structure based on the [XDG Base Directory Specification](https://xdgbasedirectoryspecification.com/). On Linux machines, the default location for application specific data is $HOME/.local/share and $XDG_DATA_HOME can be used to optionally define an alternate location. On Mac machines, the XDG Base Directory Specification is not defined. 
 
-Therefore to simplify the coding and allow for the creation of short-leved registry structures, The environment variable STONES_DATA_HOME is used to define the root directory for GsDevKit_STONES applications. On Linux, STONES_DATA_HOME defaults to $HOME/.local/share. On Mac, STONES_DATA_HOME must be defined.
+Therefore to simplify the coding and allow for the creation of short-leved registry structures, The environment variable STONES_DATA_HOME is used to define the root directory for GsDevKit_STONES applications. On Linux, STONES_DATA_HOME may defaults to $HOME/.local/share. If not defined, STONES_DATA_HOME must be defined.
 
 ## Setting up the registry structure
 ```bash
