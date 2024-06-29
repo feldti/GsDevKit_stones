@@ -51,12 +51,21 @@ Therefore to simplify the coding and allow for the creation of short-leved regis
 
 ## Setting up the registry structure
 ```bash
+# name of a registry. here we name it after our machine, hoping to hold all informations
 registryName=`hostname`
+
+# name of the set of projects you want to handle. you may have more than one projectSet
 projectSetName="devkit"
+
+# the directory, where the Gemstone/S product download should be stored ... could be several hundreds of MBytes !
 gemstoneProductsDirectory="/home/dhenrich/_stones/gemstone"
 projectsDirectory="/home/dhenrich/_stones/git/"
+
+# directory, where the newly created stones should be located
 stonesDirectory="/home/dhenrich/_stones/stones"
+
 todeHome="/home/dhenrich/_stones/tode"
+
 echo "
  registry:    $registryName
  project set: $projectSetName 
@@ -65,9 +74,16 @@ echo "
  stones:      $stonesDirectory
  tode:        $todeHome"
 
+# create the registry file under share directory
 createRegistry.solo $registryName
-createProjectSet.solo --registry=$registryName --projectSet=$projectSetName --ssh
-createProjectSet.solo --registry=$registryName --projectSet=${projectSetName}_https --https
+
+# creates an empty project set with ssh access
+createProjectSet.solo --registry=$registryName --projectSet=$projectSetName --empty --ssh
+
+# creates an empty project set with https access
+createProjectSet.solo --registry=$registryName --projectSet=${projectSetName}_https --empty --https
+
+# before downloading another Gemstone/S download you MUST define this
 registerProjectDirectory.solo --registry=$registryName --projectDirectory=$projectsDirectory
 cloneProjectsFromProjectSet.solo --registry=$registryName --projectSet=$projectSetName 
 registerProductDirectory.solo --registry=$registryName \
