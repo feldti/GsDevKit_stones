@@ -42,7 +42,7 @@ mit
 # For more information see the manual pages of crontab(5) and cron(8)
 #
 # m h  dom mon dow   command
-00 02 * * * /home/GsDevkit_stones/bin/pas_cron_backup.sh gs_366 test /home/mf/backup-dbs /home/mf/stones_data_home
+00 02 * * * /home/GsDevKit_stones/bin/pas_cron_backup.sh gs_366 test /home/mf/backup-dbs /home/mf/stones_data_home
 ```
 Der Dateiname des Backup wird so erzeugt:
 
