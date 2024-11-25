@@ -103,6 +103,8 @@ method
 loadTode: stoneSpec
 	"not currently functioning GsHostProcess issue? ... ERROR message: /usr/bin/env: ‘bash’: No such file or directory"
 	| commandLine |
+	self scriptPath isNil
+    	    ifTrue:[ self error: 'Variable scriptpath is not set ', ' (', self basename, ')' ].
 	commandLine := (self scriptPath asFileReference parent / 'loadTode.stone') fullName.
 	commandLine 
 		add: ' --projectDirectory=', stoneSpec stonesRegistry projectDirectory;
@@ -117,6 +119,12 @@ loadTode: stoneSpec
 %
 doit
 	| registryClass stonesRegistry gemstoneVersion stoneName rootDir stoneSpec stoneSpecClass |
+
+	self dirname isNil
+	    ifTrue:[ self error: 'Variable dirname is not set ', ' (', self basename, ')' ].
+
+    self root isNil
+        ifTrue:[ self log: 'Warning: Variable root is not set ', ' (', self basename, ')' ].
 	self preDoitSpecLoad: [:spec | 
 		spec projectName = 'GsCommands'
 			ifTrue: [ spec projectsHome: '$GEMSTONE/examples/GsCommands/projectsHome' ]
@@ -125,6 +133,8 @@ doit
 	self verbose
 		ifTrue: [ (self globalNamed: 'GDKGsDevKit_stonesBase') verbose: true ].
 	stonesRegistry := registryClass stonesRegistryNamed: self registryName.
+    stonesRegistry stonesDirectory isNil
+        ifTrue:[ self error: 'Warning: Variable stonesDirectory is not set (view your registry ston file)', ' (', self basename, ')' ].
 	rootDir := self root
 		ifNotNil: [:rootPath | rootPath asFileReference ]
 		ifNil: [ stonesRegistry stonesDirectory asFileReference ].
