@@ -124,18 +124,26 @@ attachDevClonesV3: projectsHome
 					loadSpec :=  project loadSpecification.
 					loadSpecs addLoadSpec: loadSpec ] ].
 	loadSpecs do: [:loadSpec |
-		| relRoot |
+		| relRoot projectAlias |
+		projectAlias := loadSpec projectName = 'RowanClientServices'
+			ifTrue: [ 
+				(System gemVersionAt: 'gsVersion') asRwGemStoneVersionNumber >= ('3.7.2' asRwGemStoneVersionNumber)
+					ifTrue: [ 
+						"RowanClientServices is the only project that needs a projectAlias"
+						'RowanClientServicesV3']
+					ifFalse: [ loadSpec projectAlias ] ]
+			ifFalse: [ loadSpec projectAlias ].
 		relRoot := loadSpec relativeRepositoryRoot.
 		relRoot isEmpty
 			ifTrue: [ 
 				loadSpec 
 					projectsHome: projectsHome;
-					gitUrl: 'file:', ((projectsHome, '/', loadSpec projectAlias) asFileReference pathString);
+					gitUrl: 'file:', ((projectsHome, '/', projectAlias) asFileReference pathString);
 					yourself  ]
 			ifFalse: [
 						"embedded Rowan project" 
 						loadSpec
-							gitUrl: 'file:', (((projectsHome, '/', loadSpec projectAlias) asFileReference / relRoot) pathString);
+							gitUrl: 'file:', (((projectsHome, '/', projectAlias) asFileReference / relRoot) pathString);
 							projectsHome: projectsHome;
 							yourself ].
 		loadSpec addCustomConditionalAttributes: #('tests' 'testsV2') ].
