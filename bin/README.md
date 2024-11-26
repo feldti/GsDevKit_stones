@@ -154,6 +154,24 @@ Version Port    NetLDI                  Owner                   Database Running
 3.7.0   36265   gs_370_ldi              mf                      No
 
 ````
+
+### pas_restore.sh
+Mit diesem Skript kann man ein Datenbank-Voll-Backup einspielen (d.h. ohne die Transaktions-Logs). Es ist auch der Weg, um eine PAS-Template-Datenbank einzuspielen.
+Der Aufruf erfolgt auf der CommandLine so:
+
+pas_restore.sh [stoneName] [registry] [path to backup]
+
+Nachdem dieses Skript durchglaufen ist, muß man noch mit pas_finish_restore.sh das Einspielen beenden.
+
+### pas_finish_restore.sh
+Mit diesem Skript beendet man das Einspielen des Backups
+Der Aufruf erfolgt auf der CommandLine so:
+
+pas_finish_restore.sh [stoneName] [registry]
+
+Danach sollte man zur Sicherheit die Datenbank anhalten (stopStone.solo) und erneut starten (startStone.solo)
+
+
 ## pas_datadir.sh
 
 Hilfsscript zur Ermittlung, wo die Datenbank überhaupt ihre Daten ablegt. 
