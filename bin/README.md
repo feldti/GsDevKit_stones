@@ -161,7 +161,7 @@ Der Aufruf erfolgt auf der CommandLine so:
 
 pas_restore.sh [stoneName] [registry] [path to backup]
 
-Nachdem dieses Skript durchglaufen ist, muß man noch mit pas_finish_restore.sh das Einspielen beenden.
+Nachdem dieses Skript durchgelaufen ist, muß man noch mit pas_finish_restore.sh das Einspielen beenden.
 
 ### pas_finish_restore.sh
 Mit diesem Skript beendet man das Einspielen des Backups
