@@ -159,3 +159,4 @@ GDKStonesRegistry {
                 'default_rowan' : '$STONES_DATA_HOME/gsdevkit_stones/templates/default_rowan.ston'
         }
 ```
+Das sieht ja alles ganz schön kompliziert aus, hat aber gegenüber GsDevKit_home einen großen Vorteil: man kann die gleiche Datenbank-Produktversion in unterschiedlichen Lizenzen laufen lassen.
