@@ -45,8 +45,6 @@ echo $SUPERDOITHOME
 
 export PATH=$SUPERDOITHOME/bin:$PATH
 
-
-
 # Extract the value of 'stone_dir' from the .ston file
 stone_dir=$(pas_datadir.sh $1 $2 $4)
 
@@ -62,12 +60,9 @@ if [[ -z "$stone_dir" ]]; then
     echo "Error: 'stone_dir' not found in $ston_file_path"
     exit 1
 fi
-//echo $stone_dir
+#echo $stone_dir
 source $stone_dir/customenv
-//echo $GEMSTONE
-
-GEMSTONE_NAME=$1
-//echo $GEMSTONE_NAME
+#echo $GEMSTONE
 
 if [ -s $GEMSTONE/seaside/etc/gemstone.secret ]; then
     . $GEMSTONE/seaside/etc/gemstone.secret
@@ -76,9 +71,8 @@ else
     exit 1
 fi
 
-nowTS=`date +%Y-%m-%d-%H-%M`
-cat << EOF | $GEMSTONE/bin/topaz -l -u backup_task
-set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $GEMSTONE_NAME
+cat << EOF | $GEMSTONE/bin/topaz -lq -u backup_task_v3
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $1
 display oops
 iferror where
 

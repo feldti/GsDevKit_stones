@@ -62,13 +62,8 @@ if [[ -z "$stone_dir" ]]; then
     echo "Error: 'stone_dir' not found in $ston_file_path"
     exit 1
 fi
-//echo $stone_dir
+
 source $stone_dir/customenv
-//echo $GEMSTONE
-
-GEMSTONE_NAME=$1
-//echo $GEMSTONE_NAME
-
 if [ -s $GEMSTONE/seaside/etc/gemstone.secret ]; then
     . $GEMSTONE/seaside/etc/gemstone.secret
 else
@@ -76,9 +71,8 @@ else
     exit 1
 fi
 
-nowTS=`date +%Y-%m-%d-%H-%M`
 cat << EOF | $GEMSTONE/bin/topaz -l -u reclaim_task
-set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $GEMSTONE_NAME
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $1
 display oops
 iferror where
 

@@ -17,7 +17,7 @@ fi
 # Assign parameters
 stoneName=$1
 registryName=$2
-stonesDataHome=${4:-$STONES_DATA_HOME}
+stonesDataHome=${3:-$STONES_DATA_HOME}
 
 
 # Check if stonesDataHome is set (either as a parameter or an environment variable)
@@ -31,21 +31,6 @@ if [[ ! -d "$stonesDataHome" ]]; then
     echo "Error: stonesDataHome ($stonesDataHome) does not point to an existing directory."
     exit 1
 fi
-
-GSDEVKITHOME=$(dirname "$(readlink -f "$0")")
-cd $GSDEVKITHOME
-cd ..
-GSDEVKITHOME=`pwd`
-#echo $GSDEVKITHOME
-export PATH=$GSDEVKITHOME/bin:$PATH
-cd ../superDoit
-SUPERDOITHOME=`pwd`
-#echo $SUPERDOITHOME
-
-export PATH=$SUPERDOITHOME/bin:$PATH
-
-#echo $stonesDataHome
-
 
 # Extract the value of 'stone_dir' from the .ston file
 stone_dir=$(pas_datadir.sh $1 $2 $stonesDataHome)
@@ -62,12 +47,9 @@ if [[ -z "$stone_dir" ]]; then
     echo "Error: 'stone_dir' not found in $ston_file_path"
     exit 1
 fi
-# echo $stone_dir
-source $stone_dir/customenv
-# echo $GEMSTONE
 
-GEMSTONE_NAME=$1
-# echo $GEMSTONE_NAME
+source $stone_dir/customenv
+
 
 if [ -s $GEMSTONE/seaside/etc/gemstone.secret ]; then
     . $GEMSTONE/seaside/etc/gemstone.secret
@@ -76,10 +58,8 @@ else
     exit 1
 fi
 
-nowTS=`date +%Y-%m-%d-%H-%M`
-
-cat << EOF | $GEMSTONE/bin/topaz -l -u backup_task
-set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $GEMSTONE_NAME
+cat << EOF | $GEMSTONE/bin/topaz -lq -u backup_task
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $1
 display oops
 iferror where
 
