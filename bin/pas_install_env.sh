@@ -4,6 +4,7 @@
 # Skript auch extern verfügbar gemacht werden, damit man die Installation überhaupt starten kann.
 PAS_HOME_NAME="pas"
 DEFAULT_REGISTRY_NAME="work"
+DEFAULT_PREPARATION_NAME="seaside-preparation"
 PAS_TEMPLATES_DIRECTORY_NAME="pas-templates"
 PAS_TEMPLATES_DOWNLOAD_FILENAME="all.zip"
 PAS_TEMPLATES_DOWNLOAD_LINK="https://feldtmann.ddns.net/pas-template-databases/$PAS_TEMPLATES_DOWNLOAD_FILENAME"
@@ -27,7 +28,7 @@ mkdir "products"
 mkdir "products/$DEFAULT_REGISTRY_NAME"
 mkdir "stones"
 mkdir "stones/$DEFAULT_REGISTRY_NAME"
-mkdir "stones_data_home"
+mkdir "registry"
 # all external git stuff is hidden behind git
 mkdir "git"
 cd git
@@ -44,6 +45,11 @@ export PAS_DEFAULT_REGISTRY=$DEFAULT_REGISTRY_NAME
 createRegistry.solo $DEFAULT_REGISTRY_NAME --ensure
 registerStonesDirectory.solo --registry=$DEFAULT_REGISTRY_NAME --stonesDirectory=$PAS_HOME_PATH/stones/$DEFAULT_REGISTRY_NAME
 registerProductDirectory.solo --registry=$DEFAULT_REGISTRY_NAME --productDirectory=$PAS_HOME_PATH/products/$DEFAULT_REGISTRY_NAME
+
+createRegistry.solo $DEFAULT_PREPARATION_NAME --ensure
+registerStonesDirectory.solo --registry=DEFAULT_PREPARATION_NAME --stonesDirectory=$PAS_HOME_PATH/stones/DEFAULT_PREPARATION_NAME
+registerProductDirectory.solo --registry=DEFAULT_PREPARATION_NAME --productDirectory=$PAS_HOME_PATH/products/DEFAULT_PREPARATION_NAME
+
 #
 # Information for furthr work to be doneby the user
 #
