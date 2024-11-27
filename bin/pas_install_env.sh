@@ -52,7 +52,7 @@ registerStonesDirectory.solo --registry=$DEFAULT_PREPARATION_NAME --stonesDirect
 registerProductDirectory.solo --registry=$DEFAULT_PREPARATION_NAME --productDirectory=$PAS_HOME_PATH/products/$DEFAULT_PREPARATION_NAME
 
 #
-# Information for furthr work to be doneby the user
+# Information for further work to be done by the user
 #
 echo "Add the following sequence to your local .bashrc"
 echo
