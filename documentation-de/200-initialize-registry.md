@@ -1,13 +1,20 @@
 # Arbeiten nach der Installation
 
-Nach der Installation gibt es die Verzeichnisse "GsDevKit_stones" und "superDoit". 
+Nach der Installation gibt es 
+
+- die Verzeichnisse "GsDevKit_stones" und "superDoit" unterhalb von git
+- in "pas-templates" findet man Full-Backups von nutzbaren Datenbanken.
+- das "products" Verzeichnis ist gedacht als Aufnahme für Femstone/S Produkt-Downloads - getrennt nach Registry
+- in "stones" findet man letzten Endes die Datenbanken
+- in "stones_data_home" findet man Verwaltungsinformationen.
+ 
 
 ```
-drwxrwxr-x  3 mfeldtmann mfeldtmann 4096 Nov 26 15:39 '~'
-drwxrwxr-x 14 mfeldtmann mfeldtmann 4096 Nov 26 15:21  GsDevKit_stones
-drwxrwxr-x  2 mfeldtmann mfeldtmann 4096 Nov 26 15:41  stones
-drwxrwxr-x  3 mfeldtmann mfeldtmann 4096 Nov 26 15:34  stones_data_home
-drwxrwxr-x 15 mfeldtmann mfeldtmann 4096 Nov 26 15:30  superDoit
+drwxrwxr-x 4 mf mf 4096 Nov 27 08:16 git
+drwxrwxr-x 2 mf mf 4096 Nov 27 08:16 pas-templates
+drwxrwxr-x 3 mf mf 4096 Nov 27 08:16 products
+drwxrwxr-x 3 mf mf 4096 Nov 27 08:17 stones
+drwxrwxr-x 3 mf mf 4096 Nov 27 08:16 stones_data_home
 ```
 
 Zusätzlich lege ich noch ein leeres Verzeichnis "stones_data_home" an und lasse STONES_DATA_HOME auf dieses Verzeichnis zeigen. Weiterhin lege ich noch das Verzeichnis "stones" an, in der später die eigentlichen Daten liegen werden.
