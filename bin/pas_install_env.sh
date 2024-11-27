@@ -19,8 +19,8 @@ cd $PAS_HOME_NAME
 PAS_HOME_PATH=`pwd`
 mkdir "$PAS_TEMPLATES_DIRECTORY_NAME"
 cd  "$PAS_TEMPLATES_DIRECTORY_NAME"
-wget $PAS_TEMPLATES_DOWNLOAD_LINK
-unzip $PAS_TEMPLATES_DOWNLOAD_FILENAME
+#wget $PAS_TEMPLATES_DOWNLOAD_LINK
+#unzip $PAS_TEMPLATES_DOWNLOAD_FILENAME
 rm $PAS_TEMPLATES_DOWNLOAD_FILENAME
 cd ..
 mkdir "products"
@@ -33,11 +33,9 @@ mkdir "git"
 cd git
 git clone --branch v2.1 "https://github.com/feldti/GsDevKit_stones.git"
 ./GsDevKit_stones/bin/install.sh
-echo "Add the following sequence to your local .bashrc"
 
-
-export PAS_HOME_PATH=$PAS_HOME_PATH
-export PATH=$PAS_HOME_PATH/git/superDoit/bin:\$PAS_HOME_PATH/git/GsDevKit_stones/bin:$PATH
+export PAS_HOME_PATH
+export PATH=$PAS_HOME_PATH/git/superDoit/bin:$PAS_HOME_PATH/git/GsDevKit_stones/bin:$PATH
 export STONES_DATA_HOME=$PAS_HOME_PATH/stones_data_home
 export PAS_DEFAULT_REGISTRY=$DEFAULT_REGISTRY_NAME
 #
@@ -49,6 +47,7 @@ registerProductDirectory.solo --registry=$DEFAULT_REGISTRY_NAME --productDirecto
 #
 # Information for furthr work to be doneby the user
 #
+echo "Add the following sequence to your local .bashrc"
 echo
 echo export PAS_HOME_PATH=$PAS_HOME_PATH
 echo export PAS_DEFAULT_REGISTRY=$DEFAULT_REGISTRY_NAME
