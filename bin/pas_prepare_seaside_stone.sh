@@ -31,7 +31,6 @@ if [[ ! -d "$stonesDataHome" ]]; then
     exit 1
 fi
 
-createRegistry.solo $registryName --ensure
 # Setup Stone
 createStone.solo --registry=$registryName --template=minimal_seaside $1 $2
 
@@ -60,7 +59,7 @@ else
     exit 1
 fi
 
-pushd /datadisk/stones/$1
+pushd $PAS_HOME_PATH/$registryName/stones/$1
 startStone.solo -b
 nowTS=`date +%Y-%m-%d-%H-%M`
 cat << EOF | $GEMSTONE/bin/topaz -lq -u seaside-preparation-task
@@ -82,7 +81,7 @@ exec
     package: 'GsUpgrader-Core';
     yourself.
 
-  repositoryDir := ServerFileDirectory on: '$STONES_HOME/$2/devkit/github-cache'.
+  repositoryDir := ServerFileDirectory on: '$PAS_HOME_PATH/$registryName/devkit/github-cache'.
   newCache := MCCacheRepository new directory: repositoryDir.
   MCCacheRepository setDefault: newCache.
   Transcript show: ' from http://ss3.gemtalksystems.com/ss/gsUpgrader'.
@@ -97,7 +96,7 @@ exec
 exec
  (Smalltalk at: #'GsUpgrader') batchErrorHandlingDo: [
   | greaseRepo |
-  greaseRepo := 'filetree://', '$STONES_HOME/$2/devkit/Grease/repository'.
+  greaseRepo := 'filetree://', '$PAS_HOME_PATH/$registryName/devkit/Grease/repository'.
   Transcript
     cr;
     show: 'Lock and Load Grease (to ensure new repo is honored): ', greaseRepo printString.
