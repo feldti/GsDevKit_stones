@@ -40,7 +40,7 @@ mkdir $STONES_DATA_HOME_NAME
 mkdir "git"
 cd git
 git clone --branch v2.1 $PAS_GSDEVKITSTONES_LINK
-export GSDEVKIT_STONES_ROOT=$PAS_HOME_NAME/git/GsDevKit_stones
+export GSDEVKIT_STONES_ROOT=$PAS_HOME_PATH/git/GsDevKit_stones
 ./GsDevKit_stones/bin/install.sh
 
 export PAS_HOME_PATH
