@@ -3,6 +3,7 @@
 # Dieses Skript legt die gesamte Struktur für PAS an. Auch wenn es hier versioniert ist, sollte das
 # Skript auch extern verfügbar gemacht werden, damit man die Installation überhaupt starten kann.
 PAS_HOME_NAME="pas"
+STONES_DATA_HOME_NAME="registry"
 DEFAULT_REGISTRY_NAME="work"
 DEFAULT_PREPARATION_NAME="seaside-preparation"
 PAS_TEMPLATES_DIRECTORY_NAME="pas-templates"
@@ -28,7 +29,7 @@ mkdir "products"
 mkdir "products/$DEFAULT_REGISTRY_NAME"
 mkdir "stones"
 mkdir "stones/$DEFAULT_REGISTRY_NAME"
-mkdir "registry"
+mkdir $STONES_DATA_HOME_NAME
 # all external git stuff is hidden behind git
 mkdir "git"
 cd git
@@ -37,7 +38,7 @@ git clone --branch v2.1 $PAS_GSDEVKITSTONES_LINK
 
 export PAS_HOME_PATH
 export PATH=$PAS_HOME_PATH/git/superDoit/bin:$PAS_HOME_PATH/git/GsDevKit_stones/bin:$PATH
-export STONES_DATA_HOME=$PAS_HOME_PATH/stones_data_home
+export STONES_DATA_HOME=$PAS_HOME_PATH/$STONES_DATA_HOME_NAME
 export PAS_DEFAULT_REGISTRY=$DEFAULT_REGISTRY_NAME
 #
 # Now we add an initial registry
@@ -58,4 +59,4 @@ echo
 echo export PAS_HOME_PATH=$PAS_HOME_PATH
 echo export PAS_DEFAULT_REGISTRY=$DEFAULT_REGISTRY_NAME
 echo export PATH=\$PAS_HOME_PATH/git/superDoit/bin:\$PAS_HOME_PATH/git/GsDevKit_stones/bin:\$PATH
-echo export STONES_DATA_HOME=\$PAS_HOME_PATH/stones_data_home
+echo export STONES_DATA_HOME=\$PAS_HOME_PATH/$STONES_DATA_HOME_NAME
