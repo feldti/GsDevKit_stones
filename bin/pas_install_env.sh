@@ -7,7 +7,7 @@ DEFAULT_REGISTRY_NAME="work"
 PAS_TEMPLATES_DIRECTORY_NAME="pas-templates"
 PAS_TEMPLATES_DOWNLOAD_FILENAME="all.zip"
 PAS_TEMPLATES_DOWNLOAD_LINK="https://feldtmann.ddns.net/pas-template-databases/$PAS_TEMPLATES_DOWNLOAD_FILENAME"
-
+PAS_GSDEVKITSTONES_LINK="https://github.com/feldti/GsDevKit_stones.git"
 if [ -d $PAS_HOME_NAME ]; then
 	echo "Aborting: Local PAS main directory already available"
 	exit 1
@@ -19,8 +19,8 @@ cd $PAS_HOME_NAME
 PAS_HOME_PATH=`pwd`
 mkdir "$PAS_TEMPLATES_DIRECTORY_NAME"
 cd  "$PAS_TEMPLATES_DIRECTORY_NAME"
-#wget $PAS_TEMPLATES_DOWNLOAD_LINK
-#unzip $PAS_TEMPLATES_DOWNLOAD_FILENAME
+wget $PAS_TEMPLATES_DOWNLOAD_LINK
+unzip $PAS_TEMPLATES_DOWNLOAD_FILENAME
 rm $PAS_TEMPLATES_DOWNLOAD_FILENAME
 cd ..
 mkdir "products"
@@ -31,7 +31,7 @@ mkdir "stones_data_home"
 # all external git stuff is hidden behind git
 mkdir "git"
 cd git
-git clone --branch v2.1 "https://github.com/feldti/GsDevKit_stones.git"
+git clone --branch v2.1 $PAS_GSDEVKITSTONES_LINK
 ./GsDevKit_stones/bin/install.sh
 
 export PAS_HOME_PATH
