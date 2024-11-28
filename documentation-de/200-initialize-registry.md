@@ -98,7 +98,7 @@ GDKStonesRegistry {
 Nun müssen wir noch definieren, wo wir die herunterzuladenen Gemstone/S Produkte abgelegt werden sollen
 
 ```
-registerProductDirectory.solo --registry=cati --productDirectory=/home/mfeldtmann/stones/gemstone
+
 ```
 
 Das Skript trägt den Wert entsprechend ein und gibt das aktuelle Registry zurück:

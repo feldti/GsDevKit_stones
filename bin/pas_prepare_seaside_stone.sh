@@ -1,6 +1,6 @@
-
+#!/bin/bash
 #
-# export PATH=`pwd`/superDoit/bin:`pwd`/GsDevKit_stones/bin:$PATH
+# script to create a Monticello/Metacello extent, ideas from Gemstone support
 #
 # Function to display usage
 usage() {
@@ -32,10 +32,10 @@ if [[ ! -d "$stonesDataHome" ]]; then
 fi
 
 # Setup Stone
-createStone.solo --registry=$registryName --template=minimal_seaside $1 $2
+createStone.solo --registry=$registryName --template=minimal_seaside $stoneName $2
 
 # Extract the value of 'stone_dir' from the .ston file
-stone_dir=$(pas_datadir.sh $1 $registryName $stonesDataHome)
+stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
 
 # Check the return code of the script
 if [[ $? -eq 0 ]]; then
@@ -59,11 +59,11 @@ else
     exit 1
 fi
 
-pushd $PAS_HOME_PATH/$registryName/stones/$1
+pushd $PAS_HOME_PATH/$registryName/stones/$stoneName
 startStone.solo -b
 nowTS=`date +%Y-%m-%d-%H-%M`
 cat << EOF | $GEMSTONE/bin/topaz -lq -u seaside-preparation-task
-set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $1
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 display oops
 iferror where
 

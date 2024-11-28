@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Returns a list of running stones with corresponding netldis
+# Returns a list of running stones with corresponding netldi's
 #
-# Produced by  chatgpt
+# Produced with help from  chatgpt
 #
 # Marten Feldtmann, 2024
 #

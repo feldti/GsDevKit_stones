@@ -8,7 +8,7 @@ usage() {
   cat <<HELP
 
 USAGE: $(basename $0) <stoneName> <registryName> [stonesDataHome]
-Loads the PostgreSQL Connector
+Loads the Report4PDF package
 
 HELP
 }
@@ -38,7 +38,7 @@ fi
 cd $INSTALL_HOME
 
 # Extract the value of 'stone_dir' from the .ston file
-stone_dir=$(pas_datadir.sh $1 $2 $3)
+stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
 
 # Check the return code of the script
 if [[ $? -eq 0 ]]; then
@@ -65,8 +65,8 @@ fi
 if [ -d ~/PDFtalk-for-Gemstone ]; then
   echo "PDFTalk wird installiert"
   cd ~/PDFtalk-for-Gemstone
-  ./load_pdftalk.sh  $1
-  ./load_pdftalktesting.sh  $1
+  ./load_pdftalk.sh  $stoneName
+  ./load_pdftalktesting.sh  $stoneName
   cd $INSTALL_HOME
 else
   echo "ERROR: Kein PDFTalk zu installieren !"
@@ -74,7 +74,7 @@ else
 fi
 
 cat << EOF | $GEMSTONE/bin/topaz -lq -T 4000000
-set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $1
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 iferror where
 login
 %

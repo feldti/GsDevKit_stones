@@ -1,12 +1,11 @@
 #!/bin/bash
-
 #
-# export PATH=`pwd`/superDoit/bin:`pwd`/GsDevKit_stones/bin:$PATH
+# Do a restore from a full backup
 #
 # Function to display usage
 usage() {
-    echo "Usage: $0 <stoneName> <registryName> <filepath>"
-    echo "If stonesDataHome is not provided, the script will use the \$STONES_DATA_HOME environment variable."
+    echo "Usage: $0 <stoneName> <registryName> <filepath> [stonesDataHome]"
+    echo "restores the backup into an already existing stone"
     exit 1
 }
 
@@ -33,8 +32,11 @@ if [[ ! -d "$stonesDataHome" ]]; then
     exit 1
 fi
 
+# stops the stone service
+stopStone.solo $stoneName --registry=$registryName
+
 # Extract the value of 'stone_dir' from the .ston file
-stone_dir=$(pas_datadir.sh $1 $2 $stonesDataHome)
+stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
 
 # Check the return code of the script
 if [[ $? -eq 0 ]]; then
@@ -42,7 +44,7 @@ if [[ $? -eq 0 ]]; then
 else
     echo "The script failed with return code $?."
 fi
-
+less
 # Check if stone_dir was found
 if [[ -z "$stone_dir" ]]; then
     echo "Error: 'stone_dir' not found in $ston_file_path"
@@ -58,15 +60,14 @@ else
     exit 1
 fi
 
-# stops the stone service
-stopStone.solo $1 --registry=$2
 
-# kopiere einen initialen stone
+
+# kopiere einen initialen stone. Achtung: Das extents Unterverzeichnis existiert nicht mehr
 $GEMSTONE/bin/copydbf $GEMSTONE/bin/extent0.dbf $stone_dir/extents/extent0.dbf
 chmod u+w $stone_dir/extents/extent0.dbf
-$GEMSTONE/bin/startstone -R $1
-cat << EOF | $GEMSTONE/bin/topaz -lq -u backup_task
-set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $1
+startStone.solo $stoneName --registry=$registryName -R
+cat << EOF | $GEMSTONE/bin/topaz -lq -u restore_task
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 display oops
 iferror where
 

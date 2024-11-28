@@ -1,10 +1,10 @@
-
+#!/bin/bash
 #
-# export PATH=`pwd`/superDoit/bin:`pwd`/GsDevKit_stones/bin:$PATH
+# Script to finish a restore
 #
 # Function to display usage
 usage() {
-    echo "Usage: $0 <stoneName> <registryName>"
+    echo "Usage: $0 <stoneName> <registryName> [stonesDataHome]"
     echo "If stonesDataHome is not provided, the script will use the \$STONES_DATA_HOME environment variable."
     exit 1
 }
@@ -33,7 +33,7 @@ if [[ ! -d "$stonesDataHome" ]]; then
 fi
 
 # Extract the value of 'stone_dir' from the .ston file
-stone_dir=$(pas_datadir.sh $1 $2 $stonesDataHome)
+stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
 
 # Check the return code of the script
 if [[ $? -eq 0 ]]; then
@@ -59,7 +59,7 @@ else
 fi
 
 cat << EOF | $GEMSTONE/bin/topaz -lq -u backup_task
-set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $1
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 display oops
 iferror where
 
