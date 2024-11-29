@@ -79,6 +79,7 @@ doit
 	registryClass := (self globalNamed: 'GDKRegistry').	
 	stonesRegistry := registryClass stonesRegistryNamed: self registryName.
 	todeHomeDir := self todeHome asFileReference.
+	todeHomeDir ensureCreateDirectory.
 	todeHomeDirPath := GsFile serverRealPath: todeHomeDir fullName.
 	stonesRegistry 
 		todeHomeDirectory: todeHomeDirPath

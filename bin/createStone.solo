@@ -123,8 +123,6 @@ doit
 	self dirname isNil
 	    ifTrue:[ self error: 'Variable dirname is not set ', ' (', self basename, ')' ].
 
-    self root isNil
-        ifTrue:[ self log: 'Warning: Variable root is not set ', ' (', self basename, ')' ].
 	self preDoitSpecLoad: [:spec | 
 		spec projectName = 'GsCommands'
 			ifTrue: [ spec projectsHome: '$GEMSTONE/examples/GsCommands/projectsHome' ]

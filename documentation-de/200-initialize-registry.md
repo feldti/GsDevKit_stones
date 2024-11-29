@@ -98,7 +98,7 @@ GDKStonesRegistry {
 Nun müssen wir noch definieren, wo wir die herunterzuladenen Gemstone/S Produkte abgelegt werden sollen
 
 ```
-
+registerProductDirectory.solo --registry=cati --productDirectory=/home/mfeldtmann/stones
 ```
 
 Das Skript trägt den Wert entsprechend ein und gibt das aktuelle Registry zurück:
@@ -126,6 +126,46 @@ GDKStonesRegistry {
         }
 }
 ```
+
+### Ort der TodeHome Verzeichnisses-Produkte (Gemstone/S)
+
+Auf dieses Verzeichnis wird bei einigen Templates (z.B. default_seaside) zugegriffen. Daher lieber anlegen.
+
+
+```
+registerTodeSharedDir.solo --registry=work --todeHome=$PAS_HOME/cati/tode  --populate
+```
+
+Das Skript trägt den Wert entsprechend ein und gibt das aktualisierte Registry zurück:
+```
+GDKStonesRegistry {
+        #name : 'cati',
+        #parentRegistryName : 'cati',
+        #parentRegistryPath : '$STONES_DATA_HOME/gsdevkit_stones/registry.ston',
+        #stones : { },
+        #stonesDirectory : '/home/mfeldtmann/stones',
+        #sessions : { },
+        #productDirectory : '/home/mfeldtmann/stones/gemstone',
+        #products : { },
+        #projectSets : { },
+        #templates : {
+                'default_seaside' : '$STONES_DATA_HOME/gsdevkit_stones/templates/default_seaside.ston',
+                'default_rowan3' : '$STONES_DATA_HOME/gsdevkit_stones/templates/default_rowan3.ston',
+                'minimal_rowan' : '$STONES_DATA_HOME/gsdevkit_stones/templates/minimal_rowan.ston',
+                'default_tode' : '$STONES_DATA_HOME/gsdevkit_stones/templates/default_tode.ston',
+                'minimal_rowan3' : '$STONES_DATA_HOME/gsdevkit_stones/templates/minimal_rowan3.ston',
+                'minimal_seaside' : '$STONES_DATA_HOME/gsdevkit_stones/templates/minimal_seaside.ston',
+                'minimal' : '$STONES_DATA_HOME/gsdevkit_stones/templates/minimal.ston',
+                'default' : '$STONES_DATA_HOME/gsdevkit_stones/templates/default.ston',
+                'default_rowan' : '$STONES_DATA_HOME/gsdevkit_stones/templates/default_rowan.ston'
+        }
+}
+```
+
+
+
+
+
 
 Erst mit diesen Informationen kann man eine Datenbank anlegen. Wenn ich also drei Datenbanken anlege:
 

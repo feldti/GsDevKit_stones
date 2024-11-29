@@ -53,6 +53,7 @@ export PAS_DEFAULT_REGISTRY=$DEFAULT_REGISTRY_NAME
 createRegistry.solo $DEFAULT_REGISTRY_NAME --ensure
 registerStonesDirectory.solo --registry=$DEFAULT_REGISTRY_NAME --stonesDirectory=$PAS_HOME_PATH/$DEFAULT_REGISTRY_NAME/stones
 registerProductDirectory.solo --registry=$DEFAULT_REGISTRY_NAME --productDirectory=$PAS_HOME_PATH/$DEFAULT_REGISTRY_NAME/products
+registerTodeSharedDir.solo --registry=$DEFAULT_REGISTRY_NAME --todeHome=$PAS_HOME_PATH/$DEFAULT_REGISTRY_NAME/tode  --populate
 
 export REGISTRY=devkit
 export PROJECT_SET=devkit
@@ -64,7 +65,7 @@ registerProjectDirectory.solo --registry=$DEFAULT_PREPARATION_NAME --projectDire
 cloneProjectsFromProjectSet.solo --registry=$DEFAULT_PREPARATION_NAME --projectSet=$PROJECT_SET
 registerStonesDirectory.solo --registry=$DEFAULT_PREPARATION_NAME --stonesDirectory=$PAS_HOME_PATH/$DEFAULT_PREPARATION_NAME/stones
 registerProductDirectory.solo --registry=$DEFAULT_PREPARATION_NAME --productDirectory=$PAS_HOME_PATH/$DEFAULT_PREPARATION_NAME/products
-
+registerTodeSharedDir.solo --registry=$DEFAULT_REGISTRY_NAME --todeHome=$PAS_HOME_PATH/$DEFAULT_PREPARATION_NAME/tode  --populate
 #
 # Information for further work to be done by the user
 #

@@ -65,8 +65,8 @@ fi
 if [ -d ~/PDFtalk-for-Gemstone ]; then
   echo "PDFTalk wird installiert"
   cd ~/PDFtalk-for-Gemstone
-  ./load_pdftalk.sh  $stoneName
-  ./load_pdftalktesting.sh  $stoneName
+  ./load_pdftalk_stones.sh  $stoneName $registryName $stonesDataHome
+  ./load_pdftalktesting_stones.sh  $stoneName $registryName $stonesDataHome
   cd $INSTALL_HOME
 else
   echo "ERROR: Kein PDFTalk zu installieren !"
@@ -77,7 +77,6 @@ cat << EOF | $GEMSTONE/bin/topaz -lq -T 4000000
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 iferror where
 login
-%
 doit
 GsDeployer deploy: [
   Metacello new
@@ -87,4 +86,4 @@ GsDeployer deploy: [
 %
 commit
 EOF
-
+exit 0
