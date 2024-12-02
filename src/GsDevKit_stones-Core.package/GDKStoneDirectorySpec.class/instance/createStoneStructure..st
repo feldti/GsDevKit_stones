@@ -94,7 +94,23 @@ createStoneStructure: stoneSpec
 				nextPutAll: 'DBF_EXTENT_NAMES = $stone_dir' , useExtentDir , 'extent0.dbf;';
 				lf;
 				nextPutAll: 'STN_TRAN_LOG_DIRECTORIES = $stone_dir' , useTranlogDir , ';';
-				lf ]
+				lf ;
+				nextPutAll: 'STN_TRAN_LOG_SIZES = 1000 MB;';
+				lf ;
+                nextPutAll: 'SHR_PAGE_CACHE_SIZE_KB = 2000000;' ;
+				lf ;
+
+                nextPutAll: 'GEM_TEMPOBJ_CACHE_SIZE = 250000;' ;
+                lf ;
+                nextPutAll: 'GEM_TEMPOBJ_POMGEN_PRUNE_ON_VOTE = 90;' ;
+                lf ;
+                nextPutAll: 'SHR_PAGE_CACHE_LOCKED = true;' ;
+                lf ;
+                nextPutAll: 'SHR_PAGE_CACHE_LARGE_MEMORY_PAGE_POLICY = 1;' ;
+                lf ;
+
+                nextPutAll: 'KEYFILE = $GEMSTONE/seaside/etc/gemstone.key;';
+                lf ]
 		ifFalse: [ 
 			systemConfStream
 				lf;

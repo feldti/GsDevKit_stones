@@ -99,6 +99,7 @@ registryName
 %
 doit
 	| registryClass stonesRegistry stoneName stoneSpec |
+
 	self preDoitSpecLoad: [:spec | 
 		spec projectName = 'GsCommands'
 			ifTrue: [ spec projectsHome: '$GEMSTONE/examples/GsCommands/projectsHome' ]
@@ -128,5 +129,6 @@ doit
 				ifTrue: [ self error: 'The stone did not start within ', waitTime, ' seconds.', ' (', self basename, ')' ] ].
 	self startNetldi 
 		ifTrue: [ stoneSpec startNetldi ].
+			self log: 'B'.
 	^ self noResult
 %

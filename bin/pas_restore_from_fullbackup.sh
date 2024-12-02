@@ -4,22 +4,25 @@
 #
 # Function to display usage
 usage() {
-    echo "Usage: $0 <stoneName> <registryName> <filepath> [stonesDataHome]"
+    echo "Usage: $0 <stoneName> <registryName> <filepath> <version> [stonesDataHome]"
     echo "restores the backup into an already existing stone"
     exit 1
 }
 
+set -x
+
 # Check if at least two parameters (stoneName and registryName) are provided
-if [[ $# -lt 3 ]]; then
+if [[ $# -lt 4 ]]; then
     usage
 fi
 
 # Assign parameters
 stoneName=$1
 registryName=$2
-stonesDataHome=${4:-$STONES_DATA_HOME}
+version=$4
+stonesDataHome=${5:-$STONES_DATA_HOME}
 
-
+createStone.solo $stoneName $version --registry=$registryName --template=default_seaside
 # Check if stonesDataHome is set (either as a parameter or an environment variable)
 if [[ -z "$stonesDataHome" ]]; then
     echo "Error: stonesDataHome is not provided and \$STONES_DATA_HOME is not set."
@@ -32,19 +35,18 @@ if [[ ! -d "$stonesDataHome" ]]; then
     exit 1
 fi
 
-# stops the stone service
-stopStone.solo $stoneName --registry=$registryName
 
 # Extract the value of 'stone_dir' from the .ston file
 stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
+echo $stone_dir
 
 # Check the return code of the script
 if [[ $? -eq 0 ]]; then
-    echo "The script executed successfully."
+    echo A
 else
     echo "The script failed with return code $?."
 fi
-less
+
 # Check if stone_dir was found
 if [[ -z "$stone_dir" ]]; then
     echo "Error: 'stone_dir' not found in $ston_file_path"
@@ -60,13 +62,26 @@ else
     exit 1
 fi
 
+if [ -f  $stone_dir/extents/extent0.dbf ]; then
+  rm  $stone_dir/extents/extent0.dbf
+fi
 
-
-# kopiere einen initialen stone. Achtung: Das extents Unterverzeichnis existiert nicht mehr
 $GEMSTONE/bin/copydbf $GEMSTONE/bin/extent0.dbf $stone_dir/extents/extent0.dbf
 chmod u+w $stone_dir/extents/extent0.dbf
-startStone.solo $stoneName --registry=$registryName -R
-cat << EOF | $GEMSTONE/bin/topaz -lq -u restore_task
+export GEMSTONE_SYS_CONF=$stone_dir/system.conf
+
+export GEMSTONE_STONE_DIR=$stone_dir
+export GEMSTONE_TRANLOGDIR=$GEMSTONE_STONE_DIR/tranlogs
+
+## Path to the Gemstone keyfile
+export GEMSTONE_KEYFILE=$GEMSTONE/seaside/etc/gemstone.key
+## Gemstone data directory
+export GEMSTONE_DATADIR=$GEMSTONE_STONE_DIR/extents
+export GEMSTONE_LOGDIR=$GEMSTONE_STONE_DIR/logs
+
+
+$GEMSTONE/bin/startstone  $stoneName  -R -l $stone_dir/logs/$stoneName.log
+cat << EOF | $GEMSTONE/bin/topaz -l -u restore_task
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 display oops
 iferror where
@@ -77,7 +92,17 @@ SystemRepository restoreFromBackup: '$3'
 
 %
 EOF
+cat << EOF2 | $GEMSTONE/bin/topaz -l -u restore_task
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
+display oops
+iferror where
 
+login
+printit
+SystemRepository commitRestore
+
+%
+EOF2
 
 
 exit 0
