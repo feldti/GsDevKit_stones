@@ -23,6 +23,12 @@ version=$4
 stonesDataHome=${5:-$STONES_DATA_HOME}
 
 createStone.solo $stoneName $version --registry=$registryName --template=default_seaside
+# we correct the setting of the just created stone: GEMSTONE_SYS_CONF must be set
+updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_STONE_DIR --value='$stone_dir'
+updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_DATADIR --value='$stone_dir/extents'
+updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_SYS_CONF --value='$stone_dir/system.conf'
+updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_LOGDIR --value='$stone_dir/logs'
+
 # Check if stonesDataHome is set (either as a parameter or an environment variable)
 if [[ -z "$stonesDataHome" ]]; then
     echo "Error: stonesDataHome is not provided and \$STONES_DATA_HOME is not set."
@@ -35,10 +41,8 @@ if [[ ! -d "$stonesDataHome" ]]; then
     exit 1
 fi
 
-
 # Extract the value of 'stone_dir' from the .ston file
 stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
-echo $stone_dir
 
 # Check the return code of the script
 if [[ $? -eq 0 ]]; then
@@ -68,17 +72,6 @@ fi
 
 $GEMSTONE/bin/copydbf $GEMSTONE/bin/extent0.dbf $stone_dir/extents/extent0.dbf
 chmod u+w $stone_dir/extents/extent0.dbf
-export GEMSTONE_SYS_CONF=$stone_dir/system.conf
-
-export GEMSTONE_STONE_DIR=$stone_dir
-export GEMSTONE_TRANLOGDIR=$GEMSTONE_STONE_DIR/tranlogs
-
-## Path to the Gemstone keyfile
-export GEMSTONE_KEYFILE=$GEMSTONE/seaside/etc/gemstone.key
-## Gemstone data directory
-export GEMSTONE_DATADIR=$GEMSTONE_STONE_DIR/extents
-export GEMSTONE_LOGDIR=$GEMSTONE_STONE_DIR/logs
-
 
 $GEMSTONE/bin/startstone  $stoneName  -R -l $stone_dir/logs/$stoneName.log
 cat << EOF | $GEMSTONE/bin/topaz -l -u restore_task
@@ -89,9 +82,9 @@ iferror where
 login
 printit
 SystemRepository restoreFromBackup: '$3'
-
 %
 EOF
+
 cat << EOF2 | $GEMSTONE/bin/topaz -l -u restore_task
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 display oops
@@ -100,7 +93,6 @@ iferror where
 login
 printit
 SystemRepository commitRestore
-
 %
 EOF2
 

@@ -21,7 +21,7 @@ gsVersion=$4
 stonesDataHome=${5:-$STONES_DATA_HOME}
 
 # notinterested, default_seaside is used to get a stone directory with subdirectories
-createStone.solo --registry=$registryName --template=default $stoneName $4
+createStone.solo --registry=$registryName --template=default_seaside $stoneName $4
 pas_restore.sh $stoneName $registryName $filePath $stonesDataHome
 pas_finish_restore.sh $stoneName $registryName $stonesDataHome
 

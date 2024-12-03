@@ -67,7 +67,7 @@ Diese Information werden abgelegt und durch Tools bearbeitet in dem Verzeichnis:
 Erst einmal defineren wir, WO die Datenbanken (stones) überhaupt abgelegt werden:
 
 ```
-registerStonesDirectory.solo --registry=cati --stonesDirectory=/home/mfeldtmann/stones
+registerStonesDirectory.solo --registry=cati --stonesDirectory='$STONES_DATA_HOME/gsdevkit_stones/stones'
 ```
 Das Skript trägt den Wert entsprechend ein und gibt das aktuelle Registry zurück:
 
