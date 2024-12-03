@@ -3,8 +3,8 @@
 #
 # Function to display usage
 usage() {
-    echo "Usage: $0 <stoneName> <registryName> <filepath> <gsVersion> [stonesDataHome]"
-    echo "Creates a stone by using a pas template backup"
+    echo "Usage: $0 <stoneName> <registryName> <gsVersion> <runtimeVersion> [stonesDataHome]"
+    echo "Creates a stone useable as pas template stone"
     exit 1
 }
 
@@ -13,17 +13,35 @@ if [[ $# -lt 4 ]]; then
     usage
 fi
 
+
 # Assign parameters
 stoneName=$1
 registryName=$2
-filePath=$3
-gsVersion=$4
+gsVersion=$3
+runtimeVersion=$4
 stonesDataHome=${5:-$STONES_DATA_HOME}
 
-# notinterested, default_seaside is used to get a stone directory with subdirectories
-createStone.solo --registry=$registryName --template=default_seaside $stoneName $4
-pas_restore.sh $stoneName $registryName $filePath $stonesDataHome
-pas_finish_restore.sh $stoneName $registryName $stonesDataHome
+# default_seaside is used to get a stone directory with subdirectories
+createStone.solo --registry=$registryName --template=pas_seaside $stoneName $gsVersion
 
+startStone.solo --registry=$registryName $stoneName
+
+echo "Loading Third-Party libraries"
+pushd `pwd`
+pas_update_gemstone.sh $stoneName $registryName $stonesDataHome
+popd
+echo "Loading Third-Party libraries - done"
+
+echo "Loading the PDF framework"
+pas_load_report4pdf.sh $stoneName $registryName $stonesDataHome
+
+echo "Loading GemConnect PostgreSQL"
+pas_load_base_postgresql.sh $stoneName $registryName $stonesDataHome
+
+echo "Loading GemConnect RabbitMQ"
+pas_load_base_rabbitmq.sh $stoneName $registryName $stonesDataHome
+
+echo "Loading PAS runtime"
+pas_load_pas_runtime.sh $stoneName $registryName $runtimeVersion $stonesDataHome
 
 exit 0

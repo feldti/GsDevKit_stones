@@ -1,7 +1,7 @@
 stone creation
 createTodeHomeDirectory: stoneSpec
 	stoneSpec todeHome
-		ifNil: [ 
+		ifNil: [
 			GsFile stdout
 				nextPutAll:
 					'WARNING: tode home directory is not defined, use registerTodeSharedDirectory.solo to define' ]

@@ -1,14 +1,13 @@
 # GsDevKit_stones
-BRANCH | STATUS
------------- | -------------
-**v2** | [![**v2** build status](https://github.com/GsDevKit/GsDevKit_stones/actions/workflows/ci.yml/badge.svg?branch=v2)](https://github.com/GsDevKit/GsDevKit_stones/actions)
-**v1.1.1** | [![**v1.1.1** build status](https://github.com/GsDevKit/GsDevKit_stones/actions/workflows/ci.yml/badge.svg?branch=v1.1.1)](https://github.com/GsDevKit/GsDevKit_stones/actions)
+
 
 Greatly simplified version of GsDevKit_home
 1. bin directory of scripts implemented with superDoit and 3.7.0 for solo scripts and GsHostProcess.
 2. Stone directory modeled after GsDevKit_home, but configurable for folks with different needs. There a varient of templates that are used to specify directory structure for stones, git repositories, etc.
 3. Registry of stones so that stones and git repositories can be located anywhere.
 5. If you are using tODE I think you should continue using GsDevKit_home 
+
+This is my private version of it, with lots of additional scripts to maintain my applications out there. It has been forked from version v2.1 of the main github repository.
 
 ## Versions
 ### v2
@@ -45,11 +44,13 @@ if [ "$STONES_DATA_HOME" = "" ] ; then
 	export STONES_DATA_HOME=/datadisk/stones_data_home
 fi
 ```
-
+You shoudl also read the german documentation in directory "documentation-de" and the readme.md in the bin directory
 ## STONES_DATA_HOME
-GsDevKit_stones maintains a registry data structure based on the [XDG Base Directory Specification](https://xdgbasedirectoryspecification.com/). On Linux machines, the default location for application specific data is $HOME/.local/share and $XDG_DATA_HOME can be used to optionally define an alternate location. On Mac machines, the XDG Base Directory Specification is not defined. 
+GsDevKit_stones maintains a registry data structure On Linux machines.
 
-Therefore to simplify the coding and allow for the creation of short-leved registry structures, The environment variable STONES_DATA_HOME is used to define the root directory for GsDevKit_STONES applications. On Linux, STONES_DATA_HOME may defaults to $HOME/.local/share. If not defined, STONES_DATA_HOME must be defined.
+Therefore to simplify the coding and allow for the creation of short-leved registry structures, the environment variable STONES_DATA_HOME is used to define the root directory for GsDevKit_STONES applications. 
+
+On Linux, STONES_DATA_HOME may defaults to $HOME/.local/share. If not defined, STONES_DATA_HOME must be defined.
 
 ## Setting up the registry structure
 ```bash

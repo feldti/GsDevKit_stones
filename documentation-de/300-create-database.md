@@ -12,6 +12,12 @@ Dabei liegen z.Z. die folgenden Templates vor:
 - minimal_seaside
 - minimal
 
+und eben auch:
+
+- pas_seaside
+
+Letztes ist ein minimal_seaside, aber mit der Struktur von default_seaside. Das bedeutet aber auchu, daß es KEINE PAS Datenbank ist.
+
 Es gibt noch weitere Templates auf Rowan basierend
 
 ## Anlegen für Nutzung mit PAS
@@ -30,15 +36,18 @@ In einem zweiten Schritt wird dann ein PAS-Template-Backup in die neu erstellte 
 Zur Zeit gibt es die folgenden Template-Datenbanken für PAS:
 
 ```
--rw-rw-r-- 1 mf mf 39341377 Nov 26 11:47 2024_11_26_09_01-logid-3-template-3.6.5-v90-30605.gz
--rw-rw-r-- 1 mf mf 39373814 Nov 26 11:47 2024_11_26_09_08-logid-3-template-3.6.8-v90-30608.gz
--rw-rw-r-- 1 mf mf 39711986 Nov 26 11:47 2024_11_26_09_50-logid-3-template-3.7.0-v90-30700.gz
--rw-rw-r-- 1 mf mf 39712779 Nov 26 11:47 2024_11_26_09_56-logid-3-template-3.7.0-v81-30700.gz
--rw-rw-r-- 1 mf mf 39373101 Nov 26 11:47 2024_11_26_10_04-logid-3-template-3.6.8-v81-30608.gz
--rw-rw-r-- 1 mf mf 39408526 Nov 26 11:47 2024_11_26_10_11-logid-3-template-3.6.5-v81-30605.gz
--rw-rw-r-- 1 mf mf 39450321 Nov 26 11:47 2024_11_26_10_18-logid-3-template-3.6.5-v80-30605.gz
--rw-rw-r-- 1 mf mf 39304994 Nov 26 11:47 2024_11_26_10_26-logid-3-template-3.6.8-v80-30608.gz
--rw-rw-r-- 1 mf mf 39826627 Nov 26 11:47 2024_11_26_10_31-logid-3-template-3.7.0-v80-30700.gz
+-rw-rw-r-- 1 mf mf  39450321 Nov 26 11:48 3.6.5-v80-20241126.gz
+-rw-rw-r-- 1 mf mf  39408526 Nov 26 11:48 3.6.5-v81-20241126.gz
+-rw-rw-r-- 1 mf mf  39341377 Nov 26 11:48 3.6.5-v90-20241126.gz
+-rw-rw-r-- 1 mf mf  39304994 Nov 26 11:48 3.6.8-v80-20241126.gz
+-rw-rw-r-- 1 mf mf  39373101 Nov 26 11:48 3.6.8-v81-20241126.gz
+-rw-rw-r-- 1 mf mf  39373814 Nov 26 11:48 3.6.8-v90-20241126.gz
+-rw-rw-r-- 1 mf mf  39826627 Nov 26 11:48 3.7.0-v80-20241126.gz
+-rw-rw-r-- 1 mf mf  39712779 Nov 26 11:48 3.7.0-v81-20241126.gz
+-rw-rw-r-- 1 mf mf  39711986 Nov 26 11:48 3.7.0-v90-20241126.gz
+-rw-rw-r-- 1 mf mf 352633898 Nov 28 08:54 all.zip
+
+
 ```
 Die Gemstone-Versionen 3.6.5, 3.6.8 und 3.7.0 werden unterstützt. Bei neuen Projekten würde ich die Versionen mit der v90 empfehlen. Eine Version kann man wie folgt herunterladen:
 

@@ -2,7 +2,7 @@ stone creation
 customizeCustomEnv: exportDict stoneSpec: stoneSpec
 	"opportunity to add additional env var defs to customenv file"
 
-	{{'GEMSTONE_DATADIR'.
+	"{{'GEMSTONE_DATADIR'.
 	(stoneSpec todeHome , '/sys/local/server/stones/' , stoneSpec stoneName)}.
 	{'GS_SERVER'.
 	(stoneSpec todeHome , '/server')}.
@@ -12,4 +12,4 @@ customizeCustomEnv: exportDict stoneSpec: stoneSpec
 	(stoneSpec todeHome , '/sys/local/server/stones')}.
 	{'GS_SYS'.
 	(stoneSpec todeHome , '/sys')}}
-		do: [ :ar | exportDict at: (ar at: 1) put: (ar at: 2) ]
+		do: [ :ar | exportDict at: (ar at: 1) put: (ar at: 2) ]"

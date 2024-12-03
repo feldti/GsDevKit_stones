@@ -22,7 +22,7 @@ registryName=$2
 version=$4
 stonesDataHome=${5:-$STONES_DATA_HOME}
 
-createStone.solo $stoneName $version --registry=$registryName --template=default_seaside
+createStone.solo $stoneName $version --registry=$registryName --template=pas_seaside
 # we correct the setting of the just created stone: GEMSTONE_SYS_CONF must be set
 updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_STONE_DIR --value='$stone_dir'
 updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_DATADIR --value='$stone_dir/extents'
