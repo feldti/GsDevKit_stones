@@ -40,6 +40,8 @@ unzip $PAS_TEMPLATES_DOWNLOAD_FILENAME
 rm $PAS_TEMPLATES_DOWNLOAD_FILENAME
 cd ..
 mkdir $STONES_DATA_HOME_NAME
+# All license files should be located here
+mkdir licenses
 # all external git stuff is hidden behind git
 mkdir "git"
 cd git

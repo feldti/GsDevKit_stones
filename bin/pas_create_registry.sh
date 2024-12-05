@@ -23,4 +23,7 @@ createRegistry.solo $registryName
 registerStonesDirectory.solo --registry=$registryName --stonesDirectory=$PAS_HOME_PATH/$registryName/stones
 registerProductDirectory.solo --registry=$registryName --productDirectory=$PAS_HOME_PATH/$registryName/products
 
+// copy all global licenses into the local licenses folder
+mkdir $PAS_HOME_PATH/$registryName/licenses
+cp $PAS_HOME_PATH/licenses/* $PAS_HOME_PATH/$registryName/licenses
 exit 0
