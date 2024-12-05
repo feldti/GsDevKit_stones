@@ -9,7 +9,7 @@ usage() {
     exit 1
 }
 
-set -x
+set -e
 
 # Check if at least two parameters (stoneName and registryName) are provided
 if [[ $# -lt 4 ]]; then
@@ -22,12 +22,8 @@ registryName=$2
 version=$4
 stonesDataHome=${5:-$STONES_DATA_HOME}
 
-createStone.solo $stoneName $version --registry=$registryName --template=pas_seaside
-# we correct the setting of the just created stone: GEMSTONE_SYS_CONF must be set
-updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_STONE_DIR --value='$stone_dir'
-updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_DATADIR --value='$stone_dir/extents'
-updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_SYS_CONF --value='$stone_dir/system.conf'
-updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_LOGDIR --value='$stone_dir/logs'
+pas_create_stone.sh $stoneName $registryName $version
+
 
 # Check if stonesDataHome is set (either as a parameter or an environment variable)
 if [[ -z "$stonesDataHome" ]]; then
