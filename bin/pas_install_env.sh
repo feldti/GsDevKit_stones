@@ -22,6 +22,10 @@ if [ -d $PAS_HOME_NAME ]; then
 	echo "Aborting: Local PAS main directory already available"
 	exit 1
 fi
+
+# Normally not installed under Linux
+sudo apt-get install unzip
+
 # create the master directory
 mkdir $PAS_HOME_NAME
 cd $PAS_HOME_NAME
@@ -57,7 +61,7 @@ registerTodeSharedDir.solo --registry=$DEFAULT_REGISTRY_NAME --todeHome=$PAS_HOM
 
 export REGISTRY=devkit
 export PROJECT_SET=devkit
-export URL_TYPE=ssh
+export URL_TYPE=https
 
 createRegistry.solo $DEFAULT_PREPARATION_NAME --ensure
 createProjectSet.solo --registry=$DEFAULT_PREPARATION_NAME --projectSet=$PROJECT_SET --from=$GSDEVKIT_STONES_ROOT/projectSets/$URL_TYPE/devkit.ston
