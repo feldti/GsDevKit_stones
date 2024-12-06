@@ -9,7 +9,6 @@ downloadDirectoryNameFor: productName
 				ifTrue: [ cpuKind := 'i386' ] ]
 		ifFalse: [
 		    cpuKind = 'aarch64'
-        				ifTrue: [ cpuKind := 'arm64' ] ]
-		].
+        				ifTrue: [ cpuKind := 'arm64' ] ].
 	^ 'GemStone64Bit' , productName , '-' , cpuKind , '.'
 		, (gemVersionReport at: 'osName')
