@@ -57,10 +57,11 @@ case "$PLATFORM" in
      ;;
 esac
 if cmp -s $PAS_HOME_PATH/$registryName/licenses/${gsVersion}.key $PAS_HOME_PATH/$registryName/products/$dlname/seaside/etc/gemstone.key; then
-    echo "Produce License file copied"
+    echo "Produce License already up to date"
+
 else
     sudo cp  $PAS_HOME_PATH/$registryName/licenses/${gsVersion}.key $PAS_HOME_PATH/$registryName/products/$dlname/seaside/etc/gemstone.key
-     echo "Produce License already up to date"
+    echo "Produce License file copied"
 fi
 
 exit 0
