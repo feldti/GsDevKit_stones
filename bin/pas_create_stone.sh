@@ -37,10 +37,30 @@ if [[ ! -f "$PAS_HOME_PATH/$registryName/licenses/${gsVersion}.key" ]]; then
     echo "Error: License file for that specific Gemstone/S product '"${gsVersion}"' does not exists in registry '"${registryName}"' "
     exit 1
 fi
-if cmp -s $PAS_HOME_PATH/$registryName/licenses/${gsVersion}.key $PAS_HOME_PATH/$registryName/products/GemStone64Bit${gsVersion}-x86_64.Linux/seaside/etc/gemstone.key; then
+PLATFORM="`uname -sm | tr ' ' '-'`"
+case "$PLATFORM" in
+   Linux-aarch64)
+		dlname="GemStone64Bit${gsVersion}-arm64.Linux"
+		;;
+   Darwin-arm64 )
+		dlname="GemStone64Bit${gsVersion}-arm64.Darwin"
+		;;
+   Darwin-x86_64)
+		dlname="GemStone64Bit${gsVersion}-i386.Darwin"
+		;;
+	Linux-x86_64)
+		dlname="GemStone64Bit${gsVersion}-x86_64.Linux"
+     ;;
+	*)
+		echo "This script should only be run on Mac (Darwin-i386 or Darwin-arm64), or Linux (Linux-x86_64 or Linux-aarch64) ). The result from \"uname -sm\" is \"`uname -sm`\""
+		exit 1
+     ;;
+esac
+if cmp -s $PAS_HOME_PATH/$registryName/licenses/${gsVersion}.key $PAS_HOME_PATH/$registryName/products/$dlname/seaside/etc/gemstone.key; then
     echo "Produce License file copied"
 else
-    sudo cp  $PAS_HOME_PATH/$registryName/licenses/${gsVersion}.key $PAS_HOME_PATH/$registryName/products/GemStone64Bit${gsVersion}-x86_64.Linux/seaside/etc/gemstone.key
+    sudo cp  $PAS_HOME_PATH/$registryName/licenses/${gsVersion}.key $PAS_HOME_PATH/$registryName/products/$dlname/seaside/etc/gemstone.key
+     echo "Produce License already up to date"
 fi
 
 exit 0
