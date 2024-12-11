@@ -36,7 +36,7 @@ echo "$stone_processes" | while read -r process_line; do
     if [[ -n "$stone_name" && -n "$registry" ]]; then
         debug "Gefundener Stone-Prozess für $stone_name in Registry $registry"
         echo "Beende Stone $stone_name in Registry $registry..."
-        stopStone.solo "$stone_name" --registry="$registry"
+        stopStone.solo -i "$stone_name" --registry="$registry"
         if [[ $? -eq 0 ]]; then
             echo "Stone $stone_name erfolgreich gestoppt."
         else
