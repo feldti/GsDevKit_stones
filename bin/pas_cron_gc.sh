@@ -71,7 +71,20 @@ else
     exit 1
 fi
 
-cat << EOF | $GEMSTONE/bin/topaz -l -u reclaim_task
+cat << EOF | $GEMSTONE/bin/topaz -l -u mark_task
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $1
+display oops
+iferror where
+
+login
+
+run
+System abortTransaction.
+SystemRepository markForCollection.
+%
+EOF
+
+cat << EOF2 | $GEMSTONE/bin/topaz -l -u reclaim_task
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $1
 display oops
 iferror where
@@ -81,7 +94,7 @@ login
 run
 SystemRepository reclaimAll.
 %
-EOF
+EOF2
 
 
 
