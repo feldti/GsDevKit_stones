@@ -37,24 +37,21 @@ GSDEVKITHOME=$(dirname "$(readlink -f "$0")")
 cd $GSDEVKITHOME
 cd ..
 GSDEVKITHOME=`pwd`
-echo $GSDEVKITHOME
-export PATH=$GSDEVKITHOME/bin:$PATH
 cd ../superDoit
 SUPERDOITHOME=`pwd`
-echo $SUPERDOITHOME
-
-export PATH=$SUPERDOITHOME/bin:$PATH
+export PATH=$SUPERDOITHOME/bin:$GSDEVKITHOME/bin:$PATH
 
 
 
 # Extract the value of 'stone_dir' from the .ston file
-stone_dir=$(pas_datadir.sh $1 $2 $stonesDataHomeq)
+stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHomeq)
 
 # Check the return code of the script
 if [[ $? -eq 0 ]]; then
-    echo "The script executed successfully."
+    echo ""
 else
     echo "The script failed with return code $?."
+    exit 1
 fi
 
 # Check if stone_dir was found
@@ -72,7 +69,7 @@ else
 fi
 
 cat << EOF | $GEMSTONE/bin/topaz -l -u reclaim_task
-set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $1
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 display oops
 iferror where
 
