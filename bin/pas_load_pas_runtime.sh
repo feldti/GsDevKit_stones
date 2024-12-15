@@ -74,7 +74,31 @@ doit
 doit
 Gofer new
         url: '$PAS_RUNTIME_PACKAGES' ;
+        package: 'GsSqueakCommon-Core' ;
+        load.
+%
+doit
+Gofer new
+        url: '$PAS_RUNTIME_PACKAGES' ;
+        package: 'GsPharo-Core' ;
+        load.
+%
+doit
+Gofer new
+        url: '$PAS_RUNTIME_PACKAGES' ;
         package: 'MSKExtensions' ;
+        load.
+%
+doit
+Gofer new
+        url: '$PAS_RUNTIME_PACKAGES' ;
+        package: 'MSKPlatformExtension' ;
+        load.
+%
+doit
+Gofer new
+        url: '$PAS_RUNTIME_PACKAGES' ;
+        package: 'MSKLibQREncode' ;
         load.
 %
 doit

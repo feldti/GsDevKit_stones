@@ -32,7 +32,7 @@ if [[ ! -d "$stonesDataHome" ]]; then
 fi
 
 # Setup Stone
-createStone.solo --registry=$registryName --template=minimal_seaside $stoneName $2
+createStone.solo --registry=$registryName --template=default_seaside $stoneName $2
 
 # Extract the value of 'stone_dir' from the .ston file
 stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)

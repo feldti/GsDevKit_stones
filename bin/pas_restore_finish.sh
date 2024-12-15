@@ -4,7 +4,7 @@
 #
 # Function to display usage
 usage() {
-    echo "Usage: $0 <stoneName> <registryName> <filepath> <version> [stonesDataHome]"
+    echo "Usage: $0 <stoneName> <registryName> [stonesDataHome]"
     echo "restores the backup into an already existing stone"
     exit 1
 }
@@ -12,18 +12,14 @@ usage() {
 set -e
 
 # Check if at least two parameters (stoneName and registryName) are provided
-if [[ $# -lt 4 ]]; then
+if [[ $# -lt 2 ]]; then
     usage
 fi
 
 # Assign parameters
 stoneName=$1
 registryName=$2
-version=$4
-stonesDataHome=${5:-$STONES_DATA_HOME}
-
-pas_create_stone.sh $stoneName $registryName $version
-
+stonesDataHome=${3:-$STONES_DATA_HOME}
 
 # Check if stonesDataHome is set (either as a parameter or an environment variable)
 if [[ -z "$stonesDataHome" ]]; then
@@ -62,15 +58,15 @@ else
     exit 1
 fi
 
-if [ -f  $stone_dir/extents/extent0.dbf ]; then
-  rm  $stone_dir/extents/extent0.dbf
-fi
 
-$GEMSTONE/bin/copydbf $GEMSTONE/bin/extent0.dbf $stone_dir/extents/extent0.dbf
-chmod u+w $stone_dir/extents/extent0.dbf
 
-$GEMSTONE/bin/startstone  $stoneName  -R -l $stone_dir/logs/$stoneName.log
+cat << TASK2 | $GEMSTONE/bin/topaz -l -u restore_task
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
+display oops
+iferror where
 
-echo "Backup wird gestartet"
-pas_restore_data_from_fullbackup.sh $1 $2 $3 $stonesDataHome
-pas_restore_finish_from_fullbackup.sh $1 $2 $stonesDataHome
+login
+printit
+SystemRepository commitRestore
+%
+TASK2

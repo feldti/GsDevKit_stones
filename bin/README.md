@@ -3,6 +3,45 @@
 In addition to the original project I will also add several shell script doing useful work during development or during runtime. All of these shell file from me are starting with "pas_ ....". 
 Diese Skripte benutzen eine Methode, um alte sh-Skripte auf der GsDevKit_home Umgebung ablaufen lassen zu können.
 
+| Scriptname              | Kurzbeschreibung                                                                                                                    |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| pas_backup_registry.sh  | Sichert das registry-Verzeichnis (§STONES__DATA_HOME) in eine tgz Datei, mit Zeitstempel im Name, in das Verzeichnis $PAS_HOME_PATH |
+| pas_create_pas_stone.sh |                                                                                                                                     |
+| pas_create_registry.sh  |                                                                                                                                     |
+| pas_create_stone.sh     |                                                                                                                                     |
+| pas_cron_backup.sh      |                                                                                                                                     |
+| pas_cron_fastmark.sh    |                                                                                                                                     |
+| pas_cron_gc.sh          |                                                                                                                                     |
+| pas_cron_reclaimall.sh  |                                                                                                                                     |
+| pas_datadir.sh          |                                                                                                                                     |
+| pas_install_env.sh      |                                                                                                                                     |
+| pas_load_base_postgresql.sh | Hilfsscript, um das PostgreSQLConnect Package zu laden                                                                              |
+| pas_load_base_rabbitmq.sh |                                                                                                                                     |
+| pas_load_pas_runtime.sh |                                                                                                                                     |
+| pas_load_report4pdf.sh |                                                                                                                                     |
+| pas_migrate.sh |                                                                                                                                     |
+| pas_migrate_clearhistory.sh |                                                                                                                                     |
+| pas_migrate_collect.sh |                                                                                                                                     |
+| pas_migrate_pageorder.sh |                                                                                                                                     |
+| pas_netldi_list.sh |                                                                                                                                     |
+| pas_os_timezone.sh |                                                                                                                                     |
+| pas_pageaudit.sh |                                                                                                                                     |
+| pas_prepare_seaside_stone.sh |                                                                                                                                     |
+| pas_publish_openapi.sh |                                                                                                                                     |
+| pas_restore_from_fullbackup.sh |                                                                                                                                     |
+| pas_snapshot.sh |                                                                                                                                     |
+| pas_stones_list.sh |                                                                                                                                     |
+| pas_stop_all_netldi.sh |                                                                                                                                     |
+| pas_stop_all_stones.sh |                                                                                                                                     |
+| pas_topaz_list.sh |                                                                                                                                     |
+| pas_update_gemstone.sh |                                                                                                                                     |
+| startStone.solo |                                                                                                                                     |
+| stopStone.solo |                                                                                                                                     |
+| startNetldi.solo |                                                                                                                                     |
+| stopNetldi.solo |                                                                                                                                     |
+| gslist.solo |                                                                                                                                     |
+
+
 ### pas_cron_backup.sh
 
 Dieses Skript führt ein Backup einer eventuell laufenden Gemstone/S-Datenbank durch. 
