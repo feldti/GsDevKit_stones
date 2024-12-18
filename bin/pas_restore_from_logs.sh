@@ -4,7 +4,7 @@
 #
 # Function to display usage
 usage() {
-    echo "Usage: $0 <stoneName> <registryName> <filepath> [stonesDataHome]"
+    echo "Usage: $0 <stoneName> <registryName> [stonesDataHome]"
     echo "restores the backup into an already existing stone"
     exit 1
 }
@@ -12,16 +12,14 @@ usage() {
 set -e
 
 # Check if at least two parameters (stoneName and registryName) are provided
-if [[ $# -lt 3 ]]; then
+if [[ $# -lt 2 ]]; then
     usage
 fi
 
 # Assign parameters
 stoneName=$1
 registryName=$2
-stonesDataHome=${4:-$STONES_DATA_HOME}
-
-stopStone.solo $stoneName --registry=$registryName
+stonesDataHome=${3:-$STONES_DATA_HOME}
 
 # Check if stonesDataHome is set (either as a parameter or an environment variable)
 if [[ -z "$stonesDataHome" ]]; then
@@ -60,22 +58,15 @@ else
     exit 1
 fi
 
-if [ -f  $stone_dir/extents/extent0.dbf ]; then
-  rm  $stone_dir/extents/extent0.dbf
-fi
 
-$GEMSTONE/bin/copydbf $GEMSTONE/bin/extent0.dbf $stone_dir/extents/extent0.dbf
-chmod u+w $stone_dir/extents/extent0.dbf
 
-$GEMSTONE/bin/startstone  $stoneName  -R -l $stone_dir/logs/$stoneName.log
-
-cat << TASK1 | $GEMSTONE/bin/topaz -l -u restore_task
+cat << TASK2 | $GEMSTONE/bin/topaz -l -u restore_task_logs
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 display oops
 iferror where
 
 login
-doit
-SystemRepository restoreFromBackup: '$3'
-TASK1
-exit 0
+printit
+SystemRepository restoreFromCurrentLogs
+%
+TASK2
