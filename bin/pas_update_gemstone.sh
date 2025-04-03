@@ -69,7 +69,7 @@ doit
     package: 'GsUpgrader-Core';
     yourself.
 
-  repositoryDir := ServerFileDirectory on: '$PAS_HOME_PATH/$registryName/devkit/github-cache'.
+  repositoryDir := ServerFileDirectory on: '$PAS_HOME_PATH/github-cache'.
   newCache := MCCacheRepository new directory: repositoryDir.
   MCCacheRepository setDefault: newCache.
   Transcript show: ' from http://ss3.gemtalksystems.com/ss/gsUpgrader'.
@@ -79,34 +79,6 @@ doit
     cr;
     show: '-----Upgrade GLASS using GsUpgrader class>>upgradeGLASSForGsDevKit_home'.
   (Smalltalk at: #'GsUpgrader') upgradeGLASS
-%
-
-doit
- (Smalltalk at: #'GsUpgrader') batchErrorHandlingDo: [
-  | greaseRepo |
-  greaseRepo := 'filetree://', '$PAS_HOME_PATH/$registryName/devkit/Grease/repository'.
-  Transcript
-    cr;
-    show: 'Lock and Load Grease (to ensure new repo is honored): ', greaseRepo printString.
-  (Metacello image
-    configuration: [ :spec | spec name = 'Grease' ];
-    list) do: [ :greaseSpec |
-      Metacello image
-        configuration: 'Grease';
-        unregister ].
-  Metacello new
-    baseline: 'Grease';
-    repository: greaseRepo;
-    lock.
-  Metacello new
-    baseline: 'Grease';
-    repository: greaseRepo;
-    get.
-  Metacello new
-    baseline: 'Grease';
-    repository: greaseRepo;
-    load.
-  ].
 %
 doit
 GsDeployer deploy: [
