@@ -25,6 +25,7 @@ fi
 
 export BASEPATH="http://192.168.178.170/app-sources"
 rm out.txt
+echo "Retrieving data from: "$BASEPATH/$3/$4/sources/$3-modelsource-$5.sh
 curl $BASEPATH/$3/$4/sources/$3-modelsource-$5.sh > $3-$2.sh
 dos2unix $3-$2.sh
 sudo chmod a+x $3-$2.sh
