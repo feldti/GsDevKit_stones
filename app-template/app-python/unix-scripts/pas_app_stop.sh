@@ -56,14 +56,14 @@ stopNetldi.solo  $PAS_STONE_NAME --registry=$PAS_STONE_REGISTRY
 pkill -f pas_start_http_task.sh
 pkill -f task_start_prometheus_application.sh
 pkill -f task_start_prometheus_support.sh
-pkill -f cisSessionActivity
-pkill -f cisSserverEventBusMaintainer
+pkill -f $PAS_TPZ_SESS_ACTIVITY
+pkill -f $PAS_TPZ_SRV_EV_BUS_MAINT
 pkill -f task_start_superset.sh
 pkill -f task_start_session_activity.sh
 pkill -f task_start_server_event_bus.sh
 pkill -f prometheus_cfg.json
 pkill -f task_start_superset.sh
-pkill -f superset_token
+pkill -f $PAS_TPZ_SUPERSET_TOKEN
 #
 # And at the end we stop database
 #

@@ -1,14 +1,14 @@
 #!/bin/bash
 #
 #
-# This script startet den task, um den server event bus für diesen server zu handeln
+# This script starts the session activity handler
 #
 #
 usage() {
   cat <<HELP
 
 USAGE: $(basename $0)
-starts the server event bus maintainance for this database instance
+starts the session activity handler
 
 EXAMPLES
 
@@ -19,13 +19,14 @@ HELP
 
 if [ ! -f ./credentials.sh ]; then
   echo 'Missing credentials.sh - copy demo_credentials.sh and make the needed changes to it'
-  exit 4
+  exit 1
 fi
 
 #
 # load all the needed information
 #
 source ./credentials.sh
+
 # Extract the value of 'stone_dir' from the .ston file
 stone_dir=$(pas_datadir.sh $PAS_STONE_NAME $PAS_STONE_REGISTRY $STONES_DATA_HOME)
 
@@ -49,12 +50,11 @@ else
     exit 1
 fi
 
-
 while [ -f $PAS_STONE_NAME ]
 do
 
 nowTS=`date +%Y-%m-%d-%H-%M`
-cat << EOF | nohup $GEMSTONE/bin/topaz -l -T 50000 -u $PAS_TPZ_SRV_EV_BUS_MAINT 2>&1 >> $GEMSTONE_LOGDIR/serverEventBus_${nowTS}.log
+cat << EOF | $GEMSTONE/bin/topaz -l -T 200000 -u $PAS_TPZ_TOPIC_MSG  2>&1 >> $GEMSTONE_LOGDIR/${PAS_TPZ_TOPIC_MSG}_${nowTS}.log
 
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $PAS_STONE_NAME
 
@@ -67,13 +67,9 @@ run
 
 |   rabbitMQConnector |
 
-GsProcess usingNativeCode not
-  ifTrue: [
-    "Enable remote Breakpoing handling"
-    Breakpoint trappable: true.
-    GemToGemAnnouncement installStaticHandler.
-    System commitTransaction ifFalse: [ nil error: 'Could not commit for GemToGemSignaling' ].
-  ].
+"This thread is needed to handle the SigAbort exception, when the primary
+thread is blocked. Assuming default 60 second STN_GEM_ABORT_TIMEOUT, wake
+up at 30 second intervals."
 
 [
   [ true ] whileTrue: [
@@ -81,8 +77,16 @@ GsProcess usingNativeCode not
 
 ] forkAt: Processor lowestPriority.
 
-
 "record gems pid in the pid file"
+
+System beginTransaction.
+$SERVICECLASSNAME dataRootInstance
+  setMqttServerAddress: '$PAS_APP_RMQ_ADR' ;
+  setMqttLogin: '$PAS_APP_RMQ_MQTT_ACCOUNT' ;
+  setMqttPassword: '$PAS_APP_RMQ_MQTT_PASSWD'.
+System commitTransaction.
+
+
 
 ('$PAS_APP_TLS' = 'true')
   ifTrue:[
@@ -111,14 +115,10 @@ GsProcess usingNativeCode not
       openChannel.
 	].
 
-$PAS_APP_SERVICE_CLASS
-  taskStartServerEventBusMaintainance: rabbitMQConnector fromExchangeNamed: '$PAS_APP_RMQ_SERVER_EVENT_BUS_EXCHG'
-
+$SERVICECLASSNAME
+  taskStartHandleTopicMessages: rabbitMQConnector.
 %
-run
 
-GemToGemAnnouncement uninstallStaticHandler
-%
 EOF
 #
 # Wenn die Datei nicht mehr vorhanden ist -> sofort Abbruch

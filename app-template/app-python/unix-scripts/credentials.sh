@@ -94,6 +94,14 @@ export PAS_APP_PACKAGES="http://dev.gessgroup.de/extfiles/gess/cis/v77/develop/s
 export PAS_APP_MDL_PACKAGE="cis"
 export PAS_APP_EXT_PACKAGE="cisExtension"
 export PAS_APP_SERVERTYPE="test-srvapp"
+export PAS_APP_SHORT_NAME="cis"
+#
+# Topaz Prozessnamen
+#
+export PAS_TPZ_SUPERSET_TOKEN=${PAS_APP_SHORT_NAME}_superset_token
+export PAS_TPZ_SESS_ACTIVITY=${PAS_APP_SHORT_NAME}_session_activity
+export PAS_TPZ_SRV_EV_BUS_MAINT=${PAS_APP_SHORT_NAME}_server_event_bus_maintainer
+export PAS_TPZ_TOPIC_MSG=${PAS_APP_SHORT_NAME}_topic_messages
 
 #
 # Points to a directory, where ALL the Monticello packages for the runtime can be found

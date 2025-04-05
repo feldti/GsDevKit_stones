@@ -51,7 +51,7 @@ while [ -f $PAS_STONE_NAME ]
 do
 
 nowTS=`date +%Y-%m-%d-%H-%M`
-cat << EOF | $GEMSTONE/bin/topaz -lq -T 50000 -u cis_superset_token  2>&1 >> $GEMSTONE_LOGDIR/superset_access_token_${nowTS}.log
+cat << EOF | $GEMSTONE/bin/topaz -lq -T 50000 -u $PAS_TPZ_SUPERSET_TOKEN  2>&1 >> $GEMSTONE_LOGDIR/superset_access_token_${nowTS}.log
 
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $PAS_STONE_NAME
 

@@ -53,7 +53,7 @@ while [ -f $PAS_STONE_NAME ]
 do
 
 nowTS=`date +%Y-%m-%d-%H-%M`
-cat << EOF | $GEMSTONE/bin/topaz -l -T 50000 -u cisSessionActivity  2>&1 >> $GEMSTONE_LOGDIR/session_activity_${nowTS}.log
+cat << EOF | $GEMSTONE/bin/topaz -l -T 50000 -u $PAS_TPZ_SESS_ACTIVITY  2>&1 >> $GEMSTONE_LOGDIR/session_activity_${nowTS}.log
 
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $PAS_STONE_NAME
 
