@@ -68,7 +68,7 @@ set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 iferror where
 login
 doit
-$2 exportOpenAPISpecification.
+$3 exportOpenAPISpecification.
 %
 commit
 doit

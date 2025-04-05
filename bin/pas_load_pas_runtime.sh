@@ -104,6 +104,10 @@ Gofer new
 doit
 Gofer new
         url: '$PAS_RUNTIME_PACKAGES' ;
+        package: 'Collections-OrderPreservingDictionary' ;
+        load.
+Gofer new
+        url: '$PAS_RUNTIME_PACKAGES' ;
         package: 'Multibase-Core' ;
         load.
 Gofer new
