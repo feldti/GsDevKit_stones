@@ -29,7 +29,9 @@ createStoneStructure: stoneSpec
 					customenv := exportDict.
 					exportDict
 						at: 'stone_dir' put: stoneRoot fullName;
+						at: 'GEMSTONE_STONE_DIR' put: stoneRoot fullName;
 						at: 'GEMSTONE' put: gemstoneReference fullName;
+						at: 'GEMSTONE_KEYFILE' put: gemstoneReference fullName,'/seaside/etc/gemstone.key';
 						yourself.
 					stoneSpec stonesRegistry projectDirectory
 						ifNotNil: [ :projectDir | 
@@ -45,9 +47,14 @@ createStoneStructure: stoneSpec
 				ifTrue: [ 
 					useExtentDir := '/' , value , '/'.
 					(stoneRoot / value) ensureCreateDirectory.
-					stoneRoot / 'extent0.dbf' moveTo: stoneRoot / value ].
+					stoneRoot / 'extent0.dbf' moveTo: stoneRoot / value.
+					exportDict at: 'GEMSTONE_DATADIR' put: stoneRoot fullName, '/' , value.
+			    ].
 			key = #'logs'
-				ifTrue: [ (stoneRoot / value) ensureCreateDirectory ].
+				ifTrue: [
+				    (stoneRoot / value) ensureCreateDirectory.
+				    exportDict at: 'GEMSTONE_LOGDIR' put: stoneRoot fullName, '/' , value.
+				].
 			key = #'netldiPort'
 				ifTrue: [ 
 					value = 0
@@ -64,7 +71,8 @@ createStoneStructure: stoneSpec
 			key = #'tranlogs'
 				ifTrue: [ 
 					useTranlogDir := '/' , value.
-					(stoneRoot / value) ensureCreateDirectory ].
+					(stoneRoot / value) ensureCreateDirectory.
+					 exportDict at: 'GEMSTONE_TRANLOGDIR' put: stoneRoot fullName, '/' , value.].
 			key = #'snapshots'
 				ifTrue: [ (stoneRoot / value) ensureCreateDirectory ].
 			key = #'projectsHome'
