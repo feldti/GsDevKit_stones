@@ -6,19 +6,19 @@
 #
 # Name der Datenbank
 #
-export PAS_STONE_NAME="gc_365"
+export PAS_STONE_NAME="surveymgr"
 export PAS_STONE_REGISTRY="work"
 #
 # Informationen, wie man sich als Benutzer in der API anmeldet. I.d.R. sind das Accounts, die
 # ein wenig mehr Rechte haben
 #
-export PAS_APP_API_USERNAME="mf"
-export PAS_APP_API_PASSWORD="mf"
+export PAS_APP_API_USERNAME="root"
+export PAS_APP_API_PASSWORD="12"
 
 #
 # Ggfs. braucht man auch einen Customer Namen
 #
-export PAS_APP_API_CUSTOMERNAME=""
+export PAS_APP_API_CUSTOMERNAME="Test"
 
 #
 #  Einstellungen für ZMQ
@@ -34,7 +34,7 @@ export ZMQPUBEVENTPORTBINDADDR="tcp://*:${PUBEVENTPORT}"
 #
 # Intervall in Sekunden für den Statistik-Monitor von Gemstone und ob dieser überhaupt gestartet werden sollte
 #
-export STARTSTATMONITOR="false"
+export STARTSTATMONITOR="true"
 export ITVSTATMON=30
 
 #
@@ -52,9 +52,9 @@ export LOGGERPUBPORTBINDADDR="tcp://*:${LOGGERPUBPORT}"
 #
 export PAS_APP_ENABLE_NORMAL_PORT="true"
 export PAS_APP_NORMAL_PORT=27000
-export PAS_APP_ENABLE_LONG_PORT="true"
+export PAS_APP_ENABLE_LONG_PORT="false"
 export PAS_APP_LONG_PORT=27100
-export PAS_APP_ENABLE_MEMORY_PORT="true"
+export PAS_APP_ENABLE_MEMORY_PORT="false"
 export PAS_APP_MEMORY_PORT=27200
 export PAS_APP_ENABLE_LIMITED_PORT="false"
 export PAS_APP_LIMITED_PORT=27300
@@ -70,31 +70,34 @@ export PAS_APP_EXTDB_MEMORY=50000
 #
 # Auf den Entwicklungsrechnern kann man gleich den support netldi starten
 #
-export STARTNETLDI="false"
+export STARTNETLDI="true"
 
 #
 # Wenn man eine URL auf die API benötigt
 #
 export PAS_API_ADDRESS="http://localhost"
 
-
 #
 # Application Specific stuff
 #
-export PAS_APP_MODEL_TOPAZ_FILE='cis'
-export PAS_APP_SERVICE_CLASS='CISServiceClass'
-export PAS_APP_PROJECT_CLASS='CISProject'
-export PAS_APP_TOPAPI_CLASS='CISAPIGeneralObject'
-export PAS_APP_TOPDOMAIN_CLASS='CISGeneralDomain'
+export PAS_APP_MODEL_TOPAZ_FILE='sm'
+export PAS_APP_SERVICE_CLASS='SMServiceClass'
+export PAS_APP_PROJECT_CLASS='SMProject'
+export PAS_APP_TOPAPI_CLASS='SMAPIGeneralObject'
+export PAS_APP_TOPDOMAIN_CLASS='SMGeneralDomain'
 # e.g. TSTEnumErrorDefinition (from PUM) + LocaleErrorDefinition
-export PAS_APP_ERROR_CLASS='CISEnumErrorDefinitionLocaleErrorDefinition'
-export PAS_APP_RESTCALL_CLASS='CISRestClass'
+export PAS_APP_ERROR_CLASS='SMEnumErrorDefinitionLocaleErrorDefinition'
+export PAS_APP_RESTCALL_CLASS='SMRestClass'
 export PAS_APP_DATA_CLASS='CATIInterviewerSchedulingData'
-export PAS_APP_PACKAGES="http://dev.gessgroup.de/extfiles/gess/cis/v77/develop/sources/"
-export PAS_APP_MDL_PACKAGE="cis"
-export PAS_APP_EXT_PACKAGE="cisExtension"
-export PAS_APP_SERVERTYPE="test-srvapp"
-export PAS_APP_SHORT_NAME="cis"
+# Wo liegen die Monticello Packages der Anwendung
+export PAS_APP_PACKAGES_URL="http://192.168.178.170/app-sources/surveymanager/v00/sources/"
+# Name des Model Packages
+export PAS_APP_MDL_PACKAGE="SurveyManager"
+# Name des Domain Code Packages
+export PAS_APP_EXT_PACKAGE="SurveyManagerExtension"
+export PAS_APP_SERVERTYPE="sm-srvapp"
+export PAS_APP_SHORT_NAME="sm"
+
 #
 # Topaz Prozessnamen
 #
@@ -106,7 +109,7 @@ export PAS_TPZ_TOPIC_MSG=${PAS_APP_SHORT_NAME}_topic_messages
 #
 # Points to a directory, where ALL the Monticello packages for the runtime can be found
 #
-export PAS_RUNTIME_PACKAGES="http://dev.gessgroup.de/extfiles/gess/pas_runtime/v90/sources"
+export PAS_RUNTIME_PACKAGES="http://192.168.178.170/extfiles/gess/pas_runtime/v100/sources"
 
 #
 # migration file for the migration task
@@ -121,14 +124,15 @@ export PAS_APP_SSL_CERT_PATH="/etc/ssl/certs"
 #
 # Connection information for the RabbitMQ System
 #
-export PAS_APP_RMQ_ADR="rechnername"
+export PAS_APP_RMQ_ADR="localhost"
 export PAS_APP_RMQ_PORT=5672
-export PAS_APP_RMQ_ACCOUNT="rmq user"
-export PAS_APP_RMQ_PASSWD="rmq password"
+export PAS_APP_RMQ_ACCOUNT="mqAdmin"
+export PAS_APP_RMQ_PASSWD="mqAdminPassword"
 export PAS_APP_RMQ_VHOST="/"
-export PAS_APP_RMQ_MQTT_ACCOUNT="rmq mqtt benutzer"
-export PAS_APP_RMQ_MQTT_PASSWD="rmq mqtt passwort"
+export PAS_APP_RMQ_MQTT_ACCOUNT="mqMqttUser"
+export PAS_APP_RMQ_MQTT_PASSWD="mqMqttPassword"
 export PAS_APP_TLS="false"
+# These files may have to be created manually
 export PAS_APP_RMQ_PRVKEY="/home/user/ssl/privkey.pem"
 export PAS_APP_RMQ_CERT_PATH="/home/user/ssl/fullchain.pem"
 export PAS_APP_RMQ_CACERT_PATH="/home/user/ssl/all_cacerts.pem"
@@ -141,11 +145,11 @@ export PAS_APP_RMQ_PREFIXNME="pas."
 #
 # Wenn man eine Verbindung zu einer Datenbank braucht
 #
-export PAS_APP_PSQL_ADR="psql rechnername"
+export PAS_APP_PSQL_ADR="localhost"
 export PAS_APP_PSQL_PORT=5432
-export PAS_APP_PSQL_ACCOUNT="psql account name"
-export PAS_APP_PSQL_PASSWD="psql account password"
-export PAS_APP_PSQL_DBNAME="psql datenbank name"
+export PAS_APP_PSQL_ACCOUNT="psqlUser"
+export PAS_APP_PSQL_PASSWD="psqlPassword"
+export PAS_APP_PSQL_DBNAME="psqlDatabaseName"
 
 #
 # Handler starten für den ServerEvent Bus

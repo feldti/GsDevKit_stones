@@ -1,6 +1,9 @@
 #!/bin/bash
 #
-# Mit diesem Skript kann man das Anwendungsmodel und den Anwendungscode neu laden
+# Mit diesem Skript wird die Root der Persistency der Anwendung neu initialisert. Also
+# niemals mit einer vollen Datenbank machen. Das Skript ruft die Methode initializePersistencyRoot
+# in der definierten Serviceklasse auf, die die Initialisierung vornehmen sollte. Diese Methode
+# muß vom Entwickler geschrieben werden.
 #
 
 if [ ! -f "./credentials.sh" ]; then
@@ -31,21 +34,12 @@ else
     exit 1
 fi
 
-cat << EOF | $GEMSTONE/bin/topaz -lq -T 4000000 -u pas_load_application
-set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
+cat << EOF | $GEMSTONE/bin/topaz -lq -T 100000 -u pas_initialize_data
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $PAS_STONE_NAME
 iferror where
 login
 doit
-Gofer new
-        url: '$PAS_APP_PACKAGES_URL' ;
-        package: '$PAS_APP_MDL_PACKAGE' ;
-        load.
-%
-doit
-Gofer new
-        url: '$PAS_APP_PACKAGES_URL' ;
-        package: '$PAS_APP_EXT_PACKAGE' ;
-        load.
+$PAS_APP_SERVICE_CLASS initializePersistencyRoot.
 %
 commit
 EOF
