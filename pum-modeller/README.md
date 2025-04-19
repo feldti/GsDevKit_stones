@@ -1,3 +1,3 @@
 # PUM Modelling Tool
 
-Das ist das Modellierungstool, mit dem ich den Modellquelltext erzeuge.
+This is the modelling tool I create source code for Gemstone/S with
