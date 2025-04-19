@@ -74,6 +74,7 @@ else
     exit 1
 fi
 
+PLATFORM=`uname -sm | tr ' ' '_'`
 cat << EOF | $GEMSTONE/bin/topaz -lq -u backup_task_v3
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 display oops
@@ -112,6 +113,8 @@ fileNameStream
   nextPutAll: now minute asString;
   nextPutAll: '-logid-';
   nextPutAll: oldestLogID asString;
+  nextPutAll:  '-' ;
+  nextPutAll: '$PLATFORM' asLowercase ;
   nextPutAll:  '-' ;
   nextPutAll: '$stoneName' asLowercase ;
   nextPutAll: '-' ;
