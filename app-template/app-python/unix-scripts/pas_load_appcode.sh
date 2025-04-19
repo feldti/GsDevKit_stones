@@ -1,15 +1,15 @@
 #!/bin/bash
 #
 #
-PAS_APP_PACKAGES="http://192.168.178.150/app-sources/surveymanager/$3/sources/"
+# PAS_APP_PACKAGES="http://192.168.178.150/app-sources/surveymanager/$3/sources/"
+PAS_APP_PACKAGES="http://192.168.178.170/app-sources/surveymanager/$3/sources/"
 
-PAS_APP_MODEL_PACKAGE="SurveyManager"
 PAS_APP_MODEL_EXTENSION_PACKAGE="SurveyManagerExtension"
 usage() {
   cat <<HELP
 
 USAGE: $(basename $0) <stoneName> <registryName> <version> [stonesDataHome]
-Dieses Skript lädt die aktuellesten Anwendungspakete von der Adresse $PAS_APP_PACKAGES herunter. Diese
+Dieses Skript lädt das aktuelleste Anwendungsmodell und den aktuellesten Anwendungscode von der Adresse $PAS_APP_PACKAGES herunter. Diese
 Adresse muss entsprechend angepasst werden für die jeweilige Anwendung.
 
 version = (e.g.) v00, v10, v76, v80, v100
@@ -59,13 +59,7 @@ login
 doit
 Gofer new
         url: '$PAS_APP_PACKAGES' ;
-        package: '$PAS_APP_MODEL_PACKAGE' ;
-        load.
-%
-doit
-Gofer new
-        url: '$PAS_APP_PACKAGES' ;
-        package: 'PAS_APP_MODEL_EXTENSION_PACKAGE' ;
+        package: '$PAS_APP_MODEL_EXTENSION_PACKAGE' ;
         load.
 %
 commit

@@ -1,0 +1,17 @@
+# Entwicklungszyklus in einer Entwicklungsdatenbank
+Mit PUM definiert man das Modell und die API. Irgendwann ist man dann soweit, und möchte den Quelltexte in eine Entwicklungsdatenbank laden.
+
+PUM erzeugt immer topaz-Code, der ausgeführt werden muß. Das Skript legt dann alle notwendigen Klassen, Methoden und Packages an.
+
+Das Topaz-Skript legt immer zwei Monticello-Packages in der Datenbank an:
+
+- Das Package "SurveyManager" (Name des PUM-Projektes: "SurveyManager") mit den Klassen und den API Strukturen aus PUM
+- Das Package "SurveyManagerExtension", in dem der Programmierer seinen Anwendungscode ablegt
+
+Das Programmiermodell sieht also so aus, daß der Entwickler in 99.9% im Package "SurveyManager" arbeitet und dort immer nur 
+Methoden anlegt/löscht/bearbeitet, die als Extension definirt sind und in "SurveyManagerExtension" gespeichert werden.
+
+Danach speichert man diese Packages regelmäßig ab ... wie man es gewohnt ist.
+
+Mit jeder neuen Modellversion wird das dann neu erstellt Topaz-Skript neu erzeugt und neu ausgeführt.  Die Änderungen betreffen 
+bei einer erneuten Anwendung immer nur das Package "SurveyManager". Die "Extension" wird dann nicht mehr angefasst.
