@@ -13,4 +13,7 @@ an RabbitMQ als topic Message. Das bedeutet, dass amq.topic das primäre Ziel (a
 Dieses Programmiermodell wird erst mit der Runtime v100 unterstützt. Die Runtimes vorher haben langsam zu 
 diesem Modell hingeführt.
 
+Programmierung via RabbitMQ ist ein ideales Modell, um Programme in anderen Programmiersprachen mit Gemstone/S zu 
+koppeln. Sie nimmt Last von der eigentlichen Datenbank, erlaubt eine asynchrone Bearbeitung in den Cores, die 
+eventuell durch Gemstone/S nicht genutzt werden können.
 

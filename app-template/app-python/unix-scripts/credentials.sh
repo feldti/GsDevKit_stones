@@ -124,6 +124,7 @@ export PAS_APP_SSL_CERT_PATH="/etc/ssl/certs"
 #
 # Connection information for the RabbitMQ System
 #
+export PAS_APP_RMQ_ENABLE="true"
 export PAS_APP_RMQ_ADR="localhost"
 export PAS_APP_RMQ_PORT=5672
 export PAS_APP_RMQ_ACCOUNT="mqAdmin"
@@ -145,6 +146,7 @@ export PAS_APP_RMQ_PREFIXNME="pas."
 #
 # Wenn man eine Verbindung zu einer Datenbank braucht
 #
+export PAS_APP_PSQL_ENABLE="true"
 export PAS_APP_PSQL_ADR="localhost"
 export PAS_APP_PSQL_PORT=5432
 export PAS_APP_PSQL_ACCOUNT="psqlUser"
