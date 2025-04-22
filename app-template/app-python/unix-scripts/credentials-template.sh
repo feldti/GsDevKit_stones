@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 #
 # Diese Datei setzt Umgebungsvariablen, die von anderen Skripten abgefragt werden können
-#
+# Diese Datei sollte beim Checkout in "credentials.sh" umbenannt werden und die Datei
+# muss das Executable Flag haben
 
 #
 # Name der Datenbank
