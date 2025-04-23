@@ -39,7 +39,7 @@ fi
 echo "Migration stores instance data under $PAS_STONE_MIGRATION_INSTANCES_FILE"
 
 # Perhaps we need a logs sub directory
-if [[ -z "logs" ]]; then
+if [[ ! -d "logs" ]]; then
     mkdir logs
     exit 1
 fi
