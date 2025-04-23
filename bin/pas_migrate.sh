@@ -67,7 +67,7 @@ if [ "$3" = "1" ]; then
   echo "Migration finished"
   cat logs/migrator_1.txt
 else
-for ((i=1;i<=$2;i++));
+for ((i=1;i<=$3;i++));
 do
    rm logs/migrator_$i.txt
    nohup bash -c "pas_migrate_migrator.sh $i $3 $PAS_STONE_MIGRATION_INSTANCES_FILE &>logs/migrator_$i.txt" &
