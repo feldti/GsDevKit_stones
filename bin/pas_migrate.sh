@@ -9,6 +9,7 @@ the script is executed synchronously
 
 EXAMPLES
   $(basename $0) stonename work 8 true
+  $(basename $0) credentials "" 8 true
 
 HELP
 }
@@ -32,10 +33,10 @@ if [ "$1" == "credentials" ]; then
 else
   stoneName=$1
   registryName=$2
-  export WCMIGRATIONINSTANCESFILE="$HOME/__temp_migration_classes.bm"
+  export PAS_STONE_MIGRATION_INSTANCES_FILE="$HOME/__temp_migration_classes.bm"
 fi
 
-echo "Migration stores instance data under $WCMIGRATIONINSTANCESFILE"
+echo "Migration stores instance data under $PAS_STONE_MIGRATION_INSTANCES_FILE"
 
 # Perhaps we need a logs sub directory
 if [[ -z "logs" ]]; then
@@ -44,16 +45,16 @@ if [[ -z "logs" ]]; then
 fi
 
 if [ "$4" = "true" ]; then
-  if [ -f $WCMIGRATIONINSTANCESFILE ]; then
-    rm $WCMIGRATIONINSTANCESFILE
+  if [ -f $PAS_STONE_MIGRATION_INSTANCES_FILE ]; then
+    rm $PAS_STONE_MIGRATION_INSTANCES_FILE
   fi
   echo "Calling GsBitmap Creation"
-  pas_migrate_collect.sh $stoneName $registryName $WCMIGRATIONINSTANCESFILE &>logs/collect.txt
+  pas_migrate_collect.sh $stoneName $registryName $PAS_STONE_MIGRATION_INSTANCES_FILE &>logs/collect.txt
   echo "Calling GsBitmap Creation - done"
   cat logs/collect.txt
 fi
 
-if [ ! -f $WCMIGRATIONINSTANCESFILE ]; then
+if [ ! -f $PAS_STONE_MIGRATION_INSTANCES_FILE ]; then
   echo "GsBitmap file not found. No classes to migrate or some errors have occured"
   exit 0
 fi
@@ -70,7 +71,7 @@ else
 for ((i=1;i<=$2;i++));
 do
    rm logs/migrator_$i.txt
-   nohup bash -c "pas_migrate_migrator.sh $stoneName $registryName $i $3 $WCMIGRATIONINSTANCESFILE &>logs/migrator_$i.txt" &
+   nohup bash -c "pas_migrate_migrator.sh $stoneName $registryName $i $3 $PAS_STONE_MIGRATION_INSTANCES_FILE &>logs/migrator_$i.txt" &
    sleep 1
 done
 fi
