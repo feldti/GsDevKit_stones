@@ -63,7 +63,7 @@ fi
 if [ "$3" = "1" ]; then
   echo "Migration started in a synchronous way"
   rm logs/migrator_1.txt
-  pas_migrate_migrator.sh $stoneName $registryName 1 $3 &>logs/migrator_1.txt
+  pas_migrate_migrator.sh 1 $3 $PAS_STONE_MIGRATION_INSTANCES_FILE &>logs/migrator_1.txt
   echo "Migration finished"
   cat logs/migrator_1.txt
 else
