@@ -41,7 +41,6 @@ echo "Migration stores instance data under $PAS_STONE_MIGRATION_INSTANCES_FILE"
 # Perhaps we need a logs sub directory
 if [[ ! -d "logs" ]]; then
     mkdir logs
-    exit 1
 fi
 
 if [ "$4" = "true" ]; then
@@ -49,7 +48,7 @@ if [ "$4" = "true" ]; then
     rm $PAS_STONE_MIGRATION_INSTANCES_FILE
   fi
   echo "Calling GsBitmap Creation"
-  pas_migrate_collect.sh $stoneName $registryName $PAS_STONE_MIGRATION_INSTANCES_FILE &>logs/collect.txt
+  pas_migrate_collect.sh  $PAS_STONE_MIGRATION_INSTANCES_FILE &>logs/collect.txt
   echo "Calling GsBitmap Creation - done"
   cat logs/collect.txt
 fi
