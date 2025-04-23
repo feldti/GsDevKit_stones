@@ -46,7 +46,7 @@ stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
 
 # Check the return code of the script
 if [[ $? -eq 0 ]]; then
-    echo "The script executed successfully."
+    echo ""
 else
     echo "The script failed with return code $?."
 fi
