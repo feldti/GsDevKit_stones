@@ -55,7 +55,8 @@ iferror where
 login
 doit
 | domainClassesToConsider migrator|
-domainClassesToConsider := ${PAS_APP_PROJECT_CLASS} classCreated select: [ :eachClass | eachClass isSubclassOf: ${PAS_APP_PROJECT_CLASS} projectPersistentMasterClass ].
+domainClassesToConsider := ${PAS_APP_PROJECT_CLASS} classCreated
+                                     select: [ :eachClass | eachClass isSubclassOf: ${PAS_APP_TOPDOMAIN_CLASS} ].
 domainClassesToConsider add: ${PAS_APP_PROJECT_CLASS}.
 migrator := MSKMigrater collector: '${1}' classes: domainClassesToConsider fastMode: true.
 migrator createGsBitmapFile.
