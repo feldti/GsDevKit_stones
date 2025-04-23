@@ -70,7 +70,7 @@ else
 for ((i=1;i<=$2;i++));
 do
    rm logs/migrator_$i.txt
-   nohup bash -c "pas_migrate_migrator.sh $stoneName $registryName $i $3 $PAS_STONE_MIGRATION_INSTANCES_FILE &>logs/migrator_$i.txt" &
+   nohup bash -c "pas_migrate_migrator.sh $i $3 $PAS_STONE_MIGRATION_INSTANCES_FILE &>logs/migrator_$i.txt" &
    sleep 1
 done
 fi

@@ -49,7 +49,7 @@ else
 fi
 echo 'Creating the GsBitmap File'
 
-cat << EOF | topaz -l -T 4000000 -u dev_migrate_collector_${1}
+cat << EOF | $GEMSTONE/bin/topaz -l -T 4000000 -u dev_migrate_collector_${1}
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 iferror where
 login
