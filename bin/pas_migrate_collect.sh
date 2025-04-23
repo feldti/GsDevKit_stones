@@ -1,21 +1,15 @@
 #!/bin/bash
 #
-# This software is owned by
-#       ____ _____ ____ ____    ____         __ _
-#      / ___| ____/ ___/ ___|  / ___|  ___  / _| |___      ____ _ _ __ ___
-#     | |  _|  _| \___ \___ \  \___ \ / _ \| |_| __\ \ /\ / / _` | '__/ _ \
-#     | |_| | |___ ___) |__) |  ___) | (_) |  _| |_ \ V  V / (_| | | |  __/
-#      \____|_____|____/____/  |____/ \___/|_|  \__| \_/\_/ \__,_|_|  \___|
-#
 #
 usage() {
   cat <<HELP
 
-USAGE: $(basename $0) <stone-name> <path>
-Migriert die Instanzen auf die aktuelle Version
+USAGE: $(basename $0) <path>
+Migriert die Instanzen auf die aktuelle Version. Weitere Informationen werden aus einem
+vorher ausgelesenen credentials.sh ausgelesen
 
 EXAMPLES
-  $(basename $0) webcati70 /home/...../__temp_migration_classes.bm
+  $(basename $0) /home/...../__temp_migration_classes.bm
 
 HELP
 }
@@ -23,34 +17,47 @@ HELP
 #
 # Sind genuegend Parameter mitgegeben ...
 #
-if [ $# -ne 2 ]; then
+if [ $# -ne 1 ]; then
   usage; exit 1
 fi
 
-#
-# Umgebung setzen
-#
-cd
-source $GS_HOME/bin/defGsDevKit.env
-source $GS_HOME/server/stones/$1/defStone.env $1
-if [ -s $GS_HOME/server/stones/$1/product/seaside/etc/gemstone.secret ]; then
-    . $GS_HOME/server/stones/$1/product/seaside/etc/gemstone.secret
+stoneName=$PAS_STONE_NAME
+registryName=$PAS_STONE_REGISTRY
+stonesDataHome=$STONES_DATA_HOME
+
+# Extract the value of 'stone_dir' from the .ston file
+stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
+# Check the return code of the script
+if [[ $? -eq 0 ]]; then
+    echo ""
 else
-    echo 'Missing password file $GS_HOME/server/stones/$1/defStone.env'
+    echo "The script failed with return code $?."
+fi
+
+# Check if stone_dir was found
+if [[ -z "$stone_dir" ]]; then
+    echo "Error: 'stone_dir' not found in $ston_file_path"
     exit 1
 fi
 
+source $stone_dir/customenv
+if [ -s $GEMSTONE/seaside/etc/gemstone.secret ]; then
+    . $GEMSTONE/seaside/etc/gemstone.secret
+else
+    echo 'Missing password file $GEMSTONE/seaside/etc/gemstone.secret'
+    exit 1
+fi
 echo 'Creating the GsBitmap File'
 
 cat << EOF | topaz -l -T 4000000 -u dev_migrate_collector_${1}
-set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $GEMSTONE_NAME
+set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 iferror where
 login
 doit
 | domainClassesToConsider migrator|
-domainClassesToConsider := GWCProject classCreated select: [ :eachClass | eachClass isSubclassOf: GWCProject projectPersistentMasterClass ].
-domainClassesToConsider add: GWCProject.
-migrator := MSKMigrater collector: '${2}' classes: domainClassesToConsider fastMode: true.
+domainClassesToConsider := ${PAS_APP_PROJECT_CLASS} classCreated select: [ :eachClass | eachClass isSubclassOf: ${PAS_APP_PROJECT_CLASS} projectPersistentMasterClass ].
+domainClassesToConsider add: ${PAS_APP_PROJECT_CLASS}.
+migrator := MSKMigrater collector: '${1}' classes: domainClassesToConsider fastMode: true.
 migrator createGsBitmapFile.
 %
 EOF
