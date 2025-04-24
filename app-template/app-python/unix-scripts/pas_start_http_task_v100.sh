@@ -135,36 +135,38 @@ System commit.
 
 GsFile gciLogServer: '$1 Server started on port ', $3 printString.
 
-('$PAS_APP_TLS' = 'true')
-  ifTrue:[
-    rabbitMQConnector := MSKRabbitMQConnector new initialize.
-    rabbitMQConnector
-      hostname: '$PAS_APP_RMQ_ADR' ;
-      port: $PAS_APP_RMQ_PORT ;
-      userID: '$PAS_APP_RMQ_ACCOUNT' ;
-      password: '$PAS_APP_RMQ_PASSWD' ;
-      applicationID: '$PAS_APP_SERVERTYPE' ;
-      caCertPath: '$PAS_APP_RMQ_CACERT_PATH' ;
-      certPath: '$PAS_APP_RMQ_CERT_PATH' ;
-      privateKey: '$PAS_APP_RMQ_PRVKE' ;
-      login;
-      openChannel.
-  ]
-  ifFalse:[
-    rabbitMQConnector := MSKRabbitMQConnector new initialize.
-    rabbitMQConnector
-      hostname: '$PAS_APP_RMQ_ADR' ;
-      port: $PAS_APP_RMQ_PORT ;
-      userID: '$PAS_APP_RMQ_ACCOUNT' ;
-      password: '$PAS_APP_RMQ_PASSWD' ;
-      applicationID: '$PAS_APP_SERVERTYPE' ;
-      login;
-      openChannel.
-	].
+('PAS_APP_RMQ_USE_RMQ' = 'true')
+  ifTrue:[ 
+    ('$PAS_APP_TLS' = 'true')
+      ifTrue:[
+        rabbitMQConnector := MSKRabbitMQConnector new initialize.
+        rabbitMQConnector
+          hostname: '$PAS_APP_RMQ_ADR' ;
+          port: $PAS_APP_RMQ_PORT ;
+          userID: '$PAS_APP_RMQ_ACCOUNT' ;
+          password: '$PAS_APP_RMQ_PASSWD' ;
+          applicationID: '$PAS_APP_SERVERTYPE' ;
+          caCertPath: '$PAS_APP_RMQ_CACERT_PATH' ;
+          certPath: '$PAS_APP_RMQ_CERT_PATH' ;
+          privateKey: '$PAS_APP_RMQ_PRVKE' ;
+          login;
+          openChannel.
+      ]
+      ifFalse:[
+        rabbitMQConnector := MSKRabbitMQConnector new initialize.
+        rabbitMQConnector
+          hostname: '$PAS_APP_RMQ_ADR' ;
+          port: $PAS_APP_RMQ_PORT ;
+          userID: '$PAS_APP_RMQ_ACCOUNT' ;
+          password: '$PAS_APP_RMQ_PASSWD' ;
+          applicationID: '$PAS_APP_SERVERTYPE' ;
+          login;
+          openChannel.
+        ].
+      GsFile gciLogServer: '$1 RabbitMQ Setup'.
+  ].
 
-GsFile gciLogServer: '$1 RabbitMQ Setup'.
-
-( '$PAS_APP_PSQL_USE_DATABASE' == 'true' )
+( '$PAS_APP_PSQL_USE_DATABASE' = 'true' )
   ifTrue:[ 
     psqlConnectParameter := (GsPostgresConnectionParameters new)
                                 host: '$PAS_APP_PSQL_ADR';

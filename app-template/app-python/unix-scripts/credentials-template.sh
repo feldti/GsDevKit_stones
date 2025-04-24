@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 #
 # Diese Datei setzt Umgebungsvariablen, die von anderen Skripten abgefragt werden können
-# Diese Datei sollte beim Checkout in "credentials.sh" umbenannt werden und die Datei
-# muss das Executable Flag haben
+#
 
 #
 # Name der Datenbank
 #
-export PAS_STONE_NAME="surveymgr"
+export PAS_STONE_NAME="testv100"
 export PAS_STONE_REGISTRY="work"
 #
 # Informationen, wie man sich als Benutzer in der API anmeldet. I.d.R. sind das Accounts, die
@@ -35,7 +34,7 @@ export ZMQPUBEVENTPORTBINDADDR="tcp://*:${PUBEVENTPORT}"
 #
 # Intervall in Sekunden für den Statistik-Monitor von Gemstone und ob dieser überhaupt gestartet werden sollte
 #
-export STARTSTATMONITOR="true"
+export STARTSTATMONITOR="false"
 export ITVSTATMON=30
 
 #
@@ -78,6 +77,7 @@ export STARTNETLDI="true"
 #
 export PAS_API_ADDRESS="http://localhost"
 
+
 #
 # Application Specific stuff
 #
@@ -89,16 +89,12 @@ export PAS_APP_TOPDOMAIN_CLASS='SMGeneralDomain'
 # e.g. TSTEnumErrorDefinition (from PUM) + LocaleErrorDefinition
 export PAS_APP_ERROR_CLASS='SMEnumErrorDefinitionLocaleErrorDefinition'
 export PAS_APP_RESTCALL_CLASS='SMRestClass'
-export PAS_APP_DATA_CLASS='CATIInterviewerSchedulingData'
-# Wo liegen die Monticello Packages der Anwendung
-export PAS_APP_PACKAGES_URL="http://192.168.178.170/app-sources/surveymanager/v00/sources/"
-# Name des Model Packages
+export PAS_APP_DATA_CLASS='SurveyManagerData'
+export PAS_APP_PACKAGES="http://localhost/app-sources/surveymanager/v00/sources/"
 export PAS_APP_MDL_PACKAGE="SurveyManager"
-# Name des Domain Code Packages
 export PAS_APP_EXT_PACKAGE="SurveyManagerExtension"
 export PAS_APP_SERVERTYPE="sm-srvapp"
 export PAS_APP_SHORT_NAME="sm"
-
 #
 # Topaz Prozessnamen
 #
@@ -110,7 +106,7 @@ export PAS_TPZ_TOPIC_MSG=${PAS_APP_SHORT_NAME}_topic_messages
 #
 # Points to a directory, where ALL the Monticello packages for the runtime can be found
 #
-export PAS_RUNTIME_PACKAGES="http://192.168.178.170/extfiles/gess/pas_runtime/v100/sources"
+export PAS_RUNTIME_PACKAGES="http://localhost/pas-project/pas_runtime/vt100/sources"
 
 #
 # migration file for the migration task
@@ -125,16 +121,15 @@ export PAS_APP_SSL_CERT_PATH="/etc/ssl/certs"
 #
 # Connection information for the RabbitMQ System
 #
-export PAS_APP_RMQ_ENABLE="true"
+export PAS_APP_RMQ_USE_RMQ="false"
 export PAS_APP_RMQ_ADR="localhost"
 export PAS_APP_RMQ_PORT=5672
-export PAS_APP_RMQ_ACCOUNT="mqAdmin"
-export PAS_APP_RMQ_PASSWD="mqAdminPassword"
+export PAS_APP_RMQ_ACCOUNT="guest"
+export PAS_APP_RMQ_PASSWD="guest"
 export PAS_APP_RMQ_VHOST="/"
-export PAS_APP_RMQ_MQTT_ACCOUNT="mqMqttUser"
-export PAS_APP_RMQ_MQTT_PASSWD="mqMqttPassword"
+export PAS_APP_RMQ_MQTT_ACCOUNT="rmq mqtt benutzer"
+export PAS_APP_RMQ_MQTT_PASSWD="rmq mqtt passwort"
 export PAS_APP_TLS="false"
-# These files may have to be created manually
 export PAS_APP_RMQ_PRVKEY="/home/user/ssl/privkey.pem"
 export PAS_APP_RMQ_CERT_PATH="/home/user/ssl/fullchain.pem"
 export PAS_APP_RMQ_CACERT_PATH="/home/user/ssl/all_cacerts.pem"
@@ -147,12 +142,12 @@ export PAS_APP_RMQ_PREFIXNME="pas."
 #
 # Wenn man eine Verbindung zu einer Datenbank braucht
 #
-export PAS_APP_PSQL_ENABLE="true"
+export PAS_APP_PSQL_USE_DATABASE="false"
 export PAS_APP_PSQL_ADR="localhost"
 export PAS_APP_PSQL_PORT=5432
-export PAS_APP_PSQL_ACCOUNT="psqlUser"
-export PAS_APP_PSQL_PASSWD="psqlPassword"
-export PAS_APP_PSQL_DBNAME="psqlDatabaseName"
+export PAS_APP_PSQL_ACCOUNT="smTest"
+export PAS_APP_PSQL_PASSWD="test"
+export PAS_APP_PSQL_DBNAME="sm"
 
 #
 # Handler starten für den ServerEvent Bus
@@ -163,7 +158,8 @@ export PAS_START_EVENT_SERVERBUS_HANDLER="false"
 #
 # Handler starten für Session Activity Task
 #
-export PAS_APP_RMQ_SESSACTQUEUE="cis.sessionActivity"
+#export PAS_APP_RMQ_SESSACTQUEUE=${PAS_APP_SHORT_NAME}".sessionActivity"
+export PAS_APP_RMQ_SESSACTQUEUE="amq.topic"
 export PAS_START_SESSION_ACTIVITY_HANDLER="true"
 
 #
@@ -180,18 +176,18 @@ export PAS_START_PROMETHEUS_COLLECTOR="false"
 export PAS_START_PROMETHEUS_APP_COLLECTOR="false"
 export PAS_START_PROMETHEUS_APP_DELAY=60
 export PAS_START_PROMETHEUS_APP_COLLECT_SYSTEM_DATA=false
-export PAS_PROMETHEUS_PASSWORD="2UnsrRmJX5Es9g2iJitpXWCAS7cXkpyq8hEXETd3sZbqJXosg"
-export PAS_PROMETHEUS_JOB="cis_db"
-export PAS_PROMETHEUS_APP_JOB="cis_app"
+export PAS_PROMETHEUS_PASSWORD="test"
+export PAS_PROMETHEUS_JOB="sm_db"
+export PAS_PROMETHEUS_APP_JOB="sm_app"
 export PAS_PROMETHEUS_INSTANCE="dev_local"
 export PAS_PROMETHEUS_LOCAL_URL="http://localhost:9986/metrics"
-export PAS_PROMETHEUS_LOCAL_FILE="prometheus_cis_data.txt"
-export PAS_PROMETHEUS_LOCAL_APPDATA_FILE=prometheus_cis_app_data.txt
-export PAS_PROMETHEUS_LOCAL_CONFIG_FILE="prometheus_cis_cfg.json"
-export PAS_PROMETHEUS_PUSH_GATEWAY="https://pushgateway.gessgroup.io"
+export PAS_PROMETHEUS_LOCAL_FILE="prometheus_sm_data.txt"
+export PAS_PROMETHEUS_LOCAL_APPDATA_FILE=prometheus_sm_app_data.txt
+export PAS_PROMETHEUS_LOCAL_CONFIG_FILE="prometheus_sm_cfg.json"
+export PAS_PROMETHEUS_PUSH_GATEWAY="https://..."
 
 export PAS_PROMETHEUS_USE_NODE_EXPORTER_URL="false"
 export PAS_PROMETHEUS_NODE_EXPORTER_URL="http://localhost:9100/metrics"
 export PAS_PROMETHEUS_LOCAL_NODE_EXPORTER_FILE=prometheus_node_exp_data.txt
-export PAS_PROMETHEUS_SYSTEM_JOB="cis_system"
+export PAS_PROMETHEUS_SYSTEM_JOB="sm_system"
 

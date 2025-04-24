@@ -26,7 +26,7 @@ stone_dir=$(pas_datadir.sh $PAS_STONE_NAME $PAS_STONE_REGISTRY $STONES_DATA_HOME
 
 # Check the return code of the script
 if [[ $? -eq 0 ]]; then
-    echo "The script executed successfully."
+    echo ""
 else
     echo "The script failed with return code $?."
     exit 3
@@ -67,4 +67,4 @@ pkill -f $PAS_TPZ_SUPERSET_TOKEN
 #
 # And at the end we stop database
 #
-stopStone.solo $PAS_STONE_NAME --registry=$PAS_STONE_REGISTRY
+stopStone.solo -i $PAS_STONE_NAME --registry=$PAS_STONE_REGISTRY
