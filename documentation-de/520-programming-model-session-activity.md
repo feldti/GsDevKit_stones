@@ -26,14 +26,23 @@ jeweils ist.
 
 ## SessionActivity via RMQ
 Eine alternative Lösung ist es, Telegramme zu bauen in der normalen Transaktion und diese dann nach RMQ zu senden und
-es gibt einen Gemstone/S Task, der sich nur um diese SessionActivity Telegramme kümmern.  Das führt dazu, dass mehrere
+es gibt einen empfangenden Gemstone/S Task, der sich nur um diese SessionActivity Telegramme kümmern.  Das führt dazu, dass mehrere
 Aktivitäten (100 ?) in einer einzigen Transaktion durchgeführt werden.
 
 Das sieht auf den ersten Blick sehr teuer aus, aber man darf nicht vergessen, daß das asynchrone Versenden von Topic-Nachrichten
 eventuell eh aktiviert und implementiert ist.
 
 Dieser Task könnte auch dazu benutzt werden, um abgelaufende Sessions abzuarbeiten. Ansonsten müsste man dazu wieder eine
-eigene Überwachung programmieren
+eigene Überwachung programmieren.
 
+Außerdem sollte dieser Task nach einer gewissen Inaktivität (z.B. 5 Minuten) sich beenden und erneut gestartet werden.
 
+Das Kommunikationsprinzip über RMQ sieht so aus, daß die Telegramme an einen topic-exchange (default: "amq.topic") geschickt werden mit dem routingKey 
+"sessionactivity" und dem Eventname "evsessionactivity" (dieser wird nicht benötigt, da der routingkey bereits i.d.R. die Filterung übernimmt)
+
+In der Oberklasse der konkreten Serviceklasse einer Anwendung gibt es eine Beispielimplementation 
+
+    PUMGeneralServiceClass class>>taskStartSessionActivityMaintainance: aMSKRabbitMQConnector fromExchangeNamed: exchgName
+
+Diese IMplementation kann man entsprechend nehmen oder überschreiben.
 
