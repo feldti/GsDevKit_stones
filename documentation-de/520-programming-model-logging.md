@@ -46,7 +46,9 @@ Wenn man in der ServiceClass die API-Routinen ausprogrammiert, dann hat man ja b
 Hilfsmethoden. Jeder API-Call bekommt eine Instanz der Klasse MSKRestCallOptions, die Daten während eines API-Calls
 sammelt, die am Ende abgearbeitet werden müssen.
 
-Wenn man einen LOG-Eintrag für den Fehlerfall schreiben möchte, dann kann man das in der Serviceklasse so schreiben:
+Wenn man einen LOG-Eintrag für den Fehlerfall schreiben möchte, dann kann man das in einer Methode der Serviceklasse 
+so schreiben wie im nachfolgenden Beispiel. Im Framework bedeutet dies, daß ein abortTransaction erfolgt und  - falls 
+es Nachrichten im Fehlerfall gibt - ein beginTransaction, mit Ablage der Telegramme und einem abschließenden commitTransaction.
 
     aMSKRestCallOptions addLogOnFailure: (self 
                                             paserror: logText
