@@ -31,6 +31,9 @@ If you know, that you need a new user, then now its time to create them. We want
     create database [dbname];
     create user [normalusername] with encrypted password '[password2]';
     grant all privileges on database  [dbname] to [normalusername];
+    GRANT ALL ON DATABASE [dbname] TO [normalusername];
+
+The last statement may be needed from version 15 of PostgreSQL (Regarding paslog database)
 
 ## PostgreSQL - Erste Hilfen
 Hier eine Sammlung mit ersten Tipps.
