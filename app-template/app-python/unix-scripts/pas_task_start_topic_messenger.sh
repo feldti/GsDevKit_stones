@@ -1,14 +1,11 @@
 #!/bin/bash
 #
 #
-# This script starts the session activity handler
-#
-#
 usage() {
   cat <<HELP
 
 USAGE: $(basename $0)
-starts the session activity handler
+starts the sending of the topic messages to rabbitmq
 
 EXAMPLES
 
@@ -54,7 +51,7 @@ while [ -f $PAS_STONE_NAME ]
 do
 
 nowTS=`date +%Y-%m-%d-%H-%M`
-cat << EOF | $GEMSTONE/bin/topaz -l -T 200000 -u $PAS_TPZ_TOPIC_MSG  2>&1 >> $GEMSTONE_LOGDIR/${PAS_TPZ_TOPIC_MSG}_${nowTS}.log
+cat << EOF | $GEMSTONE/bin/topaz -l -T 200000 -u $PAS_TPZ_TOPIC_MSG  2>&1 >> ${GEMSTONE_LOGDIR}/${PAS_TPZ_TOPIC_MSG}_${nowTS}.log
 
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $PAS_STONE_NAME
 

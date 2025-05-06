@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script starts the stat monitor for a specific database
+# This script starts the stat monitor for the database mentioned in the credentials.sh file
 #
 usage() {
   cat <<HELP
