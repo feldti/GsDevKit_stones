@@ -32,28 +32,14 @@ In einem zweiten Schritt wird dann ein PAS-Template-Backup in die neu erstellte 
 - stopStone.solo --registry=[registryname] [stoneName]
 - startStone.solo --registry=[registryname] [stoneName]
 
-### PAS Template Datenbanken
-Zur Zeit gibt es noch keine Template-Datenbanken. Wenn man Template-Datenbanken anlegen möchte, dann muss man berücksichtigen, 
-daß die Anbindungen an RabbitMQ und PostgreSQL für die jeweilige Architektur angeboten werden müssen, da diese dann
-Pfade zu externen Bibliotheken beinhalten ... die je nach Architektur unterschiedlich sind
-
-```
-
-
-
-```
-Die Gemstone-Versionen 3.6.5, 3.6.8 und 3.7.0 werden unterstützt. Bei neuen Projekten würde ich die Versionen mit der v100 empfehlen. Eine Version kann man wie folgt herunterladen:
-
-```
-wget https://feldtmann.ddns.net/pas-template-databases/[dateiname]
-```
 
 ### PAS Template Datenbanken erzeugen
 Um ein eigene Template-Datenbank (auf Basis der Runtime v100 und der Gemstone Version 3.7.2) zu erzeugen, sollte man das folgende Skript starten:
 ```
 pas_create_pas_stone.sh <stoneName> <registryName> 3.7.2 v100
 ```
-Dann erhält man eine Datenbank, die als Template dienen kann. Diese kann man dann sichern und das Backup als Template zur Verfügung stellen.
+Dann erhält man eine Datenbank, die als Template dienen kann. Diese kann man dann sichern und das Backup als 
+Template zur Verfügung stellen. Diese Datenbank sollte nur auf gleichen Architekturen genutzt werden.
 
 ### PAS Template Datenbanken - Grober Überblick über den Inhalt einer Template Datenbank
 

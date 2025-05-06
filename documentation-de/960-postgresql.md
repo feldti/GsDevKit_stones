@@ -41,8 +41,14 @@ Hier eine Sammlung mit ersten Tipps.
 ### psql - starten
     sudo -u postgres psql
 
+### psql - Liste alle Datenbanken auf
+Within psql you may execute "\list" to list all available databases
+
+### psql - Liste alle Accounts
+Within psql you may execute "\du" to list all available user accounts
+
 ### psql - Mit einer bestimmten Datenbank verbinden
-Within psql you may execute "\c <dbname>" to aswitch to the specific database
+Within psql you may execute "\c <dbname>" to switch to the specific database
 
 ### psql - Tabellenstruktur einer bestimmten tabelle in einer Datenbank anzeigen
 Within psql you may execute "\dn <tablename>" to show the structure of a specific table
@@ -60,7 +66,7 @@ Within psql you may execute "SELECT pg_size_pretty( pg_total_relation_size(<tabl
 Within psql you may execute "ALTER USER postgres PASSWORD '<new-password>';"
 
 ### postgresql - Test, ob Zugriff auf externe DB möglich ist
-    psql -U postgres -p 5432 -h hostname
+    psql -U <username> -p <portnummer>> -h <hostname|localhost> -d <databasename>
 
 ### postgrewsql - Öffnung
 Ja, das ist ein kritisches Thema - eine offene PostgreSQL Datenbank ist ein Sicherheitsrisiko. Also Vorsicht.

@@ -3,8 +3,7 @@
 Nach der Installation gibt es 
 
 - die Verzeichnisse "GsDevKit_stones" und "superDoit" unterhalb von git
-- in "pas-templates" findet man Full-Backups von nutzbaren Datenbanken.
-- das "products" Verzeichnis ist gedacht als Aufnahme für Femstone/S Produkt-Downloads - getrennt nach Registry
+- das "products" Verzeichnis ist gedacht als Aufnahme für Gemstone/S Produkt-Downloads - getrennt nach Registry
 - in "stones" findet man letzten Endes die Datenbanken
 - in "stones_data_home" findet man Verwaltungsinformationen.
  
@@ -17,9 +16,11 @@ drwxrwxr-x 3 mf mf 4096 Nov 27 08:17 stones
 drwxrwxr-x 3 mf mf 4096 Nov 27 08:16 stones_data_home
 ```
 
-Zusätzlich lege ich noch ein leeres Verzeichnis "stones_data_home" an und lasse STONES_DATA_HOME auf dieses Verzeichnis zeigen. Weiterhin lege ich noch das Verzeichnis "stones" an, in der später die eigentlichen Daten liegen werden.
+Zusätzlich lege ich noch ein leeres Verzeichnis "stones_data_home" an und lasse STONES_DATA_HOME auf dieses 
+Verzeichnis zeigen. Weiterhin lege ich noch das Verzeichnis "stones" an, in der später die eigentlichen 
+Daten liegen werden.
 
-Um ein wengi Komfort genießen zu können, füge ich die folgenden Zeilen in meine .bashrc ein:
+Um ein wenig Komfort genießen zu können, füge ich die folgenden Zeilen in meine .bashrc ein:
 
 ```
 export PATH=~/superDoit/bin:~/GsDevKit_stones/bin:$PATH
@@ -28,8 +29,8 @@ export STONES_DATA_HOME=~/stones_data_home
 
 ## Definiton einer Registry
 
-Um überhaupt arbeiten zu können, muß man sich erst einmal eine Umgebung definieren. Diese Umgebung nennt man "Registry". 
-Eine dieser Registry ist bereits mit der Installation angelegt worden: "work".
+Um überhaupt arbeiten zu können, muß man sich erst einmal eine Umgebung definieren. Diese Umgebung nennt 
+man "Registry". Eine dieser Registry ist bereits mit der Installation angelegt worden: "work".
 
 In den folgenden Abschnitten wird gezeigt, wie man eine Registry "cati" anlegt.
 
@@ -40,7 +41,8 @@ Es gibt ein Skript, das alles im Rahmen von PAS machen kann:
 ```
 pas_create_registry.sh cati
 ```
-Das legt die Registry Struktur an und definiert die Orte für die stones und die heruntergeladenen Gemstone/S Produkte.
+Das legt die Registry Struktur an und definiert die Orte für die stones und die heruntergeladenen 
+Gemstone/S Produkte.
 
 ### Manuelle Schritte 
 
@@ -176,11 +178,6 @@ GDKStonesRegistry {
 }
 ```
 
-
-
-
-
-
 Erst mit diesen Informationen kann man eine Datenbank anlegen. Wenn ich also drei Datenbanken anlege:
 
 ```
@@ -221,4 +218,5 @@ GDKStonesRegistry {
                 'default_rowan' : '$STONES_DATA_HOME/gsdevkit_stones/templates/default_rowan.ston'
         }
 ```
-Das sieht ja alles ganz schön kompliziert aus, hat aber gegenüber GsDevKit_home einen großen Vorteil: man kann die gleiche Datenbank-Produktversion in unterschiedlichen Lizenzen laufen lassen.
+Das sieht ja alles ganz schön kompliziert aus, hat aber gegenüber GsDevKit_home einen großen Vorteil: man 
+kann die gleiche Datenbank-Produktversion in unterschiedlichen Lizenzen laufen lassen.

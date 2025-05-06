@@ -1,16 +1,15 @@
 # PAS (PUM Application Stack)
 
-PAS-Anwendungen sind API-orientierte Anwendungen, die auf eine bestimmte Umgebung aufbauen:
+PAS-Anwendungen sind API-orientierte Anwendungen, die auf einer bestimmte IT-Umgebung aufbauen:
 
 - Datenbank Gemstone/S auf Basis eines Seaside Image
 - Datenbank PostgreSQL
 - PDF Bibliothek
 - RabbitMQ
+- Apache Superset
 
 PAS-Anwendungen sind KEINE Seaside Anwendungen, sondern gehen von einer externen Javascript-UI aus, 
 die über eine RPC-HTTP Schnittstelle mit der Datenbank kommuniziert. 
-
-
 
 ## PAS Installation
 

@@ -3,12 +3,13 @@ Ja, wir sind alle Gemstone/S Programmierer, aber hier noch ein paar Hinweise zur
 von .Net Core.
 
 paslog basiert auf Programmen, die unter .Net Core geschrieben und es kommuniziert via RabbitMQ mit der Gemstone
-Anwendung. Daher dieses Kapitel für RabbitMQ.
+Anwendung. Daher dieses Kapitel für .Net Core. Diese damit erzeugten Programme laufen unter den von mir genutzten 
+Plattformen: Windows, Linux (X64) und Raspberry (aarch64).
 
 ## .Net Core
 
 ### Installation unter Ubuntu x86_64
-Die Installation von .NetCore unter Ubuntu ist problemlos. Ich würde zu er Version 8.x raten.
+Die Installation von .NetCore unter Ubuntu ist problemlos. Ich würde die aktuelle Version 8.x empfehlen.
 
 ### Installation unter aarch64 (Raspi 5)
 Es gibt anscheinend keine Installationpakete für Raspi (64 Bit), also geht man auf die Seite https://dotnet.microsoft.com/en-us/download/dotnet/scripts 
@@ -42,8 +43,8 @@ Die notwendigen Konfigurationsdaten holt sich das System von einer lokalen "sett
     false           // Debug (on = true)
 
 ## PASLOG - Discord
-Es gibt ein Programm "pas_discord_logger" unter .NetCore C#, das die unter PASLOG weitergeleiteten Nachrichten abfängt und sie für Discord aufbereitet und 
-in einen definierten Kanal postet.
+Es gibt ein zusätzliches Projekt "pas_discord_logger" unter .NetCore C#, das die unter PASLOG weitergeleiteten Nachrichten abfängt und sie für Discord aufbereitet und 
+in einen definierten Kanal unter discord postet.
 
 Das Tool wird durch eine lokal vorliegende Datei "settings-discord.txt" konfiguriert:
 

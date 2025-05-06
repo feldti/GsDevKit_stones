@@ -1,7 +1,7 @@
 #!/bin/bash
 # Dieses Skript loads a topaz script produced by PUM describing a model
 #
-export BASEPATH="http://192.168.178.170/app-sources"
+export BASEPATH="http://localhost/app-sources"
 
 usage() {
   cat <<HELP
