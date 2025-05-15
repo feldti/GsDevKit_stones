@@ -27,11 +27,10 @@ createStone.solo --registry=$registryName --template=pas_seaside $stoneName $gsV
 stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
 
 # we correct the setting of the just created stone: GEMSTONE_SYS_CONF must be set
-updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_STONE_DIR --value='$stone_dir'
-updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_DATADIR --value='$stone_dir/extents'
-updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_SYS_CONF --value='$stone_dir/system.conf'
-updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_LOGDIR --value='$stone_dir/logs'
-
+#updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_STONE_DIR --value='$stone_dir'
+#updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_DATADIR --value='$stone_dir/extents'
+#updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_SYS_CONF --value='$stone_dir/system.conf'
+#updateCustomEnv.solo $stoneName --registry=$registryName --addKey=GEMSTONE_LOGDIR --value='$stone_dir/logs'
 
 if [[ ! -f "$PAS_HOME_PATH/$registryName/licenses/${gsVersion}.key" ]]; then
     echo "Error: License file for that specific Gemstone/S product '"${gsVersion}"' does not exists in registry '"${registryName}"' "

@@ -32,6 +32,7 @@ createStoneStructure: stoneSpec
 						at: 'GEMSTONE_STONE_DIR' put: stoneRoot fullName;
 						at: 'GEMSTONE' put: gemstoneReference fullName;
 						at: 'GEMSTONE_KEYFILE' put: gemstoneReference fullName,'/seaside/etc/gemstone.key';
+						at: 'GEMSTONE_SYS_CONF' put: stoneRoot fullName,'/system.conf';
 						yourself.
 					stoneSpec stonesRegistry projectDirectory
 						ifNotNil: [ :projectDir | 
