@@ -1,5 +1,18 @@
-# GsDevKit_stones
+# GsDevKit_stones (PUMPAS Edition)
 
+This repository is a fork of the original GsDevKit_stones. Due to problems with GsDevKit_home on newer
+Ubuntu relases (22.xx) I had to switch over night to this new environment of Gemstone/S and I am merging
+all installations of my product(s) to this software.
+
+So, I added a new layers of scripts (starting with pas_*.sh) and I MAINLY use these scripts. I added scripts
+for backup and restore, garbage collection, applying new keyfile without downtime and other stuff.
+
+Additionally I added stuff for developing PUM-/PAS- based software, which means: HTTP-RPC style software with
+UIs written in Sencha ExtJS (Javascript), database GS as the data holder and domain logic, exporting data to
+PostgreSQL and message queueing with RabbitMQ and los of documentation in German.
+
+
+# GsDevKit_stones
 
 Greatly simplified version of GsDevKit_home
 1. bin directory of scripts implemented with superDoit and 3.7.0 for solo scripts and GsHostProcess.
