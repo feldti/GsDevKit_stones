@@ -9,7 +9,7 @@ PAS-Anwendungen sind API-orientierte Anwendungen, die auf einer bestimmte IT-Umg
 - Apache Superset
 
 PAS-Anwendungen sind KEINE Seaside Anwendungen, sondern gehen von einer externen Javascript-UI aus, 
-die über eine RPC-HTTP Schnittstelle mit der Datenbank kommuniziert. 
+die über eine HTTP-RPC Schnittstelle mit der Datenbank kommuniziert (ähnlich wie RPC-JSON). 
 
 ## PAS Installation
 
