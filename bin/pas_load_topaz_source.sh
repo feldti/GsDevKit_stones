@@ -1,7 +1,12 @@
 #!/bin/bash
 # Dieses Skript loads a topaz script produced by PUM describing a model
 #
-export BASEPATH="http://localhost/app-sources"
+if [ -f ./credentials.sh ]; then
+  source ./credentials.sh
+  export BASEPATH=$PAS_APP_PACKAGES
+else 
+ export BASEPATH="http://localhost/app-sources"
+fi 
 
 usage() {
   cat <<HELP
