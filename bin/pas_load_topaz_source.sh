@@ -4,7 +4,7 @@
 if [ -f ./credentials.sh ]; then
   source ./credentials.sh
   export BASEPATH=$PAS_APP_PACKAGES
-  export DOWNLOADPATH=$PAS_APP_PACKAGES/$3-modelsource-$5.sh
+  export DOWNLOADPATH=$PAS_APP_PACKAGES/$PAS_APP_MODEL_TOPAZ_FILE-modelsource-$5.sh
 else 
  export BASEPATH="http://localhost/app-sources"
  export DOWNLOADPATH=$BASEPATH/$3/$4/sources/$3-modelsource-$5.sh
