@@ -4,8 +4,10 @@
 if [ -f ./credentials.sh ]; then
   source ./credentials.sh
   export BASEPATH=$PAS_APP_PACKAGES
+  export DOWNLOADPATH=$PAS_APP_PACKAGES/$3-modelsource-$5.sh
 else 
  export BASEPATH="http://localhost/app-sources"
+ export DOWNLOADPATH=$BASEPATH/$3/$4/sources/$3-modelsource-$5.sh
 fi 
 
 usage() {
@@ -13,7 +15,7 @@ usage() {
 
 USAGE: $(basename $0) <stone-name> <registry-name> <softwarename> <branch> <version>
 
-Imports new model source from topaz file located at host $BASEPATH
+Imports new model source from topaz file located at host $DOWNLOADPATH
 $1 = Name of target stone database
 $2 = Name of registry (e.g. work)
 $3 = Name of the software application (e.g. sm)
@@ -32,8 +34,8 @@ fi
 
 
 rm out.txt
-echo "Retrieving data from: "$BASEPATH/$3/$4/sources/$3-modelsource-$5.sh
-curl $BASEPATH/$3/$4/sources/$3-modelsource-$5.sh > $3-$2.sh
+echo "Retrieving data from: "$DOWNLOADPATH
+curl $DOWNLOADPATH > $3-$2.sh
 dos2unix $3-$2.sh
 sudo chmod a+x $3-$2.sh
 ./$3-$2.sh $1 4000000 $2 &>$3-$2_out.txt
