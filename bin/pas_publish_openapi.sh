@@ -4,21 +4,6 @@
 # This script publishes the OpenAPI specification at the file location
 #    /var/www/html/api/<interface>/<version>/openapi.json
 #
-usage() {
-  cat <<HELP
-
-USAGE: $(basename $0)
-writes the file of the OpenAPI specification of the interface
-to the following file location:
-      /var/www/html/apis/<interface>/openapi.json
-
-Example:  pas_publich_openapi.sh
-
-produces a file
-        /var/www/html/apis/wcatiserviceclass/openapi.json
-HELP
-}
-
 
 if [ ! -f "./credentials.sh" ]; then
     echo "credentials.sh file not available"

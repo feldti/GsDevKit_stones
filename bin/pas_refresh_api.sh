@@ -42,8 +42,9 @@ else
 fi
 
 # Extract the value of 'stone_dir' from the .ston file
+echo $stoneName :  $registryName : $stonesDataHome
 stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
-
+echo $stone_dir
 # Check the return code of the script
 if [[ $? -eq 0 ]]; then
     echo ""

@@ -31,7 +31,8 @@ stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
 if [[ $? -eq 0 ]]; then
     echo ""
 else
-    echo "The script failed with return code $?."
+    echo "The script pas_datadir.sh failed with return code $?."
+    exit 1
 fi
 
 # Check if stone_dir was found
