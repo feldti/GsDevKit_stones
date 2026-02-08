@@ -23,8 +23,8 @@ if [ -d $PAS_HOME_NAME ]; then
 	exit 1
 fi
 
-# Normally not installed under Linux
-sudo apt-get install unzip
+sudo apt-get update
+sudo apt-get install -y wget curl git unzip
 
 # create the master directory
 mkdir $PAS_HOME_NAME
