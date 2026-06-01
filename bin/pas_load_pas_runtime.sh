@@ -86,6 +86,12 @@ Gofer new
 doit
 Gofer new
         url: '$PAS_RUNTIME_PACKAGES' ;
+        package: 'Cryptography' ;
+        load.
+%
+doit
+Gofer new
+        url: '$PAS_RUNTIME_PACKAGES' ;
         package: 'MSKExtensions' ;
         load.
 %

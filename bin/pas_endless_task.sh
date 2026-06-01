@@ -1,17 +1,15 @@
 #!/bin/bash
 #
 #
-# Dieses Skript baut intern neue persistenten Strukturen, um die API
-# effizient abarbeiten zu können.
+# This script is only usefull for a full performance testing
 #
 usage() {
   cat <<HELP
 
-USAGE: $(basename $0) stonename registry  [stonesDataHome]
+USAGE: $(basename $0) stonename registry
 
 Example:
-            pas_refresh_api.sh testDatabase work SMRestClass
-            pas_refresh_api.sh credentials
+            pas_endless_task.sh testDatabase work
 
 HELP
 }
@@ -20,26 +18,12 @@ HELP
 # Are enough parameter available ?
 #
 
-
-if [ "$1" == "credentials" ]; then
-  if [ ! -f "./credentials.sh" ]; then
-    echo "credentials.sh file not available"
-    exit 4
-  fi
-  source ./credentials.sh
-  stoneName=$PAS_STONE_NAME
-  registryName=$PAS_STONE_REGISTRY
-  restClassClassName=$PAS_APP_RESTCALL_CLASS
-  stonesDataHome=$STONES_DATA_HOME
-else
-   if [ $# -lt 3 ]; then
-     usage; exit 1
-   fi
-   stoneName=$1
-   registryName=$2
-   restClassClassName=$3
-   stonesDataHome=${4:-$STONES_DATA_HOME}
+if [ $# -lt 2 ]; then
+  usage; exit 1
 fi
+stoneName=$1
+registryName=$2
+restClassClassName=$3
 
 # Extract the value of 'stone_dir' from the .ston file
 echo $stoneName :  $registryName : $stonesDataHome
@@ -64,12 +48,12 @@ else
     exit 1
 fi
 
-cat << EOF | $GEMSTONE/bin/topaz -lq -T 1000000 -u pum_refresh_api
+cat << EOF | $GEMSTONE/bin/topaz -lq -T 50000 -u pas_endless_task
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 iferror where
 login
 doit
-$restClassClassName buildAPIDefinitionsStructure.
+[ true ] whileTrue: []
 %
 commit
 EOF

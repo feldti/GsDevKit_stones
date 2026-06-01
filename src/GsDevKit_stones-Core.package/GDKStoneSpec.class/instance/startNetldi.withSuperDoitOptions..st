@@ -29,6 +29,7 @@ startNetldi: superDoitScriptOrNil withSuperDoitOptions: superDoitOptionsBoolean
 		add: ' -P ' , self stoneDirectorySpec netldiPort asString;
 		add: ' -l ' , (self logsDir / 'netldi.log') fullName;
 		add: ' -D ' , self logsDir fullName;
+		add: ' -A 127.0.0.1 ' ;
 		yourself.
 	debugLogging
 		ifTrue: [ commandLine add: ' -d' ].
