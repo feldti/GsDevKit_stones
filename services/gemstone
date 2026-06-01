@@ -23,10 +23,10 @@ export GS_APP_USER=<name>
 
 case "$1" in
     start)
-          sudo -u GS_APP_USER -- bash -c 'export PAS_HOME_PATH=/datadisk/pas;export PAS_DEFAULT_REGISTRY=work;export PATH=$PAS_HOME_PATH/git/superDoit/bin:$PATH_HOME_PATH/git/GsDevKit_stones/bin:$PATH;export STONES_DATA_HOME=$PAS_HOME_PATH/registry; cd ${HOME}/<project-folder>/unix-scripts ; ./pas_start_stone_app.sh'
+          sudo -u $GS_APP_USER -- bash -i -c 'cd ${HOME}/<project-folder>/unix-scripts ; ./pas_start_stone_app.sh'
          ;;
     stop)
-          sudo -u GS_APP_USER -- bash -c 'export PAS_HOME_PATH=/datadisk/pas;export PAS_DEFAULT_REGISTRY=work;export PATH=$PAS_HOME_PATH/git/superDoit/bin:$PATH_HOME_PATH/git/GsDevKit_stones/bin:$PATH;export STONES_DATA_HOME=$PAS_HOME_PATH/registry;cd ${HOME}/<project-folder>/unix-scripts ; ./pas_stop_stone_app.sh'
+          sudo -u $GS_APP_USER -- bash -i -c 'cd ${HOME}/<project-folder>/unix-scripts ; ./pas_stop_stone_app.sh'
          ;;
     *)
         echo "Usage: $0 {start|stop}"
