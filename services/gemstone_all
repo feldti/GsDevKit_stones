@@ -1,0 +1,34 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Required-Start:    $local_fs $network $syslog $time postgresql rabbitmq-server
+# Required-Stop:     $local_fs
+# Provides:          gs_app_name_full
+# Default-Start:     2
+# Default-Stop:      0 6
+# Description:       Shutdown or Reboot the gs_app_name_full
+### END INIT INFO
+
+#
+# Copy this script into /etc/init.d and use it as template for starting the service
+#
+# systemctl enable gs_app_name_full
+#
+# will enable the service, which also needs postgresql und a rabbitmq-server
+#
+
+export GESS_CIS_USER=<name>
+
+case "$1" in
+    start)
+          sudo -u GESS_CIS_USER -- bash -c 'export PAS_HOME_PATH=/datadisk/pas;export PAS_DEFAULT_REGISTRY=work;export PATH=$PAS_HOME_PATH/git/superDoit/bin:$PATH_HOME_PATH/git/GsDevKit_stones/bin:$PATH;export STONES_DATA_HOME=$PAS_HOME_PATH/registry;cd ${HOME}/cis/pas_python/unix-scripts ; ./pas_start_stone_app.sh'
+         ;;
+    stop)
+          sudo -u GESS_CIS_USER -- bash -c 'export PAS_HOME_PATH=/datadisk/pas;export PAS_DEFAULT_REGISTRY=work;export PATH=$PAS_HOME_PATH/git/superDoit/bin:$PATH_HOME_PATH/git/GsDevKit_stones/bin:$PATH;export STONES_DATA_HOME=$PAS_HOME_PATH/registry;cd ${HOME}/cis/pas_python/unix-scripts ; ./pas_stop_stone_app.sh'
+         ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac
+
+exit 0
