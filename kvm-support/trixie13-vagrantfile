@@ -1,0 +1,192 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "cloud-image/debian-13"
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # NOTE: This will enable public access to the opened port
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine and only allow access
+  # via 127.0.0.1 to disable public access
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  # config.vm.network "public_network"
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  # Disable the default share of the current code directory. Doing this
+  # provides improved isolation between the vagrant box and your host
+  # by making sure your Vagrantfile isn't accessible to the vagrant box.
+  # If you use this you may want to enable additional shared subfolders as
+  # shown above.
+  # config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  #
+  config.vm.provider "virtualbox" do |pv|
+  #   # Display the VirtualBox GUI when booting the machine
+  #   vb.gui = true
+  #
+  #   # Customize the amount of memory on the VM:
+    pv.memory = 4096
+    pv.cpus = 3
+    pv.customize ["modifyvm", :id, "--ioapic", "on"]
+  end
+  #
+  config.vm.provider "libvirt" do |pv|
+  #   Display the VirtualBox GUI when booting the machine
+  #   vb.gui = true
+  #
+  # Customize the amount of memory on the VM:
+    pv.memory = 4096
+  # The base license only offers support for two cpus, so 3 should be enough
+    pv.cpus = 3
+    pv.machine_virtual_size = 10
+    pv.memorybacking :access, :mode => "shared"
+    pv.disk_bus = "virtio"
+    pv.boot 'hd'
+  end
+
+  if Vagrant.has_plugin?("vagrant-libvirt")
+    # we assume working in the work registry of GsDevkit_stones. All database files in this registry will be placed in the host filesystem due to the
+    # following statement. The "stones" directory of that registry is manually replaced with a link to /mnt/stones - see below
+    config.vm.synced_folder "/datadisk/vmes-stones", "/mnt/stones", type: "virtiofs", owner: "1500", group: "1500", mount_options: ["rw"]
+  end
+
+  # View the documentation for the provider you are using for more
+  # information on available options.
+
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+  config.vm.provision "shell", inline: <<-SHELL
+     groupadd -g 1500 pas
+     useradd -u 1500 -g 1500 -m -s /bin/bash pas
+  
+     # Passwort setzen (optional)
+     echo "pas:pas" | chpasswd
+  
+     # Sudo ohne Passwort-Nachfrage
+     echo "pas ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/pas
+     chmod 0440 /etc/sudoers.d/pas
+
+     # Vagrant's authorized_keys für pas-User kopieren
+     mkdir -p /home/pas/.ssh
+     cp /home/vagrant/.ssh/authorized_keys /home/pas/.ssh/
+     chown -R pas:pas /home/pas/.ssh
+     chmod 700 /home/pas/.ssh
+     chmod 600 /home/pas/.ssh/authorized_keys
+
+     sudo apt-get update 
+     sudo apt-get upgrade
+
+     # Parts we might need in the future ...
+     sudo apt-get install qrencode libpq-dev ansible subversion git curl gpg apt-transport-https -y
+
+     runuser -l pas -c '
+       cd /home/pas
+       wget https://feldtmann.ddns.net/pas-project/pas_install_env.sh
+       sudo chmod a+x pas_install_env.sh
+       ./pas_install_env.sh
+       '
+
+
+     # Nun die Installation des RabbitMQ Servers (nur für die notendigen Bibliotheken)
+     ## Team RabbitMQ's signing key
+     curl -1sLf "https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA" | sudo gpg --dearmor | sudo tee /usr/share/keyrings/com.rabbitmq.team.gpg > /dev/null
+
+     ## Add apt repositories maintained by Team RabbitMQ
+     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/com.rabbitmq.team.gpg] https://deb1.rabbitmq.com/rabbitmq-server/debian/trixie trixie main" > /etc/apt/sources.list.d/rabbitmq.list
+     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/com.rabbitmq.team.gpg] https://deb2.rabbitmq.com/rabbitmq-server/debian/trixie trixie main" >> /etc/apt/sources.list.d/rabbitmq.list
+
+     ## Update package indices
+     sudo apt-get update -y
+
+     ## Install Erlang packages
+     sudo apt-get install -y erlang-base \
+                        erlang-asn1 erlang-crypto erlang-eldap erlang-ftp erlang-inets \
+                        erlang-mnesia erlang-os-mon erlang-parsetools erlang-public-key \
+                        erlang-runtime-tools erlang-snmp erlang-ssl \
+                        erlang-syntax-tools erlang-tftp erlang-tools erlang-xmerl
+
+     ## Install rabbitmq-server and its dependencies
+     sudo apt-get install rabbitmq-server -y --fix-missing
+
+     # Wir setzen Umgebungsvariablen in die .bashrc für später
+     runuser -l pas -c "
+       echo 'export PAS_HOME_PATH=/home/pas/pas' >> /home/pas/.bashrc
+       echo 'export PAS_DEFAULT_REGISTRY=work' >> /home/pas/.bashrc
+       echo 'export PATH=/home/pas/pas/git/superDoit/bin:/home/pas/pas/git/GsDevKit_stones/bin:$PATH' >> /home/pas/.bashrc
+       echo 'export STONES_DATA_HOME=/home/pas/pas/registry' >> /home/pas/.bashrc
+     "
+
+     # Und legen eine Arbeitsdatenbank an
+     runuser -l pas -c "
+      export PAS_HOME_PATH=/home/pas/pas
+      export PAS_DEFAULT_REGISTRY=work
+      export PATH=/home/pas/pas/git/superDoit/bin:/home/pas/pas/git/GsDevKit_stones/bin:$PATH
+      export STONES_DATA_HOME=/home/pas/pas/registry
+      mkdir  /home/pas/pas/work/licenses
+
+      # We remove the stones directory and replace it with a link to /mnt/stones ... see above
+      rmdir  /home/pas/pas/work/stones
+      ln -s  /mnt/stones /home/pas/pas/work/stones
+
+      # We additional download code for accessing PostgreSQL, RabbitMQ and having support for PDF
+      cd /home/pas
+      git clone https://github.com/feldti/GemConnect-for-Postgres.git
+      git clone https://github.com/feldti/GemConnectForRabbitMQ.git
+      git clone https://github.com/feldti/PDFtalk-for-Gemstone.git
+
+      # we create this database with 3.6.8 to get current starter licenses and you the one found for all different Gemstone 3.6.x versions
+      createStone.solo test368 3.6.8 --registry=work --template=pas_seaside
+      cp /home/pas/pas/work/products/GemStone64Bit3.6.8-x86_64.Linux/seaside/etc/gemstone.key /home/pas/pas/licenses/3.6.5.key
+      cp /home/pas/pas/work/products/GemStone64Bit3.6.8-x86_64.Linux/seaside/etc/gemstone.key /home/pas/pas/licenses/3.6.8.key
+      cp /home/pas/pas/work/products/GemStone64Bit3.6.8-x86_64.Linux/seaside/etc/gemstone.key /home/pas/pas/work/licenses/3.6.5.key
+      cp /home/pas/pas/work/products/GemStone64Bit3.6.8-x86_64.Linux/seaside/etc/gemstone.key /home/pas/pas/work/licenses/3.6.8.key
+      deleteStone.solo test368 --registry=work
+
+      # the same is true for the 3.7.x version - but we have already downloaded a 3.7.x for superDoit ...
+      cp /home/pas/pas/git/superDoit/gemstone/products/GemStone64Bit3.7.1-x86_64.Linux/seaside/etc/gemstone.key /home/pas/pas/licenses/3.7.1.key
+      cp /home/pas/pas/git/superDoit/gemstone/products/GemStone64Bit3.7.1-x86_64.Linux/seaside/etc/gemstone.key /home/pas/pas/licenses/3.7.2.key
+      cp /home/pas/pas/git/superDoit/gemstone/products/GemStone64Bit3.7.1-x86_64.Linux/seaside/etc/gemstone.key /home/pas/pas/licenses/3.7.4.3.key
+      cp /home/pas/pas/git/superDoit/gemstone/products/GemStone64Bit3.7.1-x86_64.Linux/seaside/etc/gemstone.key /home/pas/pas/work/licenses/3.7.1.key
+      cp /home/pas/pas/git/superDoit/gemstone/products/GemStone64Bit3.7.1-x86_64.Linux/seaside/etc/gemstone.key /home/pas/pas/work/licenses/3.7.2.key
+      cp /home/pas/pas/git/superDoit/gemstone/products/GemStone64Bit3.7.1-x86_64.Linux/seaside/etc/gemstone.key /home/pas/pas/work/licenses/3.7.4.3.key
+
+    "
+  SHELL
+end
