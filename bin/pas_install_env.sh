@@ -24,7 +24,7 @@ if [ -d $PAS_HOME_NAME ]; then
 fi
 
 sudo apt-get update
-sudo apt-get install -y wget curl git unzip
+sudo apt-get install -y wget curl git unzip htop
 
 # create the master directory
 mkdir $PAS_HOME_NAME
