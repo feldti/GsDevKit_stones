@@ -1,0 +1,44 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+# Temporaeres Root-Passwort fuer Debugging (danach aendern!)
+chpasswd:
+  list: |
+    root:TempPass123!
+  expire: false
+
+users:
+  - name: pas
+    gecos: Allgemeiner Benutzer zur Verwaltung der GemStone/S Anwendung
+    groups: sudo
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: false
+    passwd: $6$rounds=4096$salzsalzsalz$dummy
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO5GzyIsgaUapbyzHj/pUeuYzGDDf+0wqIgCy6qIwvn1 m@feldtmann.online
+
+packages:
+  - subversion
+  - git
+  - curl
+  - wget
+  - ufw
+  - qemu-guest-agent
+  - virtiofsd
+
+runcmd:
+  # VirtIO FS konfigurieren
+  - mkdir -p /mnt/host_db_data
+  - mount -t virtiofs db_data /mnt/host_db_data || true
+  - echo "db_data /mnt/host_db_data virtiofs rw,nofail 0 0" >> /etc/fstab
+  # Firewall
+  - ufw allow 22/tcp
+  # - ufw allow 80/tcp
+  # - ufw allow 8080/tcp
+  # - ufw --force enable
+  # Installationsskript holen und ausfuehren
+  - su - pas -c "wget -O /home/pas/pas_install_env.sh https://feldtmann.ddns.net/pas-project/pas_install_env.sh"
+  - su - pas -c "chmod +x /home/pas/pas_install_env.sh"
+  - su - pas -c "cd /home/pas && ./pas_install_env.sh"
