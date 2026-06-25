@@ -15,7 +15,7 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     lock_passwd: false
-    passwd: $6$rounds=4096$salzsalzsalz$dummy
+    passwd: LetMeIn2026!
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO5GzyIsgaUapbyzHj/pUeuYzGDDf+0wqIgCy6qIwvn1 m@feldtmann.online
 
@@ -33,8 +33,10 @@ runcmd:
   - mkdir -p /mnt/host_db_data
   - mount -t virtiofs db_data /mnt/host_db_data || true
   - echo "db_data /mnt/host_db_data virtiofs rw,nofail 0 0" >> /etc/fstab
+  # Den Nutzer pas ls linger setzen
+  - loginctl enable-linger pas
   # Firewall
-  - ufw allow 22/tcp
+  # - ufw allow 22/tcp
   # - ufw allow 80/tcp
   # - ufw allow 8080/tcp
   # - ufw --force enable
@@ -42,3 +44,28 @@ runcmd:
   - su - pas -c "wget -O /home/pas/pas_install_env.sh https://feldtmann.ddns.net/pas-project/pas_install_env.sh"
   - su - pas -c "chmod +x /home/pas/pas_install_env.sh"
   - su - pas -c "cd /home/pas && ./pas_install_env.sh"
+  # Installation von Zusatzpaketen
+  - su - pas -c "git clone https://github.com/feldti/GemConnect-for-Postgres.git"
+  - su - pas -c "git clone https://github.com/feldti/GemConnectForRabbitMQ.git"
+  - su - pas -c "git clone https://github.com/feldti/PDFtalk-for-Gemstone.git"
+  - su - pas -c "rmdir  /home/pas/pas/work/stones"
+  # Alle Daten der Stones liegen im HOST-Verzeichnis
+  - su - pas -c "ln -s  /mnt/host_db_data /home/pas/pas/work/stones"
+  # Entwicklungsbibliotheken für PostgreSQL
+  - apt install -y libpq-dev
+  # Entwicklungsbibliotheken für RabbitMQ
+  - apt install -y librabbitmq-dev
+  # Entwicklungsroutinen für .NetCore
+  - wget https://packages.microsoft.com/config/debian/13/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+  - dpkg -i packages-microsoft-prod.deb
+  - rm packages-microsoft-prod.deb
+  - apt update
+  - apt install -y aspnetcore-runtime-8.0
+  - apt install -y aspnetcore-runtime-10.0
+  # Headless Java
+  - apt install -y openjdk-21-jre-headless
+  # ansible
+  - apt install -y ansible
+
+
+
