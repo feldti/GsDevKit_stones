@@ -28,7 +28,7 @@ EOF
        exit 1
        ;;
     esac
-        
+      ;;
   ubuntu|tuxedo)
     case "${VERSION_ID}" in
       24.04)
