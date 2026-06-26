@@ -61,9 +61,22 @@ runcmd:
   # Entwicklungsbibliotheken für RabbitMQ
   - apt install -y librabbitmq-dev
   # Entwicklungsroutinen für .NetCore
-  - wget https://packages.microsoft.com/config/debian/13/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-  - dpkg -i packages-microsoft-prod.deb
-  - rm packages-microsoft-prod.deb
+  - |
+    . /etc/os-release
+    case "${ID}" in
+      debian)
+        wget https://packages.microsoft.com/config/debian/${VERSION_ID}/packages-microsoft-prod.deb -O /tmp/ms-prod.deb
+        dpkg -i /tmp/ms-prod.deb
+        ;;
+      ubuntu)
+        wget https://packages.microsoft.com/config/ubuntu/${VERSION_ID}/packages-microsoft-prod.deb -O /tmp/ms-prod.deb
+        dpkg -i /tmp/ms-prod.deb
+        ;;
+      *)
+        echo "Unbekannte Distribution: ${ID}"
+        exit 1
+        ;;
+    esac
   - apt update
   - apt install -y aspnetcore-runtime-8.0
   - apt install -y aspnetcore-runtime-10.0

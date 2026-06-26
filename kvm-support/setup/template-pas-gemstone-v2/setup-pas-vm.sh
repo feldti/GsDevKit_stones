@@ -12,14 +12,17 @@
 #   meta-data          ← cloud-init Instanz-Metadaten
 #
 # Aufruf:
-#   sudo bash setup-pas-vm.sh                    # Standard: Debian Trixie
-#   sudo bash setup-pas-vm.sh --distro debian    # Debian 13 Trixie
-#   sudo bash setup-pas-vm.sh --distro ubuntu    # Ubuntu 24.04 Noble
+#   sudo bash setup-pas-vm.sh                       # Standard: Debian Trixie
+#   sudo bash setup-pas-vm.sh --distro debian-13    # Debian 13 Trixie
+#   sudo bash setup-pas-vm.sh --distro ubuntu       # Ubuntu 24.04 Noble
+#   sudo bash setup-pas-vm.sh --distro ubuntu-24    # Ubuntu 24.04 Noble
+#   sudo bash setup-pas-vm.sh --distro ubuntu-22    # Ubuntu 22.04 Jammy
+#   sudo bash setup-pas-vm.sh --distro ubuntu-26    # Ubuntu 26.04 Resolute Raccoon
 # =============================================================================
 set -euo pipefail
 
 # --- Parameter parsen --------------------------------------------------------
-DISTRO="debian"
+DISTRO="debian-13"
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --distro)
@@ -28,7 +31,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         *)
             echo "Unbekannter Parameter: $1"
-            echo "Verwendung: $0 [--distro debian|ubuntu]"
+            echo "Verwendung: $0 [--distro debian-13|ubuntu-22|ubuntu-24|ubuntu-26]"
             exit 1
             ;;
     esac
@@ -36,22 +39,36 @@ done
 
 # --- Distro-spezifische Konfiguration ----------------------------------------
 case "${DISTRO}" in
-    debian)
+    debian|debian-13)
         BASE_IMAGE_URL="https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2"
         BASE_IMAGE_NAME="debian-13-genericcloud-amd64.qcow2"
         CHECKSUM_URL="https://cloud.debian.org/images/cloud/trixie/latest/SHA512SUMS"
         CHECKSUM_CMD="sha512sum"
         echo ">>> Distro: Debian 13 Trixie"
         ;;
-    ubuntu)
+    ubuntu|ubuntu-24|ubuntu-24.04)
         BASE_IMAGE_URL="https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
         BASE_IMAGE_NAME="ubuntu-24.04-cloudimg-amd64.img"
         CHECKSUM_URL="https://cloud-images.ubuntu.com/noble/current/SHA256SUMS"
         CHECKSUM_CMD="sha256sum"
         echo ">>> Distro: Ubuntu 24.04 Noble"
         ;;
+    ubuntu-22|ubuntu-22.04)
+        BASE_IMAGE_URL="https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+        BASE_IMAGE_NAME="ubuntu-22.04-cloudimg-amd64.img"
+        CHECKSUM_URL="https://cloud-images.ubuntu.com/jammy/current/SHA256SUMS"
+        CHECKSUM_CMD="sha256sum"
+        echo ">>> Distro: Ubuntu 22.04 Jammy"
+        ;;
+    ubuntu-26|ubuntu-26.04)
+        BASE_IMAGE_URL="https://cloud-images.ubuntu.com/resolute/current/resolute-server-cloudimg-amd64.img"
+        BASE_IMAGE_NAME="ubuntu-26.04-cloudimg-amd64.img"
+        CHECKSUM_URL="https://cloud-images.ubuntu.com/resolute/current/SHA256SUMS"
+        CHECKSUM_CMD="sha256sum"
+        echo ">>> Distro: Ubuntu 26.04 Resolute Raccoon"
+        ;;
     *)
-        echo "FEHLER: Unbekannte Distro '${DISTRO}' — erlaubt: debian, ubuntu"
+        echo "FEHLER: Unbekannte Distro '${DISTRO}' — erlaubt: debian-13, ubuntu-22, ubuntu-24, ubuntu-26"
         exit 1
         ;;
 esac
