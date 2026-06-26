@@ -25,6 +25,7 @@ packages:
   - curl
   - wget
   - ufw
+  - qrencode
   - qemu-guest-agent
   - virtiofsd
 
@@ -84,6 +85,9 @@ runcmd:
   - apt install -y openjdk-21-jre-headless
   # ansible
   - apt install -y ansible
-
+  # Shared Memory auf 2GB für die kleinen Lizenzen setzen
+  - echo 'kernel.shmmax = 2147483648' >> /etc/sysctl.conf
+  - echo 'kernel.shmall = 524288' >> /etc/sysctl.conf
+  - sysctl -p
 
 
