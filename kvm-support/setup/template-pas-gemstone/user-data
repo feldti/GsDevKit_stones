@@ -48,9 +48,14 @@ runcmd:
   - su - pas -c "git clone https://github.com/feldti/GemConnect-for-Postgres.git"
   - su - pas -c "git clone https://github.com/feldti/GemConnectForRabbitMQ.git"
   - su - pas -c "git clone https://github.com/feldti/PDFtalk-for-Gemstone.git"
+  # Wir verlegen einige Strukturen in das shared filesystem: stones und lizenzen
   - su - pas -c "rmdir  /home/pas/pas/work/stones"
-  # Alle Daten der Stones liegen im HOST-Verzeichnis
-  - su - pas -c "ln -s  /mnt/host_db_data /home/pas/pas/work/stones"
+  - su - pas -c "rmdir  /home/pas/pas/work/licenses"
+  - su - pas -c "mkdir /mnt/host_db_data/$(cloud-init query local_hostname)"
+  - su - pas -c "mkdir /mnt/host_db_data/$(cloud-init query local_hostname)/stones"
+  - su - pas -c "mkdir /mnt/host_db_data/$(cloud-init query local_hostname)/licenses"
+  - su - pas -c "ln -s /mnt/host_db_data/$(cloud-init query local_hostname)/stones /home/pas/pas/work/stones"
+  - su - pas -c "ln -s /mnt/host_db_data/$(cloud-init query local_hostname)/licenses /home/pas/pas/work/licenses"
   # Entwicklungsbibliotheken für PostgreSQL
   - apt install -y libpq-dev
   # Entwicklungsbibliotheken für RabbitMQ
