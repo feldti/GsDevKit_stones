@@ -36,14 +36,14 @@ done
 
 # --- Distro-spezifische Konfiguration ----------------------------------------
 case "${DISTRO}" in
-    debian13)
+    debian)
         BASE_IMAGE_URL="https://cloud.debian.org/images/cloud/trixie/latest/debian-13-genericcloud-amd64.qcow2"
         BASE_IMAGE_NAME="debian-13-genericcloud-amd64.qcow2"
         CHECKSUM_URL="https://cloud.debian.org/images/cloud/trixie/latest/SHA512SUMS"
         CHECKSUM_CMD="sha512sum"
         echo ">>> Distro: Debian 13 Trixie"
         ;;
-    ubuntu24)
+    ubuntu)
         BASE_IMAGE_URL="https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
         BASE_IMAGE_NAME="ubuntu-24.04-cloudimg-amd64.img"
         CHECKSUM_URL="https://cloud-images.ubuntu.com/noble/current/SHA256SUMS"
@@ -101,8 +101,15 @@ if [[ ! -f "${BASE_IMAGE}" ]]; then
     wget -O "${BASE_IMAGE}" "${BASE_IMAGE_URL}"
     wget -O "${BASE_IMAGE}.SUMS" "${CHECKSUM_URL}"
     echo ">>> Prüfsumme verifizieren..."
-    grep "$(basename "${BASE_IMAGE}")" "${BASE_IMAGE}.SUMS" | \
-        ${CHECKSUM_CMD} -c --ignore-missing
+    # Prüfsumme extrahieren — funktioniert für beide Formate:
+    # Debian: "abc123  dateiname"
+    # Ubuntu: "abc123 *dateiname" (Sternchen vor Dateiname)
+    CHECKSUM=$(grep "$(basename "${BASE_IMAGE}")" "${BASE_IMAGE}.SUMS" | awk '{print $1}')
+    if [[ -z "${CHECKSUM}" ]]; then
+        echo "FEHLER: Keine Prüfsumme für $(basename "${BASE_IMAGE}") gefunden"
+        exit 1
+    fi
+    echo "${CHECKSUM}  ${BASE_IMAGE}" | ${CHECKSUM_CMD} -c
     chmod 444 "${BASE_IMAGE}"
     echo ">>> Basis-Image OK."
 else
@@ -150,6 +157,8 @@ fi
 echo ""
 echo "=== Fertig! ==="
 echo ""
+echo "Distro:             ${DISTRO}"
+echo "Basis-Image:        ${BASE_IMAGE}"
 echo "VM starten:         virsh start ${VM_NAME}"
 echo "Konsole:            virsh console ${VM_NAME}"
 echo "IP ermitteln:       virsh domifaddr ${VM_NAME}"
