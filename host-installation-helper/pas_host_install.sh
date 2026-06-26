@@ -86,7 +86,7 @@ sudo apt-get install rabbitmq-server librabbitmq-dev -y --fix-missing
 . /etc/os-release
 case "${ID}" in
       debian|ubuntu|tuxedo)
-        apt-get install -y postgresql postgresql-client libpq-dev
+        sudo apt-get install -y postgresql postgresql-client libpq-dev
         ;;
       *)
         echo "Unbekannte Distribution: ${ID}"
