@@ -2,11 +2,11 @@
 
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get install apache
+sudo apt-get install -y apache
 sudo a2enmod slotmem_shm slotmen_plain rewrite proxy proxy_http proxy_wstunnel proxy_balancer lbmethod_byrequests lbmethod_heartbeat lbmethod_bybusyness heartbeat heartmonitor ssl
 sudo systemctl restart apache2
-sudo apt install certbot python3-certbot-apache
-sudo apt-get install curl gnupg apt-transport-https -y
+sudo apt install -y certbot python3-certbot-apache
+sudo apt-get install -y curl gnupg apt-transport-https -y
 
 ## Team RabbitMQ's signing key
 curl -1sLf "https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA" | sudo gpg --dearmor | sudo tee /usr/share/keyrings/com.rabbitmq.team.gpg > /dev/null
