@@ -35,7 +35,7 @@ runcmd:
   - echo "db_data /mnt/host_db_data virtiofs rw,nofail 0 0" >> /etc/fstab
   # Den Nutzer pas ls linger setzen
   - loginctl enable-linger pas
-  # Firewall brauchen wir erst einmal nicht
+  # Firewall
   # - ufw allow 22/tcp
   # - ufw allow 80/tcp
   # - ufw allow 8080/tcp
@@ -71,8 +71,6 @@ runcmd:
   - apt install -y openjdk-21-jre-headless
   # ansible
   - apt install -y ansible
-  # vsock wird nicht genutzt, also die Fehlermeldung unterdrücken
-  - systemctl mask systemd-ssh-generator
 
 
 
