@@ -1,4 +1,4 @@
-# GsDevKit_stones (PUMPAS Edition)
+# GsDevKit_stones (PAS Edition)
 
 This repository is a fork of the original GsDevKit_stones. Due to problems with GsDevKit_home on newer
 Ubuntu relases (22.xx) I had to switch over night to this new environment of Gemstone/S and I am merging
