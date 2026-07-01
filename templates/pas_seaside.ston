@@ -1,5 +1,6 @@
 GDKstonesStoneDirectorySpec {
 	#name : 'pas_seaside',
+        #transfer : 'transfer',
 	#backups : 'backups',
 	#bin : 'bin',
 	#customenv : 'customenv',

@@ -50,7 +50,7 @@ while [ -f $PAS_STONE_NAME ]
 do
 
 nowTS=`date +%Y-%m-%d-%H-%M`
-cat << EOF | $GEMSTONE/bin/topaz -l -T 5000 -u pum_connector  2>&1 >> $GEMSTONE_LOGDIR/pum_connector_${nowTS}.log
+cat << EOF | $GEMSTONE/bin/topaz -l -T 50000 -u pum_connector
 
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $PAS_STONE_NAME
 
@@ -76,15 +76,15 @@ up at 30 second intervals."
 
 rabbitMQConnector := MSKRabbitMQConnector new initialize.
 rabbitMQConnector
-  hostname: '$PAS_APP_RMQ_ADR' ;
-  port: $PAS_APP_RMQ_PORT ;
-  userID: '$PAS_APP_RMQ_ACCOUNT' ;
-  password: '$PAS_APP_RMQ_PASSWD' ;
+  hostname: '$PUM_APP_RMQ_ADR' ;
+  port: $PUM_APP_RMQ_PORT ;
+  userID: '$PUM_APP_RMQ_ACCOUNT' ;
+  password: '$PUM_APP_RMQ_PASSWD' ;
   applicationID: '' ;
   caCertPath: '' ;
   certPath: '' ;
   privateKey: '' ;
-  vhost: '$PAS_APP_RMQ_VHOST' ;
+  vhost: '$PUM_APP_RMQ_VHOST' ;
   login;
   openChannel.
 

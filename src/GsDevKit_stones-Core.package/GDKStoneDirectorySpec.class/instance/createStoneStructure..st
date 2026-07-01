@@ -44,6 +44,8 @@ createStoneStructure: stoneSpec
 				ifTrue: [ (stoneRoot / value) ensureCreateDirectory ].
 			key = #'backups'
 				ifTrue: [ (stoneRoot / value) ensureCreateDirectory ].
+                        key = #'transfer'
+                                ifTrue: [ (stoneRoot / value) ensureCreateDirectory ]. 
 			key = #'extents'
 				ifTrue: [ 
 					useExtentDir := '/' , value , '/'.

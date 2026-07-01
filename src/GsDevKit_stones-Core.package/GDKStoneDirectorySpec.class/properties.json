@@ -13,6 +13,7 @@
 		"logs",
 		"netldiPort",
 		"stats",
+                "transfer",
 		"tranlogs",
 		"snapshots",
 		"product",
