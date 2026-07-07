@@ -1,26 +1,19 @@
-<domain type="kvm">
-  <name>esystem</name>
+<domain type='kvm'>
+  <name>${VM_NAME}</name>
   <uuid><!-- wird von libvirt automatisch generiert, wenn leer gelassen --></uuid>
   <seclabel type="none"/>
   <description>Debian 13 Trixie – GemStone/S Anwendungsserver für Wahlsysteme und Dashboards</description>
-
-  <!-- ======================================================================
-       Memory: 4 GB RAM
-       Wichtig: memfd ist PFLICHT für virtiofs (shared memory zwischen Host
-       und Guest über QEMU memory-backend-memfd)
-       ====================================================================== -->
-  <memory unit="MiB">4096</memory>
-  <currentMemory unit="MiB">4096</currentMemory>
+  <memory unit='KiB'>${VM_MEMORY_KIB}</memory>
+  <currentMemory unit='KiB'>${VM_MEMORY_KIB}</currentMemory>
+  <vcpu placement='static'>${VM_VCPUS}</vcpu>
   <memoryBacking>
     <source type="memfd"/>
     <access mode="shared"/>
   </memoryBacking>
 
-  <vcpu placement="static">4</vcpu>
-
   <os>
-    <type arch="x86_64" machine="q35">hvm</type>
-    <boot dev="hd"/>
+    <type arch='x86_64' machine='q35'>hvm</type>
+    <boot dev='hd'/>
   </os>
 
   <features>
@@ -28,8 +21,7 @@
     <apic/>
   </features>
 
-  <!-- CPU host-passthrough für beste Performance -->
-  <cpu mode="host-passthrough" check="none" migratable="off"/>
+  <cpu mode='host-passthrough' check='none'/>
 
   <clock offset="utc">
     <timer name="rtc" tickpolicy="catchup"/>
@@ -52,10 +44,10 @@
     <!-- ==================================================================
          Disk 1: VM-Hauptdisk (CoW-Clone vom Trixie Basis-Image)
          ================================================================== -->
-    <disk type="file" device="disk">
-      <driver name="qemu" type="qcow2" discard="unmap"/>
-      <source file="/datadisk/kvm/vms/esystem/disk.qcow2"/>
-      <target dev="vda" bus="virtio"/>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2' discard="unmap"/>
+      <source file='${DISK_PATH}'/>
+      <target dev='vda' bus='virtio'/>
     </disk>
 
     <!-- ==================================================================
@@ -63,22 +55,18 @@
          Nach erstem Boot entfernen:
            virsh change-media esystem sda -eject -config
          ================================================================== -->
-    <disk type="file" device="cdrom">
-      <driver name="qemu" type="raw"/>
-      <source file="/datadisk/kvm/seeds/esystem/seed.iso"/>
-      <target dev="sda" bus="sata"/>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='${SEED_PATH}'/>
+      <target dev='sda' bus='sata'/>
       <readonly/>
-      <address type="drive" controller="0" bus="0" target="0" unit="0"/>
     </disk>
 
-    <!-- ==================================================================
-         virtiofs: Freigegebenes Verzeichnis für GemStone-Daten
-         Tag "db_data" muss mit dem mount-Befehl in cloud-init übereinstimmen
-         ================================================================== -->
-    <filesystem type="mount" accessmode="passthrough">
-      <driver type="virtiofs" queue="1024"/>
-      <source dir="/datadisk/kvm/shared/db_data/"/>
-      <target dir="db_data"/>
+    <!-- Optional: virtiofs Share, falls nicht benoetigt diesen Block entfernen -->
+    <filesystem type='mount' accessmode='passthrough'>
+      <driver type='virtiofs' queue="1024"/>
+      <source dir='${SHARED_DIR}'/>
+      <target dir='db_data'/>
     </filesystem>
 
     <!-- ==================================================================
@@ -90,12 +78,9 @@
       <target dir="esv5"/>
     </filesystem>
 
-    <!-- ==================================================================
-         Netzwerk: Bridge br0 (physisches Netzwerk, VM bekommt eigene IP)
-         ================================================================== -->
-    <interface type="network">
-      <source network="default"/>
-      <model type="virtio"/>
+    <interface type='network'>
+      <source network='${VM_NETWORK}'/>
+      <model type='virtio'/>
     </interface>
 
     <!-- Serielle Konsole für virsh console -->
@@ -104,8 +89,8 @@
         <model name="isa-serial"/>
       </target>
     </serial>
-    <console type="pty">
-      <target type="serial" port="0"/>
+    <console type='pty'>
+      <target type='serial' port='0'/>
     </console>
 
     <!-- QEMU Guest Agent (für virsh domifaddr, shutdown, etc.) -->
@@ -114,14 +99,8 @@
       <address type="virtio-serial" controller="0" bus="0" port="1"/>
     </channel>
 
-    <!-- VirtIO-Serial Controller (für Guest Agent Channel) -->
-    <controller type="virtio-serial" index="0">
-      <address type="pci" domain="0x0000" bus="0x00" slot="0x06" function="0x0"/>
-    </controller>
-
     <!-- SATA Controller (für Seed-ISO) -->
     <controller type="sata" index="0">
-      <address type="pci" domain="0x0000" bus="0x00" slot="0x1f" function="0x2"/>
     </controller>
 
     <graphics type="spice" autoport="yes" listen="127.0.0.1">
@@ -133,13 +112,11 @@
       <model type="vga" vram="16384" heads="1"/>
     </video>
 
-    <memballoon model="virtio">
-    </memballoon>
+    <memballoon model='virtio'/>
 
-    <!-- VirtIO RNG für bessere Entropie im Guest -->
-    <rng model="virtio">
-      <backend model="random">/dev/urandom</backend>
+    <rng model='virtio'>
+      <backend model='random'>/dev/urandom</backend>
     </rng>
-
   </devices>
+
 </domain>

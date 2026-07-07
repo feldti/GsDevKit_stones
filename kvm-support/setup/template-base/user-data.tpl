@@ -1,4 +1,6 @@
 #cloud-config
+hostname: ${VM_NAME}
+fqdn: ${VM_NAME}.local
 package_update: true
 package_upgrade: true
 
@@ -15,7 +17,7 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     lock_passwd: false
-    passwd: LetMeIn2026!
+    passwd: $6$GMWhV831t/TRbUcb$h456/wEvGlr2E3TpEuk/ChIlaItrlF8GXlEO3zB5690euK7PnHH3gIQgWJbiQXjP1LkvKA2F3OFohJBRlqlwE0
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO5GzyIsgaUapbyzHj/pUeuYzGDDf+0wqIgCy6qIwvn1 m@feldtmann.online
 
@@ -27,20 +29,29 @@ packages:
   - ufw
   - qrencode
   - qemu-guest-agent
+  - libpq-dev
+  - librabbitmq-dev
+  - openjdk-21-jre-headless
+  - ansible
   - virtiofsd
 
 runcmd:
+  - sed -i 's/^# *\(de_DE.UTF-8 UTF-8\)/\1/' /etc/locale.gen
+  - grep -q '^de_DE.UTF-8 UTF-8' /etc/locale.gen || echo 'de_DE.UTF-8 UTF-8' >> /etc/locale.gen
+  - locale-gen
+  - update-locale LANG=de_DE.UTF-8 LC_ALL=de_DE.UTF-8
+  - systemctl enable --now qemu-guest-agent
   # VirtIO FS konfigurieren
   - mkdir -p /mnt/host_db_data
   - mount -t virtiofs db_data /mnt/host_db_data || true
   - echo "db_data /mnt/host_db_data virtiofs rw,nofail 0 0" >> /etc/fstab
+  - mkdir -p /mnt/esv5
+  - mount -t virtiofs esv5 /mnt/esv5 || true
+  - echo "esv5 /mnt/esv5 virtiofs rw,nofail 0 0" >> /etc/fstab
   # Den Nutzer pas ls linger setzen
   - loginctl enable-linger pas
   # Firewall
-  # - ufw allow 22/tcp
-  # - ufw allow 80/tcp
-  # - ufw allow 8080/tcp
-  # - ufw --force enable
+  - ufw --force disable
   # Installationsskript holen und ausfuehren
   - su - pas -c "wget -O /home/pas/pas_install_env.sh https://feldtmann.ddns.net/pas-project/pas_install_env.sh"
   - su - pas -c "chmod +x /home/pas/pas_install_env.sh"
@@ -52,15 +63,10 @@ runcmd:
   # Wir verlegen einige Strukturen in das shared filesystem: stones und lizenzen
   - su - pas -c "rmdir  /home/pas/pas/work/stones"
   - su - pas -c "rmdir  /home/pas/pas/work/licenses"
-  - su - pas -c "mkdir /mnt/host_db_data/$(cloud-init query local_hostname)"
-  - su - pas -c "mkdir /mnt/host_db_data/$(cloud-init query local_hostname)/stones"
-  - su - pas -c "mkdir /mnt/host_db_data/$(cloud-init query local_hostname)/licenses"
-  - su - pas -c "ln -s /mnt/host_db_data/$(cloud-init query local_hostname)/stones /home/pas/pas/work/stones"
-  - su - pas -c "ln -s /mnt/host_db_data/$(cloud-init query local_hostname)/licenses /home/pas/pas/work/licenses"
-  # Entwicklungsbibliotheken für PostgreSQL
-  - apt install -y libpq-dev
-  # Entwicklungsbibliotheken für RabbitMQ
-  - apt install -y librabbitmq-dev
+  - su - pas -c "mkdir /mnt/host_db_data/stones"
+  - su - pas -c "mkdir /mnt/host_db_data/licenses"
+  - su - pas -c "ln -s /mnt/host_db_data/stones /home/pas/pas/work/stones"
+  - su - pas -c "ln -s /mnt/host_db_data/licenses /home/pas/pas/work/licenses"
   # Entwicklungsroutinen für .NetCore
   - |
     . /etc/os-release
@@ -81,10 +87,7 @@ runcmd:
   - apt update
   - apt install -y aspnetcore-runtime-8.0
   - apt install -y aspnetcore-runtime-10.0
-  # Headless Java
-  - apt install -y openjdk-21-jre-headless
-  # ansible
-  - apt install -y ansible
+
   # Shared Memory auf 2GB für die kleinen Lizenzen setzen
   - echo 'kernel.shmmax = 2147483648' >> /etc/sysctl.conf
   - echo 'kernel.shmall = 524288' >> /etc/sysctl.conf
