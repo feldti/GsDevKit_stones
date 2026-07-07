@@ -56,7 +56,6 @@
       <driver name="qemu" type="qcow2" discard="unmap"/>
       <source file="/datadisk/kvm/vms/esystem/disk.qcow2"/>
       <target dev="vda" bus="virtio"/>
-      <address type="pci" domain="0x0000" bus="0x00" slot="0x07" function="0x0"/>
     </disk>
 
     <!-- ==================================================================
@@ -80,7 +79,6 @@
       <driver type="virtiofs" queue="1024"/>
       <source dir="/datadisk/kvm/shared/db_data/"/>
       <target dir="db_data"/>
-      <address type="pci" domain="0x0000" bus="0x00" slot="0x08" function="0x0"/>
     </filesystem>
 
     <!-- ==================================================================
@@ -90,7 +88,6 @@
       <driver type="virtiofs" queue="1024"/>
       <source dir="/var/esv5/"/>
       <target dir="esv5"/>
-      <address type="pci" domain="0x0000" bus="0x00" slot="0x08" function="0x0"/>
     </filesystem>
 
     <!-- ==================================================================
@@ -99,7 +96,6 @@
     <interface type="network">
       <source network="default"/>
       <model type="virtio"/>
-      <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x0"/>
     </interface>
 
     <!-- Serielle Konsole für virsh console -->
@@ -138,13 +134,11 @@
     </video>
 
     <memballoon model="virtio">
-      <address type="pci" domain="0x0000" bus="0x00" slot="0x09" function="0x0"/>
     </memballoon>
 
     <!-- VirtIO RNG für bessere Entropie im Guest -->
     <rng model="virtio">
       <backend model="random">/dev/urandom</backend>
-      <address type="pci" domain="0x0000" bus="0x00" slot="0x0a" function="0x0"/>
     </rng>
 
   </devices>
