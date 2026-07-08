@@ -89,8 +89,8 @@ runcmd:
   - apt install -y aspnetcore-runtime-10.0
 
   # Shared Memory auf 2GB für die kleinen Lizenzen setzen
-  - echo 'kernel.shmmax = 2147483648' >> /etc/sysctl.conf
-  - echo 'kernel.shmall = 524288' >> /etc/sysctl.conf
+  - echo 'kernel.shmmax = 2147483648' >> /etc/sysctl.d/99-pas.conf
+  - echo 'kernel.shmall = 524288' >> /etc/sysctl.d/99-pas.conf
   - sysctl -p
 
 
