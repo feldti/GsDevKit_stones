@@ -21,8 +21,11 @@ users:
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO5GzyIsgaUapbyzHj/pUeuYzGDDf+0wqIgCy6qIwvn1 m@feldtmann.online
 
+timezone: Europe/Berlin
+
 packages:
   - subversion
+  - cron
   - git
   - curl
   - wget
@@ -89,8 +92,9 @@ runcmd:
   - apt install -y aspnetcore-runtime-10.0
 
   # Shared Memory auf 2GB für die kleinen Lizenzen setzen
-  - echo 'kernel.shmmax = 2147483648' >> /etc/sysctl.d/99-pas.conf
-  - echo 'kernel.shmall = 524288' >> /etc/sysctl.d/99-pas.conf
+  - echo 'kernel.shmmax = 2181038080' >> /etc/sysctl.d/99-pas.conf
+  - echo 'kernel.shmall = 532480' >> /etc/sysctl.d/99-pas.conf
+  - echo 'vm.nr_hugepages = 1050' >> /etc/sysctl.d/99-pas.conf
   - sysctl --system
 
 
