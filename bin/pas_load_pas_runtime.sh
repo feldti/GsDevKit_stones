@@ -13,7 +13,8 @@ HELP
 #
 # Wenn ein credentials vorhanden ist, dann befinden wir uns in einem projekt
 #
-if [ ! -f "./credentials.sh" ]; then
+if [ -f "./credentials.sh" ]; then
+  source ./credentials.sh
   stoneName=$PAS_STONE_NAME
   registryName=$PAS_STONE_REGISTRY
   runtimeVersion=v100
@@ -59,15 +60,14 @@ cat << EOF | $GEMSTONE/bin/topaz -lq -T 1000000 -u pum_runtime_loading
 set user DataCurator pass $GEMSTONE_CURATOR_PASS gems $stoneName
 iferror where
 login
+%
 doit
- Metacello new
+GsDeployer deploy: [
+  Metacello new
     baseline: 'ZincHTTPComponents';
     repository: 'github://GsDevKit/zinc:gs_master/repository';
-    load: 'REST'.
-%
-commit
-%
-doit
+    onLock: [:ex | ex honor ];
+    load: 'Tests' ].
   Metacello new
     baseline: 'Zodiac';
     repository: 'github://GsDevKit/zodiac:gs_master/repository';
