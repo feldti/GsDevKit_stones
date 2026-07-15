@@ -11,18 +11,6 @@ HELP
 }
 
 #
-# Sind genuegend Parameter mitgegeben ...
-#
-if [ $# -lt 3 ]; then
-  usage; exit 1
-fi
-
-# Assign parameters
-stoneName=$1
-registryName=$2
-stonesDataHome=${4:-$STONES_DATA_HOME}
-
-#
 # Wenn ein credentials vorhanden ist, dann befinden wir uns in einem projekt
 #
 if [ ! -f "./credentials.sh" ]; then
