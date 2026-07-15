@@ -61,26 +61,34 @@ doit
   | gofer repositoryDir newCache |
   Transcript
     cr;
-    show: '---Step 1 of bootstrap process: execute upgradeGlass.ws'.
-  Transcript
-    cr;
     show: '-----Install GsUpgrader-Core package '.
-  gofer := Gofer new
-    package: 'GsUpgrader-Core';
-    yourself.
 
   repositoryDir := ServerFileDirectory on: '$PAS_HOME_PATH/github-cache'.
   newCache := MCCacheRepository new directory: repositoryDir.
   MCCacheRepository setDefault: newCache.
-  Transcript show: ' from http://ss3.gemtalksystems.com/ss/gsUpgrader'.
-  gofer url: 'http://ss3.gemtalksystems.com/ss/gsUpgrader'.
-  gofer load.
+
+  Gofer new
+    package: 'GsUpgrader-Core';
+    url: 'http://ss3.gemtalksystems.com/ss/gsUpgrader' ;
+    load.
+
   Transcript
     cr;
     show: '-----Upgrade GLASS using GsUpgrader class>>upgradeGLASSForGsDevKit_home'.
   (Smalltalk at: #'GsUpgrader') upgradeGLASS
 %
+commit
+
 doit
+
+GsDeployer deploy: [
+  Metacello new
+    baseline: 'Seaside3';
+    repository: 'github://SeasideSt/Seaside:master/repository';
+    onLock: [:ex | ex honor];
+    load 
+].
+
 GsDeployer deploy: [
   "Load GsApplicationTools packages"
   Metacello new

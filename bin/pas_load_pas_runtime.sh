@@ -22,7 +22,29 @@ stoneName=$1
 registryName=$2
 stonesDataHome=${4:-$STONES_DATA_HOME}
 
-PAS_RUNTIME_PACKAGES="http://feldtmann.ddns.net/pas-project/pas_runtime/$3/sources/"
+#
+# Wenn ein credentials vorhanden ist, dann befinden wir uns in einem projekt
+#
+if [ ! -f "./credentials.sh" ]; then
+  stoneName=$PAS_STONE_NAME
+  registryName=$PAS_STONE_REGISTRY
+  runtimeVersion=v100
+  stonesDataHome=${4:-$STONES_DATA_HOME}
+else 
+  #
+  # Sind genuegend Parameter mitgegeben ...
+  #
+  if [ $# -lt 3 ]; then
+    usage; exit 1
+  fi
+  # Assign parameters
+  stoneName=$1
+  registryName=$2
+  runtimeVersion=$3
+  stonesDataHome=${4:-$STONES_DATA_HOME}
+  PAS_RUNTIME_PACKAGES="http://localhost/pas-project/pas_runtime/$runtimeVersion/sources/"
+fi
+
 # Extract the value of 'stone_dir' from the .ston file
 stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
 
@@ -151,10 +173,6 @@ Gofer new
 Gofer new
         url: '$PAS_RUNTIME_PACKAGES' ;
         package: 'MSK-ModelBaseRuntime' ;
-        load.
-Gofer new
-        url: '$PAS_RUNTIME_PACKAGES' ;
-        package: 'Neo-JSON-Core' ;
         load.
 Gofer new
         url: '$PAS_RUNTIME_PACKAGES' ;
