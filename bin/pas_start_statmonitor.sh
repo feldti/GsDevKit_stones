@@ -5,11 +5,11 @@
 usage() {
   cat <<HELP
 
-USAGE: $(basename $0) <stonename> <registryname> <intervall-seconds>
+USAGE: $(basename $0) <stonename> <registryname> <intervall-seconds> <duration-hours>
 
 EXAMPLES
 
-  $(basename $0) gc election 30
+  $(basename $0) gc election 30 168
 
 HELP
 }
@@ -17,18 +17,19 @@ HELP
 #
 # At least two parameters should be used
 #
-if [ $# -ne 3 ]; then
+if [ $# -ne 4 ]; then
   usage; exit 1
 fi
 
-if [ ! -f "./credentials.sh" ]; then
-    echo "credentials.sh file not available"
-    exit 4
-fi
-source ./credentials.sh
-stoneName=$PAS_STONE_NAME
-registryName=$PAS_STONE_REGISTRY
+stoneName=$1
+registryName=$2
 stonesDataHome=$STONES_DATA_HOME
+
+if [ -f "./credentials.sh" ]; then
+  source ./credentials.sh
+  stoneName=$PAS_STONE_NAME
+  registryName=$PAS_STONE_REGISTRY
+fi
 
 # Extract the value of 'stone_dir' from the .ston file
 stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
@@ -36,6 +37,9 @@ stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
 if [[ $? -eq 0 ]]; then
     echo ""
 else
+    echo $stoneName
+    echo $registryName
+    echo $stonesDataHome 
     echo "The script failed with return code $?."
 fi
 # Check if stone_dir was found
@@ -51,6 +55,4 @@ else
     exit 1
 fi
 
-nohup $GEMSTONE/bin/statmonitor $PAS_STONE_NAME -d "$stone_dir/logs" -i $3
-
-
+nohup $GEMSTONE/bin/statmonitor $stoneName -a -z -d "$stone_dir/logs" -h $4 -i $3 &
