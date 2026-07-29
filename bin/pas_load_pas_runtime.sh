@@ -31,7 +31,7 @@ else
   registryName=$2
   runtimeVersion=$3
   stonesDataHome=${4:-$STONES_DATA_HOME}
-  PAS_RUNTIME_PACKAGES="http://localhost/pas-project/pas_runtime/$runtimeVersion/sources/"
+  PAS_RUNTIME_PACKAGES="http://feldtmann.ddns.net/pas-project/pas_runtime/$runtimeVersion/sources/"
 fi
 
 # Extract the value of 'stone_dir' from the .ston file
@@ -170,7 +170,10 @@ Gofer new
         url: '$PAS_RUNTIME_PACKAGES' ;
         package: 'MSKGemConnectPostgresExtension' ;
         load.
-
+Gofer new
+        url: '$PAS_RUNTIME_PACKAGES' ;
+        package: 'Neo-JSON-Core' ;
+        load.
 %
 doit
 ZnConstants
