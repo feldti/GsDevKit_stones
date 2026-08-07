@@ -1,0 +1,98 @@
+{
+    "http" : {
+        "listen_addresses" : ["[::]:9995","9995"]
+    },
+    "gemstone" : {
+	  "cache_name" : null,
+	  "stone_name" : "test",
+	  "sample_interval": 60
+    },
+    "metrics" : {
+        "stone" : [
+	    {
+                "vsd_name"    : "CommitRecordCount",
+                "metric_name" : "gemstone_stone_commit_records",
+                "metric_type" : "Gauge",
+		        "metric_help" : "The number of outstanding commit records that are currently being maintained by the system. A number larger than the STN_SIGNAL_ABORT_CR_BACKLOG configuration option indicates that there is a process in a transaction that is preventing the Stone from reclaiming (garbage collecting) the resources associated with those commit records. Large values are usually accompanied by continuing growth in the size of the repository.",
+		        "metric_units" : "Commit Records"
+            },
+	    {
+                "vsd_name"    : "FreePages",
+                "metric_name" : "gemstone_stone_free_pages",
+                "metric_type" : "Gauge",
+                "metric_help" : "Number of free pages.",
+		        "metric_units" : "Pages"
+          },
+	    {
+                "vsd_name"    : "PagesNeedReclaimSize",
+                "metric_name" : "gemstone_stone_pages_need_reclaim_size",
+                "metric_type" : "Gauge",
+                "metric_help" : "Number of pages awaiting reclaim.",
+		        "metric_units" : "Pages"
+            },	    
+	    {
+                "vsd_name"    : "ReposSizeMB",
+                "metric_name" : "gemstone_stone_repository_size_mb",
+                "metric_type" : "Gauge",
+                "metric_help" : "Repository size in megabytes.",
+		        "metric_units" : "Megabytes"
+            },
+	    {
+                "vsd_name"    : "TotalCommits",
+                "metric_name" : "gemstone_stone_total_commits",
+                "metric_type" : "Gauge",
+                "metric_help" : "Total Number commits.",
+		        "metric_units" : "Commits"
+            },
+	    {
+                "vsd_name"    : "ReclaimCount",
+                "metric_name" : "gemstone_stone_gc_reclaim",
+                "metric_type" : "Gauge",
+                "metric_help" : "The number of reclaims performed by a Reclaim GcGem process since the Stone repository monitor was last started.",
+		        "metric_units" : "None"
+            },
+	    {
+                "vsd_name"    : "ReclaimedPagesCount",
+                "metric_name" : "gemstone_stone_gc_reclaim_page_count",
+                "metric_type" : "Gauge",
+                "metric_help" : "The number of pages reclaimed by a Reclaim GcGem process since the Stone repository monitor process was last started. The count indicates the number of pages that have been or will soon be placed back into the repository’s pool of free pages.",
+		        "metric_units" : "None"
+            },
+	    {
+                "vsd_name"    : "ReclaimedSymbols",
+                "metric_name" : "gemstone_stone_gc_reclaim_symbols",
+                "metric_type" : "Gauge",
+                "metric_help" : "The number of symbols that have been reclaimed since the stone was started.",
+		        "metric_units" : "None"
+            }
+
+	],
+        "monitor" : [
+	    {
+                "vsd_name"    : "FreeFrameCount",
+                "metric_name" : "gemstone_monitor_free_frame_count",
+                "metric_type" : "Gauge",
+                "metric_help" : "Number of free frames in the shared page cache.",
+		        "metric_units" : "Frames"
+            },
+	    {
+                "vsd_name"    : "LocalDirtyPageCount",
+                "metric_name" : "gemstone_monitor_local_dirty_page_count",
+                "metric_type" : "Gauge",
+                "metric_help" : "The total number of pages in the shared cache that are dirty and eligible for asynchronous writing to the disk. The Stone’s AIO page server will write these pages to the disk. This statistic is available only for the shared page cache monitor’s slot (currently Slot 0).",
+		        "metric_units" : "Pages"
+            },
+          {
+            "vsd_name": "GlobalDirtyPageCount",
+            "metric_name": "gemstone_monitor_global_dirty_page_count",
+            "metric_type": "Gauge",
+            "metric_help": "The total number of pages in the shared cache that are dirty but not yet eligible for asynchronous writing to the disk because they have not yet been committed. If this value is very large, then very large transactions may be filling the cache. Otherwise, if the Stone repository monitor is running on this cache, the Stone’s private page cache size may be too small. This statistic is available only for the shared page cache monitor’s slot (currently Slot 0).",
+            "metric_units": "Pages"
+          }
+	],
+	"gem" : [
+
+	]	
+    }
+}
+
