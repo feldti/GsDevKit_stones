@@ -9,6 +9,9 @@ if [ ! -f "./credentials.sh" ]; then
     exit 4
 fi
 source ./credentials.sh
+
+
+
 stoneName=$PAS_STONE_NAME
 registryName=$PAS_STONE_REGISTRY
 stonesDataHome=$STONES_DATA_HOME
@@ -35,6 +38,8 @@ else
 fi
 
 nowTS=`date +%Y-%m-%d-%H-%M`
-$GEMSTONE/bin/startlogsender -P $HOTSTANDBYMASTERPORT -A $HOTSTANDBYMASTERADR -s $PAS_STONE_NAME -l $GEMSTONE_LOGDIR
-# $GEMSTONE/bin/startlogsender -P $HOTSTANDBYMASTERPORT -A $HOTSTANDBYMASTERADR -s $PAS_STONE_NAME
-echo "LOGSENDER started"
+if [ "$HOTSTANDBYBYENABLED" = "true" ]; then
+  $GEMSTONE/bin/startlogsender -P $HOTSTANDBYMASTERPORT -A $HOTSTANDBYMASTERADR -s $PAS_STONE_NAME -l $GEMSTONE_LOGDIR
+  # $GEMSTONE/bin/startlogsender -P $HOTSTANDBYMASTERPORT -A $HOTSTANDBYMASTERADR -s $PAS_STONE_NAME
+  echo "LOGSENDER started"
+fi
