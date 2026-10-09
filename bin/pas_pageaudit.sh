@@ -17,7 +17,7 @@ fi
 # Assign parameters
 stoneName=$1
 registryName=$2
-stonesDataHome=${4:-$STONES_DATA_HOME}
+stonesDataHome=${3:-$STONES_DATA_HOME}
 
 # Extract the value of 'stone_dir' from the .ston file
 stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
@@ -41,8 +41,5 @@ else
     exit 1
 fi
 
-
-# stops the stone service
-$GEMSTONE/bin/stopStone $1
 # delete all available stores
 $GEMSTONE/bin/pageaudit $1
