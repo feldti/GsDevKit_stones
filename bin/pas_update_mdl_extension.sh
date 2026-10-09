@@ -1,20 +1,8 @@
 #!/bin/bash
 #
 #
-# Dieses Skript baut intern neue persistenten Strukturen, um die API
-# effizient abarbeiten zu können.
+# Das Script lädt die neueste Model Extension (Applikationscode) Package in die Datenbank
 #
-usage() {
-  cat <<HELP
-
-USAGE: $(basename $0)
-
-Example:
-            pas_refresh_api.sh testDatabase work SMRestClass
-            pas_refresh_api.sh credentials
-
-HELP
-}
 
 
 if [ ! -f "./credentials.sh" ]; then
@@ -25,11 +13,11 @@ fi
 source ./credentials.sh
 
 if [ -z "$PAS_APP_PACKAGES" ]; then
-    echo "Aborted: Variable PAS_APP_PACKAGES should be defined in your credentials.sh file. The value points to an URL, where the Monticello Packages are available"
+    echo "Aborted: Variable 'PAS_APP_PACKAGES' should be defined in your credentials.sh file. The value points to an URL, where the Monticello Packages are available"
 fi
 
 if [ -z "$PAS_APP_EXT_PACKAGE" ]; then
-    echo "Aborted: Variable PAS_APP_EXT_PACKAGE should be defined in your credentials.sh file. The value holds the Monticello filename of the model extension at the location PAS_APP_PACKAGES"
+    echo "Aborted: Variable 'PAS_APP_EXT_PACKAGE' should be defined in your credentials.sh file. The value holds the Monticello filename of the model extension at the location 'PAS_APP_PACKAGES'"
 fi
 
 stoneName=$PAS_STONE_NAME
@@ -37,10 +25,10 @@ registryName=$PAS_STONE_REGISTRY
 stonesDataHome=$STONES_DATA_HOME
 
 if [ -z "$PAS_STONE_NAME" ]; then
-    echo "Aborted: Variable PAS_STONE_NAME should be defined in your credentials.sh file. Its the name of the database"
+    echo "Aborted: Variable 'PAS_STONE_NAME' should be defined in your credentials.sh file. Its the name of the database"
 fi
 if [ -z "$PAS_STONE_REGISTRY" ]; then
-    echo "Aborted: Variable PAS_APP_EXT_PACKAGE should be defined in your credentials.sh file. The value holds the Monticello filename of the model extension at the location PAS_APP_PACKAGES"
+    echo "Aborted: Variable 'PAS_STONE_REGISTRY' should be defined in your credentials.sh file. The value holds the name of the registry the database is defined in"
 fi
 
 # Extract the value of 'stone_dir' from the .ston file
@@ -52,17 +40,17 @@ stone_dir=$(pas_datadir.sh $stoneName $registryName $stonesDataHome)
 if [[ $? -eq 0 ]]; then
     echo ""
 else
-    echo "Aborted: The script pas_datadir.sh failed with return code $?."
+    echo "Aborted: The script 'pas_datadir.sh' failed with return code $?."
 fi
 
 # Check if stone_dir was found
 if [[ -z "$stone_dir" ]]; then
-    echo "Aborted: 'stone_dir' not defined by script pas_datadir.sh"
+    echo "Aborted: 'stone_dir' not defined by script 'pas_datadir.sh'"
     exit 1
 fi
 source $stone_dir/customenv
 if [ -z "$PAS_STONE_REGISTRY" ]; then
-    echo "Aborted: Variable GEMSTONE not defined. The database '$PAS_STONE_NAME' in registry '$PAS_STONE_REGISTRY' could not be found"
+    echo "Aborted: Variable 'GEMSTONE' not defined. The database '$PAS_STONE_NAME' in registry '$PAS_STONE_REGISTRY' could not be found"
 fi
 
 if [ -s $GEMSTONE/seaside/etc/gemstone.secret ]; then
